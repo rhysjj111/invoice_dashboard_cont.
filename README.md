@@ -1,110 +1,127 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# An invoice dashboard for a vehicle repair workshop.
 
-Welcome USER_NAME,
+Live site: <br>
+Github repository: https://github.com/rhysjj111/project_4_invoice_dashboard
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+### Overview
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+This project is MS4 for The Code Academy. It is an MVP for an invoice dashboard which will be tried and tested in a vehicle repair workshop once finished. It comprises of two main sections for configuration; 'invoices' and 'customers', three user types, who can use the software; 'mechanic', 'foreman' and 'accounts'. A finished invoice will be sent the the customer who will have the opportunity to view the invoice, save it to keep and pay securely via 'Stripe'.
 
-## Gitpod Reminders
+## UX
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+### Site owner/developer goals
+To construct a working MVP that can provide the most basic level of functionality for an invoice dashboard, for a workshop, which can either be iterated upon, changed or scrapped depending on results. 
 
-`python3 -m http.server`
+### External users goals
+* Eliminate the need for paper invoices which will save time when; constructing and editing and finding invoices, and save money on paper. 
+* Provide a constant record of which invoices are at which stage, making sure invoices are double checked before they go out.
+* Provide a record of who has paid, who's invoices are due, which means customers can be reminded before payments are overdue. 
+* Automate sending reminder emails so they can be constructed with the click of a button to save time and keep emails consistent.
+* Provide customers with an easy and safe way of paying an invoice.
 
-A blue button should appear to click: _Make Public_,
+### Proposed features
+- Users can input customer and vehicle data which can be used to construct invoices.
+- Users can add parts and labour entries to an invoice which will total costs and add VAT for the final bill to be presented to the customer.
+- Automated reminder emails for payments nearly due.
+- Send customers the invoice via email which they can follow a link to secure payment.
 
-Another blue button should appear to click: _Open Browser_.
+The features listed are the core functionality required to move from paper invoicing to online. I believe these are achievable with the technology and timeframe available.
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+### User stories
+(user stories image)
 
-A blue button should appear to click: _Make Public_,
+## Design
 
-Another blue button should appear to click: _Open Browser_.
+### Design choices
+- I've designed the wireframes 'mobile-first' to minimise unnecessary features or content. Another reason this design choice is it's anticipated the invoices will be created on the go, via mobile, by the mechanics/foreman on the ground as they work.
+- I've chosen only to show invoices with 'open' status, and remove filter views of 'pending' (ready to send to customers) and 'inactive' (complete invoices) to remove complexity from mobile devices. Tablets will be the same as mobiles with just the structures edited slightly where needed.
+- The invoices will follow a path and each user will only be able to access the invoice when the status corresponds to their position. This is intended to keep their view of the list of 'active' invoices as relevant as possible. Invoices can be moved forward and backwards along the path/journey if mistakes are made.
+- I've chosen not to give the customer a login, or a view of their previous invoices, just a link to download the invoice and store it themselves. The reason for this is to focus on the users in the garage and their experience. The customer won't need a login or history view if the garage staff don't move from paper invoices to online.
+- Invoices and customers will have a search bar which will search for multiple fields in the database; vehicle registration, name, date etc. rather than have multiple filter fields, again for simplicity.
+- Bootstrap alerts will be used to provide the user with feedback when making changes to the database etc. A confirmation or error page will be used for customers paying through Stripe.
+- I plan to make good use of Bootstrap throughout the project and keep custom css styling to a minimum; this can be updated at a later time.
+- Bootstrap modals will be used for much of the new entries to the database (adding parts/labour/starting an invoice etc.)
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+### Security
+- Django comes with lots of safety features and I plan to use their forms feature where possible to protect the database. I will include my own validation where applicable.
+- There is a potential security risk to customer data, where they are following a link to access and pay their invoice. Although I can't see why anyone would want to gain access to the link and pay their bill, in the future customers should have a login, especially if their invoice history is added as a feature.
 
-To log into the Heroku toolbelt CLI:
+### Wireframes
+Desktop wireframes:
+![Desktop wireframes](/wages_calculator/static/images/wireframes/project3_desktop_wf.png)
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+Mobile wireframes:
+![Mobile wireframes](/wages_calculator/static/images/wireframes/project3_mobile_wf.png)
 
-------
 
-## Release History
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+### Additional diagrams
 
-**September 20 2023:** Update Python version to 3.9.17.
+- 
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+### Colour scheme
+The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-00469b-ffffff-31e981-ff7f11). The scheme is based on the colour of the logo of the company this project is designed for.
+- (colour scheme picture)
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+### Form data validation
+#### 
+- 
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+### End design similarity/difference
+- 
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+### Future features to include/update
+- 
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+## Testing 
+[Testing.md](./TESTING.md)
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+### Issues
+- 
+#### JS
+- 
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+#### CSS
+- 
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+#### Features
+-
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
 
-------
+### Validators
 
-## FAQ about the uptime script
+- HTML
+  - 
 
-**Why have you added this script?**
+- CSS
+  - 
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+- JS
+  - 
 
-**How will this affect me?**
+### Lighthouse
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
 
-**So….?**
+## Deployment
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
 
-**Can I opt out?**
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+## Credits
+- The colour pallet was found on: https://www.canva.com/learn/website-color-schemes/
+- A helpful article on [Stack overflow](https://stackoverflow.com/questions/19216334/python-give-start-and-end-of-week-data-from-a-given-date) gave me the solution to finding the start and end date of the week from a given date.
+- [SQLAlchemy docs](https://docs.sqlalchemy.org/en/20) were used a lot to determine how to query the database via ORM.
+- This [Stack overflow](https://www.tutorialspoint.com/how-to-check-an-element-with-specific-id-exist-using-javascript) explained how to check an element for a particular Id, which I had needed for the Javascript to only show Mondays on the wages calculator datepicker.
+- [Stack overflow](https://stackoverflow.com/questions/51205600/datepicker-materializecss-disabled-days-function) This article explained how to use the disable days funtion of the Materialize datepicker.
+- [Stack overflow](https://stackoverflow.com/questions/21991820/style-active-navigation-element-with-a-flask-jinja2-macro) and [TTL25's Jinja2 tutorial](https://ttl255.com/jinja2-tutorial-part-5-macros/) were both used when constructing the nav_link macro, used to determine which navigation link should be active. The Stack overflow thread gave me the basic structure of the macro, and the tutorial allowed me to understand Jinja's varargs keyword so that I could expand the macro to also take into account sub-menu pages.
+- [Stack overflow](https://stackoverflow.com/questions/73961938/flask-sqlalchemy-db-create-all-raises-runtimeerror-working-outside-of-applicat) - This article helped me update my ElephantSQL database with my tables, running the newest version of Flask-SQLAlchemy.
+- [Medium](https://ed-a-nunes.medium.com/field-validation-for-backend-apis-with-python-flask-and-sqlalchemy-30e8cc0d260c) and [stack overflow](https://stackoverflow.com/questions/18982610/difference-between-except-and-except-exception-as-e) helped with form validation at the back end.
+- This article on [Stack overflow](https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript) helped me with transitioning out flash messages using css and Javascript.
