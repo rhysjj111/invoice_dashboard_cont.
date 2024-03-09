@@ -57,7 +57,6 @@ Mobile wireframes:
 
 
 ### Additional diagrams
-
 - 
 
 
@@ -116,12 +115,5 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 
 ## Credits
-- The colour pallet was found on: https://www.canva.com/learn/website-color-schemes/
-- A helpful article on [Stack overflow](https://stackoverflow.com/questions/19216334/python-give-start-and-end-of-week-data-from-a-given-date) gave me the solution to finding the start and end date of the week from a given date.
-- [SQLAlchemy docs](https://docs.sqlalchemy.org/en/20) were used a lot to determine how to query the database via ORM.
-- This [Stack overflow](https://www.tutorialspoint.com/how-to-check-an-element-with-specific-id-exist-using-javascript) explained how to check an element for a particular Id, which I had needed for the Javascript to only show Mondays on the wages calculator datepicker.
-- [Stack overflow](https://stackoverflow.com/questions/51205600/datepicker-materializecss-disabled-days-function) This article explained how to use the disable days funtion of the Materialize datepicker.
-- [Stack overflow](https://stackoverflow.com/questions/21991820/style-active-navigation-element-with-a-flask-jinja2-macro) and [TTL25's Jinja2 tutorial](https://ttl255.com/jinja2-tutorial-part-5-macros/) were both used when constructing the nav_link macro, used to determine which navigation link should be active. The Stack overflow thread gave me the basic structure of the macro, and the tutorial allowed me to understand Jinja's varargs keyword so that I could expand the macro to also take into account sub-menu pages.
-- [Stack overflow](https://stackoverflow.com/questions/73961938/flask-sqlalchemy-db-create-all-raises-runtimeerror-working-outside-of-applicat) - This article helped me update my ElephantSQL database with my tables, running the newest version of Flask-SQLAlchemy.
-- [Medium](https://ed-a-nunes.medium.com/field-validation-for-backend-apis-with-python-flask-and-sqlalchemy-30e8cc0d260c) and [stack overflow](https://stackoverflow.com/questions/18982610/difference-between-except-and-except-exception-as-e) helped with form validation at the back end.
-- This article on [Stack overflow](https://stackoverflow.com/questions/29017379/how-to-make-fadeout-effect-with-pure-javascript) helped me with transitioning out flash messages using css and Javascript.
+- The boilerplate used in base.html was taken from [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) and edited.
+- 
