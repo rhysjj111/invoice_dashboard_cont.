@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <header class="container-fluid header-container">
+    <div class="row h-100">
+      <div class="col d-flex align-items-center justify-content-center">
+        <h1 class="d-block">{% block page_heading %}{% endblock %}</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- content body  -->
+  <div class="container content container">
+    <div class="row">
+      <div class="col-12">
+        {% block simple_content %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
