@@ -3,5 +3,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='main_invoice_view'),
+    path('', views.index, name='invoice_list'),
 ]

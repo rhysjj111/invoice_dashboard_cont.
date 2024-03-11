@@ -45,7 +45,9 @@
           </div>
           <div class="row">
             <div class="col d-flex align-items-center justify-content-center">
-              <i class="bi-arrow-left icon fs-2 me-5 {% block hide_back_arrow %}{% endblock %}"></i><h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
+              <a href="{% url previous_url|default:'invoice_list' %}" class="{{ previous_url|default:'d-none' }}"><i class="bi-arrow-left icon fs-2 me-5  "></i></a>
+              <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
+              <a href="{% url delete_item|default:'invoice_list' %}" class="{{ previous_url|default:'d-none' }}"><i class="bi-trash icon fs-2 ms-5 text-danger"></i></a>
             </div>
           </div>
         </header>
