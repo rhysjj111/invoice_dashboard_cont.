@@ -1,6 +1,11 @@
 {% extends "base_simple.html" %}
 {% load static %}
 
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+{% endblock %}
+
 {% block page_title %}Login{% endblock %}
 
 {% block page_heading %}{% endblock %}
@@ -10,8 +15,8 @@
 
 <div class="login-container position-absolute top-50 start-50 translate-middle border rounded-3 p-4 w-75" style="max-width: 450px;">
     <h1>Login</h1>
-    <p>Please get an account set up with your administrator, where you will get a username and password.</p>
-    <a href="{% url 'account_login' %}" class="btn btn-success float-end">Login</a>    
+    <p>Please get in touch with your administrator to set up an account.</p>
+    <a href="{% url 'account_login' %}" class="btn btn-success float-end">Continue</a>    
 </div>
 
 {% endblock %}

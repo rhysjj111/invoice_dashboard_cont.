@@ -82,7 +82,10 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 
 ### Issues
+- I had an issue styling the allauths login template to look the same as the preceding login prompt. I got round this by adding bootstrap to the allauth base.html and customising the 'button.html' element found in allauth>elements to accept a class for the buttons and styled it with bootstrap classes. I wrapped the whole thing in bootstrap container and relevant classes using 'entrance.html'; I got that trick from the Boutique Ado walkthrough.
+
 - 
+
 #### JS
 - 
 

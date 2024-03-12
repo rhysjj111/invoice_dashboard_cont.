@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load allauth account %}
 {% block head_title %}
-    {% trans "Sign In" %}
+    {% trans "Login" %}
 {% endblock head_title %}
 {% block inner_content %}
     <h1>Login</h1>
@@ -19,10 +19,12 @@
             {% endif %}
         {% endslot %}
         {% slot actions %}
-            {% element button type="submit" tags="prominent,login" %}
-                {% trans "Sign In" %}
-                
-            {% endelement %}
+            <div class="float-end">
+                <a href="{% url 'index' %}" class="btn btn-secondary">Back</a>
+                {% element button type="submit" tags="prominent,login" class="btn btn-success" %}
+                    {% trans "Sign In" %}
+                {% endelement %}
+            </div>
         {% endslot %}
     {% endelement %}
     {% if SOCIALACCOUNT_ENABLED %}
