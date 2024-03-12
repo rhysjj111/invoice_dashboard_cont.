@@ -4,7 +4,7 @@
 {% block head_title %}
     {% trans "Login" %}
 {% endblock head_title %}
-{% block inner_content %}
+{% block content %}
     <h1>Login</h1>
     {% url 'account_login' as login_url %}
     {% element form form=form method="post" action=login_url tags="entrance,login" %}
@@ -30,4 +30,4 @@
     {% if SOCIALACCOUNT_ENABLED %}
         {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
     {% endif %}
-{% endblock inner_content %}
+{% endblock content %}
