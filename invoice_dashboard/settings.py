@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['8000-rhysjj111-project4invoi-y3h3ieblfa9.ws-eu109.gitpod.io']
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-rhysjj111-project4invoi-y3h3ieblfa9.ws-eu108.gitpod.io']
+CSRF_TRUSTED_ORIGINS = ['https://8000-rhysjj111-project4invoi-y3h3ieblfa9.ws-eu109.gitpod.io/']
 
 
 # Application definition
@@ -101,7 +101,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/invoices/'
 
 WSGI_APPLICATION = 'invoice_dashboard.wsgi.application'
 
