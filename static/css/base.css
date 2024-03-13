@@ -2,6 +2,10 @@ html {
     height: 100%
 }
 
+a{
+    color: black;
+}
+
 .header-container{
     height: 150px
 }
@@ -13,5 +17,41 @@ html {
     justify-content: center;
     height: 1.5rem;
     width: 1.5rem;
+}
+
+/* side menu dashboard */
+.side-menu{
+    padding: 0;
+}
+
+.card{
+    border-width: 0.25px; 
+}
+
+.card-header{
+    background-color: white;
+}
+.menu-title{
+    color: slategrey;
+}
+
+.side-menu-link{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 18px;
+    font-weight: 600;
+    border:none;
+}
+
+.side-menu-link:hover,
+.side-menu-link:active,
+.side-menu-link:focus{
+    border: none;
+}
+
+.side-menu-link > i{
+    font-size: 25px;
+    margin-right: 2vw;
 }
 
