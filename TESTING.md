@@ -29,6 +29,7 @@ Test whether users with different accounts have appropriate access to informatio
 
 **User account** | **Action** | **Expected view** | **Pass/Fail**
 :-----:|:-----:|:-----:|:-----:|:-----:
-Mechanic | Visit invoice_list.html | Only see valid/invalid invoice views. | Pass
+Mechanic, Foreman | Visit invoice_list.html | Only see filter views for valid and invalid invoice views. | Pass
+Accounts | " " | See filters for valid, pending and inactive. | Pass
 Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
 Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
