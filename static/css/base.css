@@ -3,11 +3,6 @@ html {
     overflow: hidden;
 }
 
-.dashboard{
-    overflow-y: auto;
-    height: 100vh;
-}
-
 a{
     color: black;
 }
@@ -60,5 +55,27 @@ a{
 .side-menu-link > i{
     font-size: 25px;
     margin-right: 2vw;
+}
+
+/* main content dashboard */
+
+.dashboard-outer{
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.dashboard-content-container,
+.dashboard-content-container > .row{
+    min-height: calc(100vh - 240px);
+}
+
+tr{
+    line-height: 40px;
+}
+
+th > a,
+td > a{
+    text-decoration: none;
+    display:block
 }
 

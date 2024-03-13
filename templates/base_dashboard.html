@@ -42,7 +42,7 @@
         </div>
 
         <!-- DASHBOARD MAIN CONTENT -->
-        <div class="col-lg-9 dashboard">
+        <div class="col-lg-9 dashboard-outer">
 
             <!-- header  -->
             <header class="container-fluid header-container">
@@ -69,13 +69,13 @@
             </div>
 
             <!-- content body  -->
-            <div class="container content container">
-            <div class="row">
-                <div class="col-12">
-                {% block dashboard_content %}
-                {% endblock %}
-                </div>
-            </div>
+            <div class="container dashboard-content-container">
+              <div class="row h-100 d-flex align-items-center">
+                  <div class="col-12   ">
+                  {% block dashboard_content %}
+                  {% endblock %}
+                  </div>
+              </div>
             </div>
 
         </div>
