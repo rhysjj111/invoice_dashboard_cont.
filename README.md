@@ -45,6 +45,7 @@ The features listed are the core functionality required to move from paper invoi
 ### Security
 - Django comes with lots of safety features and I plan to use their forms feature where possible to protect the database. I will include my own validation where applicable.
 - There is a potential security risk to customer data, where they are following a link to access and pay their invoice. Although I can't see why anyone would want to gain access to the link and pay their bill, in the future customers should have a login, especially if their invoice history is added as a feature.
+- Another security risk, is that I have removed password validation for new users. The purpose of this is to make it as easy as possible to get users set up at first, then if the garage staff take to the MVP, improving security by adding password validation and getting users to change their passwords.
 
 ### Wireframes
 Desktop wireframes:
