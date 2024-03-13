@@ -1,6 +1,11 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
 
+{% block css %}
+{{block.super}}
+    <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
+{% endblock %}
+
 {% block page_title %}Invoice list{% endblock %}
 
 {% block page_heading %}invoice #12345{% endblock %}
@@ -23,7 +28,7 @@
             </li>      
         </ul>
     </div>
-    <div class=" offset-7 offset-lg-0 col-5 col-lg-3">
+    <div class="col-lg-3 d-none d-lg-block ">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                 aria-describedby="button-addon2">
@@ -36,12 +41,12 @@
 <table class="table table-hover">
     <tbody>
             <tr>
-                <th scope="row"><a href="{% url 'index' %}">Column content</a></th>
-                <td><a href="{% url 'index' %}">Column content</a></td>
-                <td><a href="{% url 'index' %}">Column content</a></td>
+                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
+                <th scope="row " class="d-none d-lg-inline-block"><a href="{% url 'index' %}">Registration</a></th>
+                <td class="d-none d-lg-inline-block"><a href="{% url 'index' %}">Customer</a></td>
                 <td>
                     <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
+                        <option selected></option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -50,23 +55,23 @@
             </tr>
 
             <tr class="table-primary">
-                <th scope="row">Primary</th>
-                <td>Column content</td>
-                <td>Column content</td>
+                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
+                <th scope="row" class="d-none d-lg-inline-block">Primary</th>
+                <td class="d-none d-lg-inline-block">Column content</td>
                 <td>Column content</td>
             </tr>
 
             <tr class="table-success">
-                <th scope="row">Success</th>
-                <td>Column content</td>
-                <td>Column content</td>
+                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
+                <th scope="row" class="d-none d-lg-inline-block">Success</th>
+                <td class="d-none d-lg-inline-block">Column content</td>
                 <td>Column content</td>
             </tr>        
 
             <tr class="table-warning">
-                <th scope="row">Warning</th>
-                <td>Column content</td>
-                <td>Column content</td>
+                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
+                <th scope="row" class="d-none d-lg-inline-block">Warning</th>
+                <td class="d-none d-lg-inline-block">Column content</td>
                 <td>Column content</td>
             </tr>         
 

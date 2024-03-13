@@ -2,95 +2,95 @@
 {% load static %}
 
 {% block content %}
-    <div class="container-fluid vh-100 main-container">
-        <div class="row h-100">
+  <div class="container-fluid vh-100 main-container">
+      <div class="row h-100">
 
-        <!-- SIDE MENU -->
-        <div class="col-lg-3 d-none d-lg-block side-menu">
-          <div class="container-fluid vh-100 border-end">
-            <!-- empty space -->
-            <div class="row h-50">
-              <div class="col-12"></div>
-            </div>
-            <!-- action menu -->
-            <div class="row h-25">
-              <div class="col-12 action-container side-menu-container">
-                <div class="card">
-                  <div class="card-header">
-                    <h5 class="card-title menu-title">Action</h5>
-                  </div>
-                  <div class="card-body">
-                    <a href="" class="btn side-menu-link"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>  
-            <!-- navigation menu -->
-            <div class="row h-25">
-              <div class="col-12 navigation-container side-menu-container">
-                <div class="card">
-                  <div class="card-header">
-                    <h5 class="card-title menu-title">Navigation</h5>
-                  </div>
-                  <div class="card-body">
-                    <a href="" class="btn side-menu-link"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>                    
-                  </div>
-                </div>
-              </div>
-            </div> 
+      <!-- SIDE MENU -->
+      <div class="col-lg-3 d-none d-lg-block side-menu">
+        <div class="container-fluid vh-100 border-end">
+          <!-- empty space -->
+          <div class="row h-50">
+            <div class="col-12"></div>
           </div>
-        </div>
-
-        <!-- DASHBOARD MAIN CONTENT -->
-        <div class="col-lg-9 dashboard-outer">
-
-            <!-- header  -->
-            <header class="container-fluid header-container">
-              <div class="row">
-                  <div class="col text-end">
-                    <div class="dropdown">
-                      <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="bi bi-person-fill-gear fs-4"></i>
-                      </a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                      </ul>
-                  </div>
+          <!-- action menu -->
+          <div class="row h-25">
+            <div class="col-12 action-container side-menu-container">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title menu-title">Action</h5>
+                </div>
+                <div class="card-body p-0 ms-3">
+                  <a href="" class="btn side-menu-link"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
                 </div>
               </div>
-              <div class="row heading-row">
-                  <div class="col d-flex align-items-center justify-content-center">
-                    <!-- heading, back and trash button  -->
-                    {% if previous_url %}<a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-5 align-middle"></i></a>{% endif %}
-                    <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
-                    {% if previous_url %}<a href=""><i class="bi-trash icon fs-3 ms-4 text-danger align-middle"></i></a>{% endif %}
-                  </div>
-              </div>
-            </header>
-
-            <!-- filter and search menu -->
-            <div class="container-fluid filter-search-container">
-              <div class="row">
-                {% block filter_search %}
-
-                {% endblock %}
+            </div>
+          </div>  
+          <!-- navigation menu -->
+          <div class="row h-25">
+            <div class="col-12 navigation-container side-menu-container">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title menu-title">Navigation</h5>
+                </div>
+                <div class="card-body p-0 ms-3">
+                  <a href="" class="btn side-menu-link"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>                    
+                </div>
               </div>
             </div>
-
-            <!-- content body  -->
-            <div class="container dashboard-content-container mt-4">
-              <div class="row h-100">
-                  <div class="col-12">
-                  {% block dashboard_content %}
-                  {% endblock %}
-                  </div>
-              </div>
-            </div>
-
+          </div> 
         </div>
       </div>
+
+      <!-- DASHBOARD MAIN CONTENT -->
+      <div class="col-lg-9 dashboard-outer pb-3 px-lg-5">
+
+          <!-- header  -->
+          <header class="container-fluid header-container">
+            <div class="row">
+                <div class="col text-end">
+                  <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      <i class="bi bi-person-fill-gear fs-4"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+              </div>
+            </div>
+            <div class="row heading-row">
+                <div class="col d-flex align-items-center justify-content-center">
+                  <!-- heading, back and trash button  -->
+                  {% if previous_url %}<a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-5 align-middle"></i></a>{% endif %}
+                  <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
+                  {% if previous_url %}<a href=""><i class="bi-trash icon fs-3 ms-4 text-danger align-middle"></i></a>{% endif %}
+                </div>
+            </div>
+          </header>
+
+          <!-- filter and search menu -->
+          <div class="container-fluid filter-search-container">
+            <div class="row">
+              {% block filter_search %}
+
+              {% endblock %}
+            </div>
+          </div>
+
+          <!-- content body  -->
+          <div class="container dashboard-content-container mt-4">
+            <div class="row h-100">
+                <div class="col-12">
+                {% block dashboard_content %}
+                {% endblock %}
+                </div>
+            </div>
+          </div>
+
+      </div>
     </div>
+  </div>
 {% endblock %}

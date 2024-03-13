@@ -11,7 +11,7 @@ def invoice_list(request):
     return render(request, 'invoice/invoice_list.html', context)
 
 
-def invoice(request):
+def invoice_summary(request):
     """A view to return a single-invoice view"""
     previous_url = 'invoice_list'
     delete_url = 'invoice_list'
@@ -19,4 +19,4 @@ def invoice(request):
         'previous_url': 'invoice_list',
         'delete_url': delete_url,
     }
-    return render(request, 'invoice/invoice.html', context)
+    return render(request, 'invoice/invoice_summary.html', context)

@@ -87,6 +87,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - While trying to make a bootstrap table row clickable, I found there were no solutions from bootstrap out of the box. After much research, I settled for the solution of putting an anchor in each cell and changing it's display to block. There were other solutions proposed on [Stack overflow](https://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link) but I found this one to be best as one user pointed out, for assistive software rather than using javascript/css.
 
+- There is a 4 column table in invoice_list.html and customer_list.html, this posed a problem for mobile. I got around this by condesing the information into one column for mobile and showing the full table for large screens and above.
+
 - 
 
 #### JS
