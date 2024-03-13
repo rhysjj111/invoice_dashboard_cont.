@@ -6,8 +6,9 @@ a{
     color: black;
 }
 
-.header-container{
-    height: 150px
+.heading-row{
+    height: 130px;
+    margin-bottom: 15px
 }
 
 /* from Bulma */
