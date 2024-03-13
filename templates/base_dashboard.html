@@ -62,25 +62,9 @@
             <!-- filter and search menu -->
             <div class="container-fluid filter-search-container">
               <div class="row">
-                <div class="col-6 offset-3 d-none d-lg-block">
-                  <ul class="nav nav-pills nav-fill">
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">Link</a>
-                    </li>
-                  </ul>
-                </div>
-                <div class=" offset-7 offset-lg-0 col-5 col-lg-3">
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                  </div>
-                </div>
+                {% block filter_search %}
+
+                {% endblock %}
               </div>
             </div>
 

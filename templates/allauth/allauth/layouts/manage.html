@@ -1,2 +1,14 @@
 {% extends "allauth/layouts/base.html" %}
-{% block content %}{% endblock %}
+{% block outer_content %}
+<div class="container content-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="login-container position-absolute top-50 start-50 translate-middle border rounded-3 p-4 w-75"
+                style="max-width: 450px;">
+                    {% block content %}
+                    {% endblock content %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

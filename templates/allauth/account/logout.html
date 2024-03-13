@@ -19,8 +19,8 @@
             {% endif %}
         {% endslot %}
         {% slot actions %}
-            {% element button type="submit" %}
-                {% trans 'Sign Out' %}
+            {% element button type="submit" class="btn btn-secondary float-end" %}
+                {% trans 'Log Out' %}
             {% endelement %}
         {% endslot %}
     {% endelement %}

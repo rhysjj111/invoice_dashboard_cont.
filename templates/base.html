@@ -17,6 +17,12 @@
   <!-- MESSAGES  -->
   {% if messages %}
     <div class="message-container fixed-top">
+      <div>
+          <strong>Messages:</strong>
+          <ul>
+              {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+          </ul>
+      </div>
     </div>
   {% endif %}
 
