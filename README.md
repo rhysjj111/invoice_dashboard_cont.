@@ -85,6 +85,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 ### Issues
 - I had an issue styling the allauths login template to look the same as the preceding login prompt. I got round this by adding bootstrap to the allauth base.html and customising the 'button.html' element found in allauth>elements to accept a class for the buttons and styled it with bootstrap classes. I wrapped the whole thing in bootstrap container and relevant classes using 'entrance.html'; I got that trick from the Boutique Ado walkthrough.
 
+- While trying to make a bootstrap table row clickable, I found there were no solutions from bootstrap out of the box. After much research, I settled for the solution of putting an anchor in each cell and changing it's display to block. There were other solutions proposed on [Stack overflow](https://stackoverflow.com/questions/17147821/how-to-make-a-whole-row-in-a-table-clickable-as-a-link) but I found this one to be best as one user pointed out, for assistive software rather than using javascript/css.
+
 - 
 
 #### JS
@@ -120,4 +122,4 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 ## Credits
 - The boilerplate used in base.html was taken from [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) and edited.
-- 
+- [Stack overflow](https://stackoverflow.com/) was used many times and referenced throughout the readme for specific examples.
