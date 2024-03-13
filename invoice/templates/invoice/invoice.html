@@ -1,0 +1,62 @@
+{% extends "base_dashboard.html" %}
+{% load static %}
+
+{% block page_title %}Invoice #{{invoice.invoice_number}}{% endblock %}
+
+{% block page_heading %}Invoice #{{invoice.invoice_number}}{% endblock %}
+
+{% block dashboard_content %}
+
+    <div class="invoice-container d-grid gap-4">
+        <button class="btn btn-primary invoice-summary-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseInvoiceDetails" aria-expanded="false" aria-controls="collapseInvoiceDetails">
+            <h4>Invoice details</h4>
+        </button>
+        <div class="collapse" id="collapseInvoiceDetails">
+            <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the
+                user activates the relevant trigger.
+            </div>
+        </div>
+
+        <button class="btn btn-primary invoice-summary-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
+            <h4>Parts</h4>
+        </button>
+        <div class="collapse" id="collapsePartsDetails">
+            <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the
+                user activates the relevant trigger.
+            </div>
+        </div>
+
+        <button class="btn btn-primary invoice-summary-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
+            <h4>Labour</h4>
+        </button>
+        <div class="collapse" id="collapseLabourDetails">
+            <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the
+                user activates the relevant trigger.
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-5 offset-lg-7 ">
+            <p class="d-grid">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                    <h4>Totals</h4>
+                </button>
+            </p> 
+            <div>
+                <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                <div class="card card-body" style="width: 300px;">
+                    This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+                </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+{% endblock %}
