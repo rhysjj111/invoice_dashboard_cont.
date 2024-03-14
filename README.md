@@ -89,6 +89,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - There is a 4 column table in invoice_list.html and customer_list.html, this posed a problem for mobile. I got around this by condesing the information into one column for mobile and showing the full table for large screens and above.
 
+- I wanted to use Django choices field in a couple of the models and wanted to use the most up to date version of doing this. An article on [Stack Overflow](https://stackoverflow.com/questions/63418135/using-choices-in-a-field-in-django-models) gave me a few ways to go about it (new and old) and I went with the most recent way using built in Django feature IntegerChoices.
+
 - 
 
 #### JS
