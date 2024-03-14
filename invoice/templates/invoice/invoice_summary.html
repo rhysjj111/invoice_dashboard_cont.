@@ -10,6 +10,18 @@
 
 {% block page_heading %}Invoice #{{invoice.invoice_number}}{% endblock %}
 
+<!-- SIDE MENU ITEMS -->
+{% block side_menu_action_items %}
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-nut"></i> <span>Add Part</span></a>
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-clock"></i> <span>Add Labour</span></a>
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+{% endblock side_menu_action_items %}
+
+{% block side_menu_nav_items %}
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>     
+{% endblock side_menu_nav_items %}
+
+
 {% block dashboard_content %}
 
     <div class="invoice-container">

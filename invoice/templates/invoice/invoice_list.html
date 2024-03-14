@@ -10,6 +10,15 @@
 
 {% block page_heading %}invoice #12345{% endblock %}
 
+<!-- SIDE MENU ITEMS -->
+{% block side_menu_action_items %}
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+{% endblock side_menu_action_items %}
+
+{% block side_menu_nav_items %}
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>     
+{% endblock side_menu_nav_items %}
+
 {% block filter_search %}
     <!-- FILTER AND SEARCH BAR -->
     <div class="col-7 d-none d-lg-block mb-4">

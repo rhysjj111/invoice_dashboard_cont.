@@ -19,8 +19,9 @@
                 <div class="card-header">
                   <h5 class="card-title menu-title">Action</h5>
                 </div>
-                <div class="card-body p-0 ps-5">
-                  <a href="" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+                <div class="card-body p-0 ps-4">
+                  {% block side_menu_action_items %}
+                  {% endblock side_menu_action_items %}
                 </div>
               </div>
             </div>
@@ -32,8 +33,9 @@
                 <div class="card-header">
                   <h5 class="card-title menu-title">Navigation</h5>
                 </div>
-                <div class="card-body p-0 ps-5">
-                  <a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>                    
+                <div class="card-body p-0 ps-4">
+                  {% block side_menu_nav_items %}
+                  {% endblock side_menu_nav_items %}               
                 </div>
               </div>
             </div>
@@ -66,7 +68,7 @@
                   <!-- heading, back and trash button  -->
                   {% if previous_url %}<a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-3 me-lg-4 align-middle"></i></a>{% endif %}
                   <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
-                  {% if previous_url %}<a href=""><i class="bi-trash icon text-danger fs-3 ms-3 ms-lg-4 align-middle"></i></a>{% endif %}
+                  {% if previous_url %}<a href=""><i class="bi-trash icon text-danger fs-3 ms-3 mb-1 ms-lg-4 align-top"></i></a>{% endif %}
                 </div>
             </div>
           </header>
