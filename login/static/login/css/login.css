@@ -5,3 +5,7 @@ body{
 .login-container{
     background-color: white;
 }
+
+header{
+    display: none;
+}
