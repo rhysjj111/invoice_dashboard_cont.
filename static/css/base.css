@@ -3,6 +3,15 @@ html {
     overflow: hidden;
 }
 
+body{
+    /* background-color: rgba(255, 124, 26, 0.65); */
+    color: white;
+}
+
+h1{
+    margin:0;
+}
+
 a{
     color: black;
     text-decoration: none;
@@ -14,7 +23,9 @@ i{
 
 .heading-row{
     height: 100px;
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    background-color: #00469B;
+    border-radius: 8px;
 }
 
 /* from Bulma */
@@ -39,8 +50,21 @@ i{
     background-color: white;
     border: 0;
 }
+
 .menu-title{
     color: slategrey;
+}
+
+.side-menu * {
+    background-color: #FF7F11;
+    color: white;
+}
+
+.mobile-menu * {
+    color:#03120E;    
+}
+.mobile-menu *:target {
+    color:#FF7F11;    
 }
 
 .side-menu-link{
@@ -50,6 +74,8 @@ i{
     font-size: 18px;
     font-weight: 600;
     border:none;
+    margin-right: 40px;
+
 }
 
 .side-menu-link:hover,
@@ -65,14 +91,20 @@ i{
 
 /* main content dashboard */
 
+.heading-container a{
+    color: white;
+}
+
 .dashboard-outer{
     overflow-y: auto;
     height: 100vh;
 }
 
-.dashboard-content-container,
-.dashboard-content-container > .row{
-    min-height: calc(100vh - 240px);
+@media (max-width:992px){
+    .dashboard-content-container,
+    .dashboard-content-container > .row{
+        min-height: calc(100vh - 240px);
+    }
 }
 
 tr{
@@ -85,5 +117,32 @@ td > a{
     display:block
 }
 
+/* mobile menu */
 
+.mobile-menu-container{
+    position: fixed;
+    bottom: 25px;
+    right: 15px;
+}
+
+.mobile-menu-button{
+    border-radius: 50%;
+
+    min-height: 3rem;
+    min-width: 3rem;
+
+}
+
+.mobile-menu-button:active,
+.mobile-menu-button:focus,
+.mobile-menu-button:hover{
+    background-color: #FF7F11;
+    border: #FF7F11 solid 1px;
+}
+
+.mobile-menu-button i{
+    font-weight: 800;
+    color: white;
+    font-size: 25px;
+}
 

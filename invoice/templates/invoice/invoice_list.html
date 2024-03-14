@@ -12,23 +12,23 @@
 
 {% block filter_search %}
     <!-- FILTER AND SEARCH BAR -->
-    <div class="col-6 offset-3 d-none d-lg-block mb-4">
+    <div class="col-7 d-none d-lg-block mb-4">
         <ul class="nav nav-pills nav-fill">
             
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Active</a>
+                <a class="nav-link" aria-current="page" href="#">Active</a>
             </li>
-            {% if user.groups.first == 'Accounts' %} 
+            {% if user.groups.first == 'Mechanic' %} 
             <li class="nav-item">
-                <a class="nav-link" href="#">Pending</a>
+                <a class="nav-link" href="{% url 'invoice_list' %}">Pending</a>
             </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="#">Inactive</a>
+                <a class="nav-link active" href="{% url 'invoice_list' %}">Inactive</a>
             </li>      
         </ul>
     </div>
-    <div class="col-lg-3 d-none d-lg-block ">
+    <div class="col-lg-5 d-none d-lg-block ">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                 aria-describedby="button-addon2">
@@ -38,12 +38,12 @@
 {% endblock %}
 
 {% block dashboard_content %}
-<table class="table table-hover">
+<table class="table table-hover align-middle">
     <tbody>
             <tr>
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row " class="d-none d-lg-inline-block"><a href="{% url 'index' %}">Registration</a></th>
-                <td class="d-none d-lg-inline-block"><a href="{% url 'index' %}">Customer</a></td>
+                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Registration</a></th>
+                <td class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Customer</a></td>
                 <td>
                     <select class="form-select" aria-label="Default select example">
                         <option selected></option>
@@ -56,22 +56,22 @@
 
             <tr class="table-primary">
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-inline-block">Primary</th>
-                <td class="d-none d-lg-inline-block">Column content</td>
+                <th scope="row" class="d-none d-lg-table-cell">Primary</th>
+                <td class="d-none d-lg-table-cell">Column content</td>
                 <td>Column content</td>
             </tr>
 
             <tr class="table-success">
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-inline-block">Success</th>
-                <td class="d-none d-lg-inline-block">Column content</td>
+                <th scope="row" class="d-none d-lg-table-cell">Success</th>
+                <td class="d-none d-lg-table-cell">Column content</td>
                 <td>Column content</td>
             </tr>        
 
             <tr class="table-warning">
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-inline-block">Warning</th>
-                <td class="d-none d-lg-inline-block">Column content</td>
+                <th scope="row" class="d-none d-lg-table-cell">Warning</th>
+                <td class="d-none d-lg-table-cell">Column content</td>
                 <td>Column content</td>
             </tr>         
 
