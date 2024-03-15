@@ -16,14 +16,14 @@ allauth login.html | 'Back' | None | Navigate to index.html | Pass
 allauth logout.html | 'Logout' | User logged in | User logged out successfully and returned to index.html with a success message | Pass
 allauth logout.html | 'Logout' | User logged in | User logged out successfully and returned to index.html with a success message | Pass
 invoice_list.html | Add invoice, edit invoice | None | Relevant modal pops up, feedback provided to user | Pass
-invoice_list.html | Go to customers | None | Redirects to customer_list.html | Pass
-invoice_list.html | Change status of invoice | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Status of invoice successfuly changes to intended status, feedback provided to user | Pass
-invoice_list.html | Change filter view of invoices | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Each filter should display only the relevant invoices | Pass
+" " | Go to customers | None | Redirects to customer_list.html | Pass
+" " | Change status of invoice | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Status of invoice successfuly changes to intended status, feedback provided to user | Pass
+" " | Change filter view of invoices | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Each filter should display only the relevant invoices | Pass
 invoice_summary.html | Toggle invoice headings (Details, Parts, Labour) | None | Each heading should reveal correct information or message conveying no information added to database | Pass
-invoice_summary.html | Add part, add labour, edit part/labour/details | None | Relevant modal pops up, feedback provided to user | Pass
-invoice_summary.html | Delete part, labour entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
-invoice_list.html | Add invoice, edit invoice | None | Relevant modal pops up | Pass
-invoice_list.html | Delete invoice entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
+" " | Add part, add labour, edit part/labour/details | None | Relevant modal pops up, feedback provided to user | Pass
+" " | Delete part, labour entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
+" " | Add invoice, edit invoice | None | Relevant modal pops up | Pass
+" " | Delete invoice entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
 
 ### Forms
 Tests on link URLs.
@@ -41,4 +41,4 @@ Test whether users with different accounts have appropriate access to informatio
 Mechanic, Foreman | Visit invoice_list.html | Only see filter views for valid and invalid invoice views. | Pass
 Accounts | " " | See filters for valid, pending and inactive. | Pass
 Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
-Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
+Mechanic | Change status of invoice from 'open' to 'ready for processing'  | Invoice status changes successfully, user feedback to say so, invoice disapears from view and into Foreman view | #####################

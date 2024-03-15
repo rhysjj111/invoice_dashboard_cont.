@@ -127,3 +127,4 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 ## Credits
 - The boilerplate used in base.html was taken from [bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/) and edited.
 - [Stack overflow](https://stackoverflow.com/) was used many times and referenced throughout the readme for specific examples.
+- I got the idea of using slugs for easier to understand URLs from a tutorial on how to build an invoice platform, on [Youtube](https://www.youtube.com/watch?v=KU_taqbG00U&t=8159s).
