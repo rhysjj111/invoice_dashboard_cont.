@@ -49,19 +49,28 @@ class Invoice(models.Model):
         # create a todays date if no date provided
         if self.date_in is None:
             self.date_in = timezone.localtime(timezone.now())
+        
+        # DONT FORGET TO ADD CHANGE OF ACTIVE WHEN INVOICE CHANGED TO WORK ON HOLD OR COMPLETE
 
-        # create an invoice number if status changed to complete
+        # Set active to True or False and create invoice number depending on invoice status.
         if self.status == 6:
-            try:
-                latest = Invoice.objects.latest('invoice_int')
-            except ObjectDoesNotExist:
-                self.invoice_int = 1
-            else:
-                self.invoice_int = latest + 1
-            self.invoice_number = f'INV_#{self.invoice_int}'     
+            if self.invoice_number is not None:
+                try:
+                    latest = Invoice.objects.latest('invoice_int')
+                except ObjectDoesNotExist:
+                    self.invoice_int = 1
+                else:
+                    self.invoice_int = latest + 1
+                self.invoice_number = f'INV_#{self.invoice_int}'
+            self.active = False
+        elif self.status == 5:
+            self.active = False
+        else:
+            self.active = True
+                 
             
         self.slug = slugify(f'{self.name}')
         super().save(*args, **kwargs)
 
-    # invoice date in if statrement
+    
    
