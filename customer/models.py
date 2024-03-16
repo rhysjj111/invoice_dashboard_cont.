@@ -48,8 +48,8 @@ class Vehicle(models.Model):
     customer_id = models.ForeignKey(
         Customer, blank=False, null=False, on_delete=models.CASCADE)
     registration = models.CharField(max_length=10, null=False, blank=False)
-    make = models.CharField(max_length=27, blank=True, nullable=True)
-    model = models.CharField(max_length=27, blank=True, nullable=True)
+    make = models.CharField(max_length=27, blank=True, null=True)
+    model = models.CharField(max_length=27, blank=True, null=True)
     active = models.BooleanField(default=True, blank=True, null=True)
 
     # utilities
