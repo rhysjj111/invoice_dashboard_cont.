@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Sum
+from django.conf import settings
 from django.utils.text import slugify
 from customer.models import Customer, Vehicle
 from django.utils import timezone
@@ -14,9 +16,9 @@ class Invoice(models.Model):
         WORK_ON_HOLD = '5', 'Work on hold'
         COMPLETE = '6', 'Complete'
 
-    invoice_number = models.CharField(
+    inv_number = models.CharField(
         max_length=10, null=True, editable=False)
-    invoice_int = models.PositiveIntegerField(null=True, editable=False)
+    inv_integer = models.PositiveIntegerField(null=True, editable=False)
     customer = models.ForeignKey(
         Customer, on_delete=models.PROTECT, related_name='invoices')
     vehicle = models.ForeignKey(
@@ -26,7 +28,8 @@ class Invoice(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=InvoiceStatus.choices, blank=True, null=True)
     active = models.BooleanField(default=True, blank=True, null=True)
-    sub_total = models.PositiveIntegerField(blank=True, null=True)
+    subtotal = models.PositiveIntegerField(blank=True, null=True)
+    vat_subtotal = models.PositiveIntegerField(blank=True, null=True)
     grand_total = models.PositiveIntegerField(blank=True, null=True)
 
     # utilities
@@ -35,8 +38,8 @@ class Invoice(models.Model):
     def __str__(self):
         cust = self.customer.friendly_name
         veh = self.vehicle.registration
-        inv_int = self.invoice_int
-        inv_num = self.invoice_number
+        inv_int = self.inv_integer
+        inv_num = self.inv_number
         if inv_int is not None:
             str = f'{inv_num} - {cust} - {veh}'
         elif cust and veh:
@@ -45,26 +48,39 @@ class Invoice(models.Model):
             str = 'Blank invoice'
         return str
 
+    def update_total(self):
+        #update grand_total each time a part or labour entry is updated.
+        part_subtotal = self.parts.aggregate(Sum('subtotal'))['subtotal__sum'] or 0
+        labour_subtotal = self.labour.aggregate(Sum('subtotal'))['subtotal__sum'] or 0
+        self.subtotal = part_subtotal + labour_subtotal
+        if self.subtotal > 0:
+            self.vat_subtotal = self.subtotal * settings.VAT_PERCENTAGE
+            self.grand_total = self.subtotal + self.vat_subtotal
+        else:
+            self.grand_total = 0
+            self.vat_subtotal = 0
+        self.save()
+
+        
+
     def save(self, *args, **kwargs):
         # create a todays date if no date provided
         if self.date_in is None:
             self.date_in = timezone.localtime(timezone.now())
 
-
         # Set active to True or False and create invoice number depending on invoice status.
         if self.status >= 5:
             self.active = False
-            if self.status == 6 and self.invoice_number is not None:
+            if self.status == 6 and self.inv_number is not None:
                 try:
-                    latest = Invoice.objects.latest('invoice_int')
+                    latest = Invoice.objects.latest('inv_integer')
                 except ObjectDoesNotExist:
-                    self.invoice_int = 1
+                    self.inv_integer = 1
                 else:
-                    self.invoice_int = latest + 1
-                self.invoice_number = f'INV_#{self.invoice_int}'
+                    self.inv_integer = latest + 1
+                self.inv_number = f'INV_#{self.inv_integer}'
         else:
-            self.active = True
-                 
+            self.active = True  
             
         self.slug = slugify(f'{self.name}')
         super().save(*args, **kwargs)
@@ -78,6 +94,13 @@ class Part(models.Model):
     price_to_customer = models.PositiveIntegerField(null=True, blank=True)
     title = models.CharField(max_length=25, null=False, blank=False)
     quantity = models.PositiveIntegerField(default=1)
+    subtotal = models.PositiveIntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        """update part subtotal on save"""
+        if self.price_to_customer: 
+            self.subtotal = self.price_to_customer * self.quantity
+        super().save(*args, **kwargs)
 
 
 class Labour(models.Model):
@@ -90,6 +113,12 @@ class Labour(models.Model):
     title = models.CharField(max_length=27, null=False, blank=False)
     description = models.CharField(max_length=250, null=True, blank=True)
     hours = models.PositiveIntegerField(default=1)
+    subtotal = models.PositiveIntegerField(null=True, blank=True) 
+
+    def save(self, *args, **kwargs):
+        """update labour subtotal on save"""
+        self.subtotal = self.hours * settings.LABOUR_RATE
+        super().save(*args, **kwargs)
 
     
 
