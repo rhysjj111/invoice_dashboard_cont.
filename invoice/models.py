@@ -49,12 +49,12 @@ class Invoice(models.Model):
         # create a todays date if no date provided
         if self.date_in is None:
             self.date_in = timezone.localtime(timezone.now())
-        
-        # DONT FORGET TO ADD CHANGE OF ACTIVE WHEN INVOICE CHANGED TO WORK ON HOLD OR COMPLETE
+
 
         # Set active to True or False and create invoice number depending on invoice status.
-        if self.status == 6:
-            if self.invoice_number is not None:
+        if self.status >= 5:
+            self.active = False
+            if self.status == 6 and self.invoice_number is not None:
                 try:
                     latest = Invoice.objects.latest('invoice_int')
                 except ObjectDoesNotExist:
@@ -62,15 +62,36 @@ class Invoice(models.Model):
                 else:
                     self.invoice_int = latest + 1
                 self.invoice_number = f'INV_#{self.invoice_int}'
-            self.active = False
-        elif self.status == 5:
-            self.active = False
         else:
             self.active = True
                  
             
         self.slug = slugify(f'{self.name}')
         super().save(*args, **kwargs)
+
+
+class Part(models.Model):
+
+    invoice = models.ForeignKey(
+        Invoice, on_delete=models.PROTECT, related_name='parts')
+    cost_to_company = models.PositiveIntegerField(null=True, blank=True)
+    price_to_customer = models.PositiveIntegerField(null=True, blank=True)
+    title = models.CharField(max_length=25, null=False, blank=False)
+    quantity = models.PositiveIntegerField(default=1)
+
+
+class Labour(models.Model):
+
+    class Meta:
+        verbose_name_plural = 'Labour'
+
+    invoice = models.ForeignKey(
+        Invoice, on_delete=models.PROTECT, related_name='labour')
+    title = models.CharField(max_length=27, null=False, blank=False)
+    description = models.CharField(max_length=250, null=True, blank=True)
+    hours = models.PositiveIntegerField(default=1)
+
+    
 
     
    
