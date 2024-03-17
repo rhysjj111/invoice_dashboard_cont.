@@ -6,21 +6,22 @@
     <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
-{% block page_title %}Customers{% endblock %}
+<!-- BROWESER TITLE  -->
+{% block page_title %}Customers{% endblock %}Customer List{% block page_heading %}Customers{% endblock %}
 
-{% block page_heading %}Customers{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
+    <a href="" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
+    <a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
 {% endblock side_menu_nav_items %}
 
+
+<!-- SEARCH BAR -->
 {% block filter_search %}
-    <!-- SEARCH BAR -->
     <div class="col-12 offset-md-6 col-md-6">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
@@ -30,6 +31,8 @@
     </div>
 {% endblock %}
 
+
+<!-- CONTENT  -->
 {% block dashboard_content %}
     <table class="table table-hover align-middle">
         <tbody>
