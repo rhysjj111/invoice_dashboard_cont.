@@ -25,7 +25,7 @@ class Customer(models.Model):
     address_line_1 = models.CharField(max_length=27, blank=True, null=True)
     address_line_2 = models.CharField(max_length=27, blank=True, null=True)
     city_region = models.CharField(max_length=27, blank=True, null=True)
-    post_code = models.CharField(max_length=10, blank=True, null=True)
+    postcode = models.CharField(max_length=10, blank=True, null=True)
     contact_number_primary = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=20, blank=True, null=True)
     payment_terms = models.PositiveSmallIntegerField(
@@ -39,8 +39,8 @@ class Customer(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(f'{self.name}')
-        super().save(*args, **kwargs)
+        self.slug = slugify(f'{self.name} {self.type}')
+        super(Customer, self).save(*args, **kwargs)
 
 
 class Vehicle(models.Model):

@@ -1,5 +1,6 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css %}
 {{block.super}}
@@ -22,7 +23,7 @@
 
 <!-- SEARCH BAR -->
 {% block filter_search %}
-    <div class="col-12 offset-md-6 col-md-6">
+    <div class="col-12 offset-md-7 col-md-5">
         <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                 aria-describedby="button-addon2">
@@ -34,42 +35,5 @@
 
 <!-- CONTENT  -->
 {% block dashboard_content %}
-    <table class="table table-hover align-middle">
-        <tbody>
-            <tr>
-                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Registration</a></th>
-                <td class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Customer</a></td>
-                <td>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected></option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr class="table-primary">
-                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-table-cell">Primary</th>
-                <td class="d-none d-lg-table-cell">Column content</td>
-                <td>Column content</td>
-            </tr>
-
-            <tr class="table-success">
-                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-table-cell">Success</th>
-                <td class="d-none d-lg-table-cell">Column content</td>
-                <td>Column content</td>
-            </tr>
-
-            <tr class="table-warning">
-                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-                <th scope="row" class="d-none d-lg-table-cell">Warning</th>
-                <td class="d-none d-lg-table-cell">Column content</td>
-                <td>Column content</td>
-            </tr>
-        </tbody>
-    </table>
+    {% crispy form %}
 {% endblock %}
