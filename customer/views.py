@@ -4,8 +4,11 @@ from .forms import CustomerForm
 from django.contrib import messages
 
 def customer_list(request):
-    """A view to return main customer view"""
+    """A view to return customer list with possible filter"""
     customers = Customer.objects.filter(active=True)
+
+    # if request.GET:
+
 
     form = CustomerForm()
 

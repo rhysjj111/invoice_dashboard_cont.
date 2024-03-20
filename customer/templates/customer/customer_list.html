@@ -25,7 +25,7 @@
 {% block filter_search %}
     <div class="col-12 offset-md-7 col-md-5">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+            <input id="search-bar" type="text" class="form-control" placeholder="Search" aria-label="Search"
                 aria-describedby="button-addon2">
             <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
         </div>
@@ -38,7 +38,7 @@
 
     <!-- customer list table -->
     <table class="table table-hover align-middle">
-        <tbody>
+        <tbody id="table-body">
             {% for customer in customer_list %}
                 <tr>
                     <!-- mobile first column  -->
@@ -48,6 +48,8 @@
         </tbody>
     </table>
 
-
     {% crispy form %}
+
 {% endblock %}
+
+

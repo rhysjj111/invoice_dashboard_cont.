@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from .models import Customer
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column
+from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column, ButtonHolder, Reset
 from crispy_forms.bootstrap import FormActions
 
 def add_or_edit_path(slug):
@@ -12,6 +12,8 @@ def add_or_edit_path(slug):
     else:
         path = reverse('add_customer')
     return path
+
+
 
 
 class CustomerForm(forms.ModelForm):
@@ -44,6 +46,7 @@ class CustomerForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug)
+        self.helper.form_class = 'mb-4'
         self.helper.layout = Layout(
             Row(
                 Column(
@@ -57,11 +60,20 @@ class CustomerForm(forms.ModelForm):
                     ),
                 )
             ),
-            FormActions(
-                Submit(
-                    'submit',
-                    'Add customer',
-                    css_class='float-end'
+            Row(
+                Column(
+                    ButtonHolder(
+                        Reset(
+                            'reset-form',
+                            'Reset'
+                        ),
+                        Submit(
+                            'submit',
+                            'Add customer',
+                            css_class='ms-4'
+                        ),
+                        css_class='float-end'
+                    )
                 )
             )
         )
