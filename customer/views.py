@@ -5,7 +5,6 @@ from django.contrib import messages
 
 def customer_list(request):
     """A view to return main customer view"""
-
     customers = Customer.objects.filter(active=True)
 
     form = CustomerForm()
@@ -22,23 +21,39 @@ def customer_list(request):
     }
     return render(request, template, context)
 
-def add_customer(request):
-    form = CustomerForm(request.POST, request.FILES)
-    if form.is_valid():
-        customer = form.save()
-        messages.success(request, 'Successfully added customer!')
-        return redirect(reverse('customer_summary', args=[customer.id]))
-    else:
-        messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
-        return redirect(reverse('customer_summary'+'#open_modal')) #maybe work?
 
-
-def customer_summary(request):
+def customer_summary(request, slug):
     """A view to return a single-customer view"""
+    customer = get_object_or_404(Customer, slug=slug)
+    form = CustomerForm(instance=customer)
     previous_url = 'customer_list'
     delete_url = 'customer_list'
     context = {
         'previous_url': 'customer_list',
         'delete_url': delete_url,
+        'form': form
     }
     return render(request, 'customer/customer_summary.html', context)
+    
+
+def add_customer(request):
+    form = CustomerForm(request.POST, request.FILES)
+    if form.is_valid():
+        customer = form.save()
+        messages.success(request, 'Successfully added {customer.friendly_name}!')
+        return redirect(reverse('customer_summary', args=[customer.slug]))
+    else:
+        messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
+        return redirect(reverse('customer_summary'+'#open_modal')) #maybe work?
+
+def edit_customer(request, slug):
+    customer = get_object_or_404(Customer, slug=slug)
+    form = CustomerForm(request.POST, request.FILES, instance=customer)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Successfully edited {customer.friendly_name}!')
+        return redirect(reverse('customer_summary', args=[customer.slug]))
+        
+
+
+

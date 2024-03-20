@@ -39,7 +39,7 @@ class Customer(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(f'{self.name} {self.type}')
+        self.slug = slugify(f'{self.name}')
         super(Customer, self).save(*args, **kwargs)
 
 

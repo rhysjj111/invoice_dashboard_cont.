@@ -43,6 +43,9 @@ The features listed are the core functionality required to move from paper invoi
 - I plan to make good use of Bootstrap throughout the project and keep custom css styling to a minimum; this can be updated at a later time.
 - Bootstrap modals will be used for much of the new entries to the database (adding parts/labour/starting an invoice etc.)
 
+##### Forms
+- Crispy forms has been used with the Bootstrap 5 add on to style the forms. You can conveniently use the Layout function to add bootstrap classes and components. I added the floating fields component to each field.
+
 ### Security
 - Django comes with lots of safety features and I plan to use their forms feature where possible to protect the database. I will include my own validation where applicable.
 - There is a potential security risk to customer data, where they are following a link to access and pay their invoice. Although I can't see why anyone would want to gain access to the link and pay their bill, in the future customers should have a login, especially if their invoice history is added as a feature.
@@ -50,11 +53,11 @@ The features listed are the core functionality required to move from paper invoi
 
 ### Wireframes
 Desktop wireframes:
-![Desktop wireframes](/wages_calculator/static/images/wireframes/project3_desktop_wf.png)
+![Desktop wireframes](/)
 
 
 Mobile wireframes:
-![Mobile wireframes](/wages_calculator/static/images/wireframes/project3_mobile_wf.png)
+![Mobile wireframes](/)
 
 
 
@@ -91,6 +94,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 - There is a 4 column table in invoice_list.html and customer_list.html, this posed a problem for mobile. I got around this by condesing the information into one column for mobile and showing the full table for large screens and above.
 
 - I wanted to use Django choices field in a couple of the models and wanted to use the most up to date version of doing this. An article on [Stack Overflow](https://stackoverflow.com/questions/63418135/using-choices-in-a-field-in-django-models) gave me a few ways to go about it (new and old) and I went with the most recent way using built in Django feature IntegerChoices.
+
+- Using Django crispy forms to configure forms for both add and edit customer, I ran into the problem of needing a different 'action' url depending on whether I was adding or editing an entry. One solution was to create the 'form' html outside of the crispy tag. However, I wanted to retain control of the form in the back end, so I made a function which gave the add, or edit, url depending on whether an instance of the form was present when the form initialised.
 
 - 
 

@@ -35,5 +35,19 @@
 
 <!-- CONTENT  -->
 {% block dashboard_content %}
+
+    <!-- customer list table -->
+    <table class="table table-hover align-middle">
+        <tbody>
+            {% for customer in customer_list %}
+                <tr>
+                    <!-- mobile first column  -->
+                    <th scope="row"><a href="{% url 'customer_summary' slug=customer.slug  %}">{{ customer.name }}</a></th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
     {% crispy form %}
 {% endblock %}

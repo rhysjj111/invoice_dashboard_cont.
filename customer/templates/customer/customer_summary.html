@@ -1,5 +1,6 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css %}
 {{block.super}}
@@ -12,16 +13,18 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-truck"></i> <span>Add vehicle</span></a>
+    <a href="" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
+    <a href="" class="btn side-menu-link text-white"><i class="bi bi-truck"></i> <span>Add vehicle</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
+    <a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
 {% endblock side_menu_nav_items %}
 
+<!-- MAIN CONTENT  -->
 {% block dashboard_content %}
 
-    edit form
+    {% crispy form %}
 
 {% endblock %}
+
