@@ -6,15 +6,9 @@ from django.contrib import messages
 def customer_list(request):
     """A view to return customer list with possible filter"""
     customers = Customer.objects.filter(active=True)
-
-    # if request.GET:
-
-
     form = CustomerForm()
-
     previous_url = 'customer_list'
     delete_url = 'customer_list'
-
     template = 'customer/customer_list.html'
     context = {
         'customer_list': customers,
@@ -32,8 +26,8 @@ def customer_summary(request, slug):
     previous_url = 'customer_list'
     delete_url = 'customer_list'
     context = {
+        'instance': customer,
         'previous_url': 'customer_list',
-        'delete_url': delete_url,
         'form': form
     }
     return render(request, 'customer/customer_summary.html', context)
@@ -56,6 +50,13 @@ def edit_customer(request, slug):
         form.save()
         messages.success(request, 'Successfully edited {customer.friendly_name}!')
         return redirect(reverse('customer_summary', args=[customer.slug]))
+
+def delete_customer(request, slug):
+    customer = get_object_or_404(Customer, slug=slug)
+    customer.delete()
+    messages.success(request, 'Customer deleted')
+    return redirect(reverse('customer_list'))
+
         
 
 
