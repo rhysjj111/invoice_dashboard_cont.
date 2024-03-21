@@ -4,7 +4,7 @@
 
 {% block css %}
 {{block.super}}
-    <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
+<link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
 {% block page_title %}Customer name #{{invoice.invoice_number}}{% endblock %}
@@ -13,18 +13,19 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-    <a href="" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
-    <a href="" class="btn side-menu-link text-white"><i class="bi bi-truck"></i> <span>Add vehicle</span></a>
+<span class="text-secondary fst-italic">No actions</span>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-    <a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
+<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+        class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MAIN CONTENT  -->
 {% block dashboard_content %}
 
-    {% crispy form %}
+{% crispy form %}
 
 {% endblock %}
 

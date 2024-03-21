@@ -56,12 +56,13 @@ i{
 
 .side-menu-link{
     display: flex;
+    justify-content: end;
     align-items: center;
     justify-content: start;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     border:none;
-    margin-right: 40px;
+    margin-right: 0px;
     padding: 0;
 
 }
@@ -74,7 +75,7 @@ i{
 
 .side-menu-link > i{
     font-size: 25px;
-    margin-right: 2vw;
+    margin-right: 6px;
 }
 
 /* main content dashboard */
