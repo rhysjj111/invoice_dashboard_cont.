@@ -4,7 +4,7 @@ from .models import Customer
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Submit, Row, Column, ButtonHolder, Reset
-from crispy_forms.bootstrap import FormActions
+from crispy_forms.bootstrap import FormActions, Modal
 
 def add_or_edit_path(slug):
     if slug:
@@ -13,7 +13,18 @@ def add_or_edit_path(slug):
         path = reverse('add_customer')
     return path
 
-
+def add_or_edit_modal(instance, layout):
+    if instance:
+        layout
+    else:
+        layout = Modal(
+            layout,
+            css_id="customer_modal",
+            title="Add Customer",
+            css_class="modal-lg h-100 overflow-y-auto"
+        )
+    return  layout  
+        
 
 
 class CustomerForm(forms.ModelForm):
@@ -47,33 +58,37 @@ class CustomerForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug)
         self.helper.form_class = 'mb-4'
-        self.helper.layout = Layout(
-            Row(
-                Column(
-                    FloatingField(
-                        'name', 'friendly_name', 'email', 'contact_number_primary', 'type'
+
+        self.helper.layout = add_or_edit_modal(
+            self.instance.slug,
+            Layout(
+                Row(
+                    Column(
+                        FloatingField(
+                            'name', 'friendly_name', 'email', 'contact_number_primary', 'type'
+                        )
+                    ),
+                    Column(
+                        FloatingField(
+                            'address_line_1', 'address_line_2', 'city_region', 'postcode', 'payment_terms'
+                        ),
                     )
                 ),
-                Column(
-                    FloatingField(
-                        'address_line_1', 'address_line_2', 'city_region', 'postcode', 'payment_terms'
-                    ),
-                )
-            ),
-            Row(
-                Column(
-                    ButtonHolder(
-                        Reset(
-                            'reset-form',
-                            'Reset'
-                        ),
-                        Submit(
-                            'submit',
-                            'Add customer',
-                            css_class='ms-4'
-                        ),
-                        css_class='float-end'
+                Row(
+                    Column(
+                        ButtonHolder(
+                            Reset(
+                                'reset-form',
+                                'Reset'
+                            ),
+                            Submit(
+                                'submit',
+                                'Add customer',
+                                css_class='ms-4'
+                            ),
+                            css_class='float-end'
+                        )
                     )
                 )
-            )
-        )
+            ) 
+        )   
