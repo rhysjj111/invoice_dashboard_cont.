@@ -1,20 +1,21 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .models import Customer
-from .forms import CustomerForm
+from .models import Customer, Vehicle
+from .forms import CustomerForm, VehicleForm
 from django.contrib import messages
+import copy
 
 def customer_list(request):
     """A view to return customer list with possible filter"""
     customers = Customer.objects.filter(active=True)
-    form = CustomerForm()
+    customer_form = CustomerForm()
     previous_url = 'customer_list'
-    delete_url = 'customer_list'
+
+
     template = 'customer/customer_list.html'
     context = {
         'customer_list': customers,
-        'form': form,
+        'customer_form': customer_form,
         'previous_url': 'customer_list',
-        'delete_url': delete_url,
     }
     return render(request, template, context)
 
@@ -22,40 +23,74 @@ def customer_list(request):
 def customer_summary(request, slug):
     """A view to return a single-customer view"""
     customer = get_object_or_404(Customer, slug=slug)
-    form = CustomerForm(instance=customer)
+    customer_form = CustomerForm(instance=customer)
     previous_url = 'customer_list'
-    delete_url = 'customer_list'
+
+    vehicles = Vehicle.objects.filter(customer=customer.id)
+    edit_vehicle_form_list = [
+        VehicleForm(instance=vehicle) for vehicle in vehicles]    
+    add_vehicle_form = VehicleForm(initial={'customer': customer.id})
+
     context = {
         'instance': customer,
         'previous_url': 'customer_list',
-        'form': form
+        'add_vehicle_form': add_vehicle_form,
+        'edit_vehicle_form_list': edit_vehicle_form_list,
+        'customer_form': customer_form
     }
     return render(request, 'customer/customer_summary.html', context)
-    
 
+# ---------------------------------------------------- CRUD CUSTOMER 
 def add_customer(request):
     form = CustomerForm(request.POST, request.FILES)
     if form.is_valid():
         customer = form.save()
-        messages.success(request, 'Successfully added {customer.friendly_name}!')
+        messages.success(request, f'Successfully added {customer.name}')
         return redirect(reverse('customer_summary', args=[customer.slug]))
     else:
         messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
-        return redirect(reverse('customer_summary'+'#open_modal')) #maybe work?
+        return redirect(reverse('customer_list')) 
 
 def edit_customer(request, slug):
     customer = get_object_or_404(Customer, slug=slug)
     form = CustomerForm(request.POST, request.FILES, instance=customer)
     if form.is_valid():
         form.save()
-        messages.success(request, 'Successfully edited {customer.friendly_name}!')
+        messages.success(request, f'Successfully edited {customer.name}')
         return redirect(reverse('customer_summary', args=[customer.slug]))
+    else:
+        messages.error(request, 'Failed to edit customer. Please ensure the form is valid.')
+        return redirect(reverse('customer_list')) 
 
 def delete_customer(request, slug):
     customer = get_object_or_404(Customer, slug=slug)
     customer.delete()
-    messages.success(request, 'Customer deleted')
+    messages.success(request, f'Successfully deleted {customer.name}')
     return redirect(reverse('customer_list'))
+
+# --------------------------------------------------------CRUD VEHICLE
+def add_vehicle(request): 
+    form = VehicleForm(request.POST, request.FILES)
+    if form.is_valid():
+        vehicle = form.save()
+        customer = get_object_or_404(Customer, slug=vehicle.customer.slug)
+        messages.success(request, f'Successfully added {vehicle.registration}')
+        return redirect(reverse('customer_summary', args=[customer.slug]))
+    else:
+        messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
+        return redirect(reverse('customer_summary')) #REDIRECT TO MAIN SCREEN TO AVOID NOTIFICATION AND MODAL ISSUE
+
+def edit_vehicle(request): 
+    form = VehicleForm(request.POST, request.FILES)
+    if form.is_valid():
+        vehicle = form.save()
+        customer = CustomerForm(Customer, slug=vehicle.customer.slug)
+        messages.success(request, f'Successfully added {vehicle.registration}')
+        return redirect(reverse('customer_summary', args=[customer.slug]))
+    else:
+        messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
+        return redirect(reverse('customer_summary')) #REDIRECT TO MAIN SCREEN TO AVOID NOTIFICATION AND MODAL ISSUE
+
 
         
 

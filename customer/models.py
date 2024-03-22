@@ -45,7 +45,7 @@ class Customer(models.Model):
 
 class Vehicle(models.Model):
 
-    customer_id = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer, blank=False, null=False, on_delete=models.CASCADE)
     registration = models.CharField(max_length=10, null=False, blank=False)
     make = models.CharField(max_length=27, blank=True, null=True)

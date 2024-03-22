@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
-{% block page_title %}Customer name #{{invoice.invoice_number}}{% endblock %}
+{% block page_title %}{{instance.name}}{% endblock %}
 
-{% block page_heading %}Customer naem #{{invoice.invoice_number}}{% endblock %}
+{% block page_heading %}{{instance.name}}{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<span class="text-secondary fst-italic">No actions</span>
+<a href="" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link text-white"><i class="bi bi-truck"></i> <span>Add vehicle</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
@@ -25,7 +25,15 @@
 <!-- MAIN CONTENT  -->
 {% block dashboard_content %}
 
-{% crispy form %}
+{% crispy customer_form %}
+
+{% crispy add_vehicle_form %}
+
+{% for edit_vehicle_form in edit_vehicle_form_list %}
+
+        {% crispy edit_vehicle_form %}
+
+{% endfor %}
 
 {% endblock %}
 
