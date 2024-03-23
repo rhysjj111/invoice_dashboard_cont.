@@ -7,43 +7,55 @@
 <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
-{% block page_title %}{{instance.name}}{% endblock %}
+{% block page_title %}{{item.name}}{% endblock %}
 
-{% block page_heading %}{{instance.name}}{% endblock %}
+{% block page_heading %}{{item.name}}{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a href="" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link text-white"><i class="bi bi-truck"></i> <span>Add vehicle</span></a>
+<button type="button" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link text-white">
+        <i class="bi bi-truck"></i><span>Add vehicle</span></button>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
-<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
-        class="bi bi-box-arrow-right"></i><span>Customers</span></a>
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white">
+        <i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
+<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white">
+        <i class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MAIN CONTENT  -->
 {% block dashboard_content %}
 
-{% crispy customer_form %}
+        <!-- edit customer form  -->
+        {% crispy customer_form %}
 
-<hr>
+        <!-- delete customer confirmation modal  -->
+        {% with type='customer' delete_name='delete_customer' %}
+        {% include 'includes/modals/delete_item.html' %}
+        {% endwith %}
 
-<!-- FORMS -->
-<!-- add vehicle form (modal)  -->
-{% crispy add_vehicle_form %}
+        <!-- horizontal rule if customer has vehicles registered -->
+        {% if vehicles %}
+        <hr>
+        {% endif %}
 
-<!-- edit vehicle forms  -->
-{% for edit_vehicle_form in edit_vehicle_form_list %}
-        {% crispy edit_vehicle_form %}
-{% endfor %}
+        <!-- add vehicle form (modal)  -->
+        {% crispy add_vehicle_form %}
 
-delete confirmation forms
-{% with type="vehicle" delete_name='delete_vehicle'%}
-{% for item in vehicles %}
-{% include 'includes/modals/delete_item.html' %}
-{% endfor %}
-{% endwith %}
+        <!-- edit vehicle forms  -->
+        {% for edit_vehicle_form in edit_vehicle_form_list %}
+                {% crispy edit_vehicle_form %}
+        {% endfor %}
+
+        <!-- delete vehicle confirmation modals -->
+        {% with type="vehicle" delete_name='delete_vehicle'%}
+        {% for item in vehicles %}
+                {% include 'includes/modals/delete_item.html' %}
+        {% endfor %}
+        {% endwith %}
+
+
 
 {% endblock %}
 

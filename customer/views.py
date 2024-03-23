@@ -32,7 +32,7 @@ def customer_summary(request, slug):
     add_vehicle_form = VehicleForm(initial={'customer': customer.id})
 
     context = {
-        'instance': customer,
+        'item': customer,
         'previous_url': 'customer_list',
         'add_vehicle_form': add_vehicle_form,
         'edit_vehicle_form_list': edit_vehicle_form_list,

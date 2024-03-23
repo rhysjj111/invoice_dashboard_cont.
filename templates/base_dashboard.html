@@ -71,7 +71,7 @@
                 <div class="col d-flex align-items-center justify-content-center heading-container">
                   
                   <!-- back button  -->
-                  {% if instance %}
+                  {% if item %}
                     <a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-3 me-lg-4 align-middle"></i></a>
                   {% endif %}
                   
@@ -79,10 +79,11 @@
                   <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
 
                   <!-- trash button  -->
-                  {% if instance %}
-                    <a href="{% url 'delete_customer' instance.slug %}" class="btn btn-danger p-2 ms-3 ms-lg-4 rounded-4 d-flex justify-content-center">
-                      <i class="bi-trash icon text-light fs-3 align-middle"></i>
-                    </a>
+                  {% if item %}
+                    <button type="button" data-bs-toggle="modal" data-bs-target=
+                      "#delete-{{item.slug}}-modal" class="btn btn-danger p-2 ms-3 ms-lg-4 rounded-4 d-flex 
+                      justify-content-center"><i class="bi-trash icon text-light fs-3 align-middle"></i>
+                    </button>
                   {% endif %}
                 </div>
             </div>
