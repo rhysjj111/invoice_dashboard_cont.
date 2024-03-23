@@ -29,14 +29,16 @@
 
 <hr>
 
+<!-- FORMS -->
+<!-- add vehicle form (modal)  -->
 {% crispy add_vehicle_form %}
 
+<!-- edit vehicle forms  -->
 {% for edit_vehicle_form in edit_vehicle_form_list %}
-
         {% crispy edit_vehicle_form %}
-
 {% endfor %}
 
+delete confirmation forms
 {% with type="vehicle" delete_name='delete_vehicle'%}
 {% for item in vehicles %}
 {% include 'includes/modals/delete_item.html' %}
