@@ -134,18 +134,14 @@ td > a{
 }
 
 .mobile-menu-button{
-    border-radius: 50%;
-
     min-height: 3rem;
     min-width: 3rem;
-
 }
 
-.mobile-menu-button:active,
-.mobile-menu-button:focus,
-.mobile-menu-button:hover{
-    background-color: #FF7F11;
-    border: #FF7F11 solid 1px;
+.mobile-menu-button:active{
+    background-color: #FF7F11!important;
+    border-color: #FF7F11!important;
+    box-shadow: 0 0 5px #FF7F11 !important;
 }
 
 .mobile-menu-button i{
