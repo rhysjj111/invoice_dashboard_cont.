@@ -1,0 +1,17 @@
+<div class="modal fade" id="delete-{{item.slug}}-modal" tabindex="-1" aria-labelledby="delete-{{item.slug}}-modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure you want to delete {{item}}?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{type|title}}s with no invoice data will be permanently deleted. Otherwise {{type|title}}s will be hidden and recovered by admin.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url delete_name item.slug %}" type="button" class="btn btn-outline-danger">Permanently delete</a>
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

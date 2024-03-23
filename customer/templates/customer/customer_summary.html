@@ -27,6 +27,8 @@
 
 {% crispy customer_form %}
 
+<hr>
+
 {% crispy add_vehicle_form %}
 
 {% for edit_vehicle_form in edit_vehicle_form_list %}
@@ -34,6 +36,12 @@
         {% crispy edit_vehicle_form %}
 
 {% endfor %}
+
+{% with type="vehicle" delete_name='delete_vehicle'%}
+{% for item in vehicles %}
+{% include 'includes/modals/delete_item.html' %}
+{% endfor %}
+{% endwith %}
 
 {% endblock %}
 

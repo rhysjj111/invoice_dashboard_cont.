@@ -9,5 +9,5 @@ urlpatterns = [
     path('delete/<slug:slug>', views.delete_customer, name='delete_customer'),
     path('add_vehicle', views.add_vehicle, name='add_vehicle'),
     path('edit_vehicle/<slug:slug>', views.edit_vehicle, name='edit_vehicle'),
-    # path('delete_vehicle/<slug:redirect_slug>/<slug:slug>', views.delete_vehicle, name='delete_vehicle'),
+    path('delete_vehicle/<slug:slug>', views.delete_vehicle, name='delete_vehicle'),
 ]

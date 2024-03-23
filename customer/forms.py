@@ -3,15 +3,21 @@ from django.shortcuts import reverse
 from .models import Customer, Vehicle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset, Field, ButtonHolder, HTML
-from crispy_forms.bootstrap import Modal
+from crispy_forms.bootstrap import Modal, PrependedText
 from crispy_bootstrap5.bootstrap5 import FloatingField
 
 def add_or_edit_button(slug):
     if slug:
-        button_text = ('Edit')
+        text = 'Edit'
     else:
-        button_text = ('Add')
-    return button_text
+        text = 'Add'
+    return text
+
+def add_or_edit_trash(slug):
+    if slug:
+        return HTML('<button type="button" data-bs-toggle="modal" data-bs-target='
+                    f'"#delete-{slug}-modal" class="btn btn-light p-2 rounded-4">'
+                    '<i class="bi-trash icon text-danger fs-3 align-middle"></i></button>')
 
 def add_or_edit_path(slug, type):
     if slug:
@@ -19,19 +25,6 @@ def add_or_edit_path(slug, type):
     else:
         path = reverse('add_'+type)
     return path
-
-
-# def add_or_edit_path(instance, type):
-#     if instance.slug:
-
-#         path = reverse('edit_'+type, args=[instance.slug, instance.customer.slug])
-
-#     else:
-#         if isinstance(instance, Vehicle):
-#             path = reverse('add_vehicle', args=[instance.customer.slug])
-#         else:
-#             path = reverse('add_customer')
-#     return path
 
 def add_or_edit_modal(slug, type, layout):
     if slug:
@@ -77,7 +70,7 @@ class CustomerForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug, 'customer')
-        self.helper.form_class = 'mb-4'
+        self.helper.form_class = 'mb-3'
         self.helper.layout = add_or_edit_modal(
             self.instance.slug,
             'customer',
@@ -92,7 +85,7 @@ class CustomerForm(forms.ModelForm):
                         FloatingField(
                             'address_line_1', 'address_line_2', 'city_region', 'postcode', 'payment_terms'
                         ),
-                    )
+                    ),
                 ),
                 Row(
                     Column(
@@ -105,8 +98,7 @@ class CustomerForm(forms.ModelForm):
                                 'submit',
                                 add_or_edit_button(self.instance.slug),
                                 css_class='ms-2'
-                            ),
-                            css_class='float-end'
+                            ),css_class='float-end',
                         )
                     )
                 )
@@ -126,23 +118,24 @@ class VehicleForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug, 'vehicle')
-        self.helper.form_class = 'mb-4'
+        self.helper.form_class = 'mb-3'
         self.helper.layout = add_or_edit_modal(
             self.instance.slug,
             'vehicle',
             Layout(
-                HTML('<hr>'),
-                Row(Field('customer', type="hidden"), css_class='mb-3'),
+                Row(
+                    Field('customer', type="hidden"), css_class='mb-3'
+                ),
                 Row(
                     Column(
                         FloatingField(
                             'registration'
-                        )
+                        ) 
                     ),
                     Column(
                         FloatingField(
                             'make'
-                        )
+                        ) 
                     ),
                     Column(
                         FloatingField(
@@ -151,18 +144,15 @@ class VehicleForm(forms.ModelForm):
                     ),
                     Column(
                         ButtonHolder(
-                            Reset(
-                                'reset-form',
-                                'Reset'
-                            ),
+                            add_or_edit_trash(self.instance.slug),
                             Submit(
                                 'submit',
                                 add_or_edit_button(self.instance.slug),
-                                css_class='ms-3'
+                                css_class='ms-2'                         
                             ),
-                            css_class='float-end'
+                            css_class='float-end'  
                         )
-                    )                    
+                    ), css_class='d-flex align-items-center'                  
                 )
             ) 
         )   

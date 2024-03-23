@@ -97,6 +97,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - Using Django crispy forms to configure forms for both add and edit customer, I ran into the problem of needing a different 'action' url depending on whether I was adding or editing an entry. One solution was to create the 'form' html outside of the crispy tag. However, I wanted to retain control of the form in the back end, so I made a function which gave the add, or edit, url depending on whether an instance of the form was present when the form initialised.
 
+- I needed to hide the customer foreign key and pre-populate it when adding a vehicle, based on which customer summary the user was on. I found a helpful article on [Stack Overflow](https://stackoverflow.com/questions/1882616/pass-an-initial-value-to-a-django-form-field) which showed me how to use django's initial keyword. [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/layouts.html) gave me a way to hide the field using their Layout functionality.
+
 - 
 
 #### JS
@@ -136,3 +138,4 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 - I got the idea of using slugs for easier to understand URLs from a tutorial on how to build an invoice platform, on [Youtube](https://www.youtube.com/watch?v=KU_taqbG00U&t=8159s).
 - I used the walkthrough for Boutique Ado for many things in the project. Maybe most notably was to help with the invoice model, using a function and signal to calculate the grand total depending on whether parts or labour are edited in the database.
 - An article by [geeksforgeeks](https://www.geeksforgeeks.org/how-to-perform-a-real-time-search-and-filter-on-a-html-table/) gave me the jQuery needed to filter a list of values while the user types. I coupled this code with an article from [Stack Overflow](https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table) which gave a function to 'debounce' which gives a delay of typing, which is much better user experience than using built in time delay function.
+- I used the [Django Crispy forms](https://crispy-forms-foundation.readthedocs.io/en/latest/index.html) documentation a lot when constructing forms.

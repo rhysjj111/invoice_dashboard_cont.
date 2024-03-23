@@ -36,6 +36,7 @@ def customer_summary(request, slug):
         'previous_url': 'customer_list',
         'add_vehicle_form': add_vehicle_form,
         'edit_vehicle_form_list': edit_vehicle_form_list,
+        'vehicles': vehicles,
         'customer_form': customer_form
     }
     return render(request, 'customer/customer_summary.html', context)
@@ -73,23 +74,28 @@ def add_vehicle(request):
     form = VehicleForm(request.POST, request.FILES)
     if form.is_valid():
         vehicle = form.save()
-        customer = get_object_or_404(Customer, slug=vehicle.customer.slug)
         messages.success(request, f'Successfully added {vehicle.registration}')
-        return redirect(reverse('customer_summary', args=[customer.slug]))
+        return redirect(reverse('customer_summary', args=[vehicle.customer.slug]))
     else:
         messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
         return redirect(reverse('customer_summary')) #REDIRECT TO MAIN SCREEN TO AVOID NOTIFICATION AND MODAL ISSUE
 
-def edit_vehicle(request): 
-    form = VehicleForm(request.POST, request.FILES)
+def edit_vehicle(request, slug):
+    vehicle = get_object_or_404(Vehicle, slug=slug)
+    form = VehicleForm(request.POST, request.FILES, instance=vehicle)
     if form.is_valid():
-        vehicle = form.save()
-        customer = CustomerForm(Customer, slug=vehicle.customer.slug)
-        messages.success(request, f'Successfully added {vehicle.registration}')
-        return redirect(reverse('customer_summary', args=[customer.slug]))
+        form.save()
+        messages.success(request, f'Successfully edited {vehicle.registration}')
+        return redirect(reverse('customer_summary', args=[vehicle.customer.slug]))
     else:
         messages.error(request, 'Failed to add customer. Please ensure the form is valid.')
         return redirect(reverse('customer_summary')) #REDIRECT TO MAIN SCREEN TO AVOID NOTIFICATION AND MODAL ISSUE
+
+def delete_vehicle(request, slug):
+    vehicle = get_object_or_404(Vehicle, slug=slug)
+    vehicle.delete()
+    messages.success(request, f'Successfully deleted {vehicle.registration}')
+    return redirect(reverse('customer_summary', args=[vehicle.customer.slug]))
 
 
         
