@@ -46,14 +46,6 @@ i{
 }
 
 
-
-.mobile-menu * {
-    color:#03120E;    
-}
-.mobile-menu *:target {
-    color:#FF7F11;    
-}
-
 .side-menu-link{
     display: flex;
     justify-content: end;
@@ -133,6 +125,10 @@ td > a{
     right: 15px;
 }
 
+.mobile-menu{
+    padding:20px;
+    min-width: 200px;
+}
 .mobile-menu-button{
     min-height: 3rem;
     min-width: 3rem;
@@ -148,5 +144,26 @@ td > a{
     font-weight: 800;
     color: white;
     font-size: 25px;
+}
+
+/* dropup menu  */
+.dropdown-item{
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+}
+.dropdown-item:active{
+    background-color: white!important;
+}
+
+.mobile-side-menu-link span{
+    margin-left:5px
+}
+
+.mobile-menu * {
+    color:#FF7F11;    
+}
+.mobile-menu *:target {
+    color:#FF7F11;    
 }
 
