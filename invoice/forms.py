@@ -49,7 +49,6 @@ class CustomSelectWidget(Select):
             instance = self.choices.queryset.get(pk=value.value)
             option_fk = instance.customer.id
             if option_fk:
-                print(dir(value))
                 option['attrs']['class'] = option_fk
         except:
             option['attrs']['class'] = 'no_customer'
