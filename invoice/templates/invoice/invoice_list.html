@@ -1,5 +1,6 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -18,6 +19,16 @@
 {% block side_menu_nav_items %}
     <a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>     
 {% endblock side_menu_nav_items %}
+ 
+<!-- MOBILE MENU ITEMS  -->
+{% block mobile_menu_action_items %}
+    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
+    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+{% endblock mobile_menu_action_items %}
+
+{% block mobile_menu_nav_items %}
+    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+{% endblock mobile_menu_nav_items %}
 
 
 <!-- FILTER AND SEARCH BAR -->
@@ -49,6 +60,16 @@
 
 <!-- CONTENT -->
 {% block dashboard_content %}
+{% crispy create_invoice_form %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
     <table class="table table-hover align-middle">
         <tbody>
             <tr>

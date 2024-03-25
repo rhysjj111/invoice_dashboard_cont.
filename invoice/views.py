@@ -1,12 +1,11 @@
 from django.shortcuts import render
+from .forms import InitiateInvoice
 
 def invoice_list(request):
     """A view to return main invoice view"""
-    previous_url = 'invoice_list'
-    delete_url = 'invoice_list'
+    create_invoice_form = InitiateInvoice()
     context = {
-        'previous_url': 'invoice_list',
-        'delete_url': delete_url,
+        'create_invoice_form': create_invoice_form
     }
     return render(request, 'invoice/invoice_list.html', context)
 

@@ -4,10 +4,14 @@
         <i class="bi bi-plus-square"></i>
     </button>
     <ul class="dropdown-menu mobile-menu">
+        {% block mobile_menu_action_items %}
         <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
         <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+        {% endblock mobile_menu_action_items %}
         <br>
         <li><hr class="dropdown-divider"></li>
+        {% block mobile_menu_nav_items %}
         <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+        {% endblock mobile_menu_nav_items %}
     </ul>
 </div>

@@ -99,6 +99,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - I needed to hide the customer foreign key and pre-populate it when adding a vehicle, based on which customer summary the user was on. I found a helpful article on [Stack Overflow](https://stackoverflow.com/questions/1882616/pass-an-initial-value-to-a-django-form-field) which showed me how to use django's initial keyword. [Django Crispy Forms](https://django-crispy-forms.readthedocs.io/en/latest/layouts.html) gave me a way to hide the field using their Layout functionality.
 
+- I needed to somehow display only the vehicles which are linked up to a customer when the user is creating an invoice. I could see two options: 1. select customer first and then produce another form with the filtered vehicles at the backend; 2. only show vehicles that correspond to the selected customer using Javascript. I chose to go with the Javascript option and so my next question was how to label each option class with the corresponding customer primary key. This wasn't very easy and after much googling, I knew I had to create a custom select widget and change each option class from there but couldn't figure out how to configure it exactly to my problem. [ChatGPT](https://chat.openai.com/) proved to be very useful as it could similate the conditions I needed and gave me a template to use to create a class with the value of the corresponding customer primary key for each vehicle option. From there I could manipulate the list using JS.
+
 - 
 
 #### JS
