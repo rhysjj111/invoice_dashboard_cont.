@@ -13,7 +13,7 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-    <a href="" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+    <a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
@@ -22,8 +22,7 @@
  
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+    <li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}

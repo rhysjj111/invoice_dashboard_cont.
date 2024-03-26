@@ -35,6 +35,7 @@ function updateVehicles() {
     let selectedCustomer = document.getElementById('id_customer').value;
     let vehicleOptions = document.querySelectorAll('#id_vehicle option');
 
+    // reset vehicle options 
     document.getElementById('id_vehicle').innerHTML = originalVehicleOptions
     vehicleOptions = document.querySelectorAll('#id_vehicle option');
     vehicleOptions.forEach(function(option) {

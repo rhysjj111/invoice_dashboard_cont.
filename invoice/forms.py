@@ -37,7 +37,7 @@ def add_or_edit_modal(slug, type, layout):
             title="Add "+type.capitalize(),
             css_class="modal-lg h-100 overflow-y-auto"
         )
-    return  layout  
+    return  layout
       
 
 class CustomSelectWidget(Select):
@@ -70,18 +70,22 @@ class InitiateInvoice(forms.ModelForm):
 
         self.helper = FormHelper()
         self.helper.form_class = 'mb-3'
-        self.helper.layout = Layout(
-            Row(
-                Column(
-                    FloatingField(
-                        'customer', 'vehicle'
-                    )
-                ),
-                Column(
-                    FloatingField(
-                        'date_in', 'mileage'
+        self.helper.layout = add_or_edit_modal(
+            self.instance.slug,
+            'invoice',
+            Layout(
+                Row(
+                    Column(
+                        FloatingField(
+                            'customer', 'vehicle'
+                        )
                     ),
-                ),
+                    Column(
+                        FloatingField(
+                            'date_in', 'mileage'
+                        ),
+                    ),
+                )
             )
         )   
 
