@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.widgets import Select
+from django.forms.widgets import Select, DateInput
 from django.shortcuts import reverse
 from .models import Invoice, Part, Labour, Customer, Vehicle
 from crispy_forms.helper import FormHelper
@@ -11,7 +11,7 @@ def add_or_edit_button(slug):
     if slug:
         text = 'Edit'
     else:
-        text = 'Add'
+        text = 'Create'
     return text
 
 def add_or_edit_trash(slug):
@@ -24,7 +24,7 @@ def add_or_edit_path(slug, type):
     if slug:
         path = reverse('edit_'+type, args=[slug])
     else:
-        path = reverse('add_'+type)
+        path = reverse('create_'+type)
     return path
 
 def add_or_edit_modal(slug, type, layout):
@@ -55,10 +55,13 @@ class CustomSelectWidget(Select):
         return option
 
 
-class InitiateInvoice(forms.ModelForm):
+class InvoiceForm(forms.ModelForm):
 
     vehicle = forms.ModelChoiceField(
         queryset=Vehicle.objects.all(), widget=CustomSelectWidget)
+    
+    date_in = forms.DateField(
+        label="From Date", widget=DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model  = Invoice
@@ -69,6 +72,7 @@ class InitiateInvoice(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         self.helper = FormHelper()
+        self.helper.form_action = add_or_edit_path(self.instance.slug, 'invoice')
         self.helper.form_class = 'mb-3'
         self.helper.layout = add_or_edit_modal(
             self.instance.slug,
@@ -77,14 +81,25 @@ class InitiateInvoice(forms.ModelForm):
                 Row(
                     Column(
                         FloatingField(
-                            'customer', 'vehicle'
+                            'customer', 'date_in'
                         )
                     ),
                     Column(
                         FloatingField(
-                            'date_in', 'mileage'
+                            'vehicle', 'mileage'
                         ),
                     ),
+                ),
+                Row(
+                    Column(
+                        ButtonHolder(
+                            Submit(
+                                'submit',
+                                add_or_edit_button(self.instance.slug),
+                                css_class='ms-2'
+                            ),css_class='float-end',
+                        )
+                    )
                 )
             )
         )   

@@ -71,22 +71,24 @@
 <br>
     <table class="table table-hover align-middle">
         <tbody>
+            {% for invoice in invoices %}
             <tr>
                 <!-- mobile first column  -->
-                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
+                <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
                 <!-- desktop columns  -->
-                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Registration</a></th>
-                <td class="d-none d-lg-table-cell"><a href="{% url 'index' %}">Customer</a></td>
+                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'invoice' invoice.slug %}">{{invoice.vehicle.registration}}</a></th>
+                <td class="d-none d-lg-table-cell">{{invoice.customer.name}}</td>
                 <!-- column on all devices -->
                 <td>
                     <select class="form-select" aria-label="Default select example">
                         <option selected></option>
-                        <option value="1">One</option>
+                        <option value="1"></option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                     </select>
                 </td>
             </tr>
+            {% endfor %}
 
             <tr class="table-primary">
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>

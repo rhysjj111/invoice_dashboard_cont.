@@ -2,14 +2,12 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import Customer, Vehicle
 from .forms import CustomerForm, VehicleForm
 from django.contrib import messages
-import copy
 
 def customer_list(request):
     """A view to return customer list with possible filter"""
     customers = Customer.objects.filter(active=True)
     customer_form = CustomerForm()
     previous_url = 'customer_list'
-
 
     template = 'customer/customer_list.html'
     context = {

@@ -45,7 +45,7 @@ class Invoice(models.Model):
         elif cust and veh:
             str = f'{cust} - {veh}'
         else: 
-            str = 'Blank invoice'
+            str = f'Blank invoice {self.pk}'
         return str
 
     def update_total(self):
@@ -69,20 +69,21 @@ class Invoice(models.Model):
             self.date_in = timezone.localtime(timezone.now())
 
         # Set active to True or False and create invoice number depending on invoice status.
-        if self.status >= 5:
-            self.active = False
-            if self.status == 6 and self.inv_number is not None:
-                try:
-                    latest = Invoice.objects.latest('inv_integer')
-                except ObjectDoesNotExist:
-                    self.inv_integer = 1
-                else:
-                    self.inv_integer = latest + 1
-                self.inv_number = f'INV_#{self.inv_integer}'
-        else:
-            self.active = True  
+        if self.status:
+            if self.status >= 5:
+                self.active = False
+                if self.status == 6 and self.inv_number is not None:
+                    try:
+                        latest = Invoice.objects.latest('inv_integer')
+                    except ObjectDoesNotExist:
+                        self.inv_integer = 1
+                    else:
+                        self.inv_integer = latest + 1
+                    self.inv_number = f'INV_#{self.inv_integer}'
+            else:
+                self.active = True  
             
-        self.slug = slugify(f'{self.name}')
+        self.slug = slugify(f'{self}')
         super().save(*args, **kwargs)
 
 
