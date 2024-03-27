@@ -71,6 +71,9 @@ class InvoiceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        for field_name, field in self.fields.items():
+            field.required = False
+            
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug, 'invoice')
         self.helper.form_class = 'mb-3'

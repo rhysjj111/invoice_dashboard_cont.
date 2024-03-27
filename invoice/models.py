@@ -9,20 +9,22 @@ from django.utils import timezone
 class Invoice(models.Model):
 
     class InvoiceStatus(models.IntegerChoices):
-        OPEN = 1, 'Open'
-        READY_FOR_PROCESSING = 2, 'Ready for processing'
-        READY_FOR_VERIFICATION = 3, 'Ready for verification'
-        SENT_TO_CUSTOMER = 4, 'Sent to customer'
-        WORK_ON_HOLD = 5, 'Work on hold'
+        WORK_ON_HOLD = 1, 'Work on hold'
+        OPEN = 2, 'Open'
+        READY_FOR_PROCESSING = 3, 'Ready for processing'
+        READY_FOR_VERIFICATION = 4, 'Ready for verification'
+        SENT_TO_CUSTOMER = 5, 'Sent to customer'
         COMPLETE = 6, 'Complete'
 
     inv_number = models.CharField(
         max_length=10, null=True, editable=False)
     inv_integer = models.PositiveIntegerField(null=True, editable=False)
     customer = models.ForeignKey(
-        Customer, on_delete=models.PROTECT, related_name='invoices')
+        Customer, on_delete=models.PROTECT, related_name='invoices', 
+        blank=True, null=True)
     vehicle = models.ForeignKey(
-        Vehicle, on_delete=models.PROTECT, related_name='invoices')
+        Vehicle, on_delete=models.PROTECT, related_name='invoices', 
+        blank=True, null=True)
     date_in = models.DateTimeField(blank=True, null=True)
     mileage = models.PositiveIntegerField(blank=True, null=True)
     status = models.PositiveSmallIntegerField(
@@ -36,17 +38,15 @@ class Invoice(models.Model):
     slug = models.SlugField(max_length=100, unique=True, blank=False, null=False)    
 
     def __str__(self):
-        cust = self.customer.friendly_name
-        veh = self.vehicle.registration
-        inv_int = self.inv_integer
-        inv_num = self.inv_number
-        if inv_int is not None:
-            str = f'{inv_num} - {cust} - {veh}'
-        elif cust and veh:
-            str = f'{cust} - {veh}'
-        else: 
-            str = f'Blank invoice {self.pk}'
-        return str
+        if self.inv_integer :
+            result = f'{self.inv_number} - {self.customer} - {self.vehicle}'
+        elif self.customer and self.vehicle:
+            result = f'{self.customer} - {self.vehicle}'
+        elif self.customer or self.vehicle:
+            result = f'{self.customer or self.vehicle}'
+        else:
+            result = f'Blank invoice {self.id}'
+        return result
 
     def update_total(self):
         #update grand_total each time a part or labour entry is updated.
