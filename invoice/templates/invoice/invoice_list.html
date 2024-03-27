@@ -76,7 +76,7 @@
                 <!-- mobile first column  -->
                 <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
                 <!-- desktop columns  -->
-                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'invoice' invoice.slug %}">{{invoice.vehicle.registration}}</a></th>
+                <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'invoice' invoice.slug %}">{{invoice.vehicle.registration}}{{invoice.status.display}}</a></th>
                 <td class="d-none d-lg-table-cell">{{invoice.customer.name}}</td>
                 <!-- column on all devices -->
                 <td>

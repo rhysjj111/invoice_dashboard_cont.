@@ -9,12 +9,12 @@ from django.utils import timezone
 class Invoice(models.Model):
 
     class InvoiceStatus(models.IntegerChoices):
-        OPEN = '1', 'Open'
-        READY_FOR_PROCESSING = '2', 'Ready for processing'
-        READY_FOR_VERIFICATION = '3', 'Ready for verification'
-        SENT_TO_CUSTOMER = '4', 'Sent to customer'
-        WORK_ON_HOLD = '5', 'Work on hold'
-        COMPLETE = '6', 'Complete'
+        OPEN = 1, 'Open'
+        READY_FOR_PROCESSING = 2, 'Ready for processing'
+        READY_FOR_VERIFICATION = 3, 'Ready for verification'
+        SENT_TO_CUSTOMER = 4, 'Sent to customer'
+        WORK_ON_HOLD = 5, 'Work on hold'
+        COMPLETE = 6, 'Complete'
 
     inv_number = models.CharField(
         max_length=10, null=True, editable=False)

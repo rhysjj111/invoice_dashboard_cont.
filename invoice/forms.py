@@ -65,7 +65,7 @@ class InvoiceForm(forms.ModelForm):
 
     class Meta:
         model  = Invoice
-        fields = ('customer', 'vehicle', 'date_in', 'mileage')
+        fields = ('customer', 'vehicle', 'date_in', 'mileage','status')
         
 
     def __init__(self, *args, **kwargs):
@@ -78,6 +78,9 @@ class InvoiceForm(forms.ModelForm):
             self.instance.slug,
             'invoice',
             Layout(
+                Row(
+                    Field('status', type="hidden"), css_class='mb-3'
+                ),
                 Row(
                     Column(
                         FloatingField(

@@ -6,16 +6,16 @@ class Customer(models.Model):
     
 
     class CustomerType(models.IntegerChoices):
-        TRADE = '1', 'Trade'
-        PRIVATE = '2', 'Private'
+        TRADE = 1, 'Trade'
+        PRIVATE = 2, 'Private'
 
 
     class PaymentTerms(models.IntegerChoices):
-        PIA = '1', 'Payment in advance'
-        NET_7 = '2', '7 days'
-        NET_14 = '3', '14 days'
-        NET_30 = '4', '30 days'
-        NET_60 = '5', '60 days'
+        PIA = 1, 'Payment in advance'
+        NET_7 = 2, '7 days'
+        NET_14 = 3, '14 days'
+        NET_30 = 4, '30 days'
+        NET_60 = 5, '60 days'
 
 
     name = models.CharField(max_length=20, blank=False, null=False)

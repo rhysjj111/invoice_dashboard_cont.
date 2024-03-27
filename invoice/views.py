@@ -5,7 +5,7 @@ from django.contrib import messages
 
 def invoice_list(request):
     """A view to return main invoice view"""
-    create_invoice_form = InvoiceForm()
+    create_invoice_form = InvoiceForm(initial={'status': 1})
     invoices = Invoice.objects.all()
     context = {
         'create_invoice_form': create_invoice_form,
@@ -24,7 +24,7 @@ def create_invoice(request):
         return redirect(reverse('invoice_list')) 
 
 
-def invoice_summary(request):
+def invoice_summary(request, slug):
     """A view to return a single-invoice view"""
     previous_url = 'invoice_list'
     delete_url = 'invoice_list'
