@@ -3,7 +3,7 @@
 
 {% block css %}
 {{block.super}}
-    <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
+<link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
 {% block page_title %}Invoice #{{invoice.invoice_number}}{% endblock %}
@@ -18,141 +18,142 @@
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>     
+<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i
+            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
 
 {% block dashboard_content %}
 
-    <div class="invoice-container">
-        <div class="mb-4">
-            <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseInvoiceDetails" aria-expanded="false" aria-controls="collapseInvoiceDetails">
-                <h4>Invoice details</h4>
-            </button>
-            <div class="collapse" id="collapseInvoiceDetails">
-                <div class="card p-lg-5 card-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-10 p-0">
-                                <p>
-                                    Customer name: David Jones<br>
-                                    Vehicle: YK15 GFE<br>
-                                    Mileage: 31000<br>
-                                    Date in: 31/01/2023
-                                </p>
-                            </div>
-                            <div class="col-2 p-0 d-flex justify-content-end">
-                                <p class=" m-0"><i class="bi bi-pencil-square "></i></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-4">
-            <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
-                <h4>Parts</h4>
-            </button>
-            <div class="collapse" id="collapsePartsDetails">
-                <div class="card card-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-10 p-0 d-flex align-items-center">
-                                <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapsePart_X_Specifics" aria-expanded="false"
-                                    aria-controls="collapsePart_X_Specifics">
-                                    <!-- replace X with {{item.id}} -->
-                                    <h5 class="d-inline align-middle h-100">Oil filter</h5>
-                                </a>
-                            </div>
-                            <div class="col-2 p-0 d-flex justify-content-end"><i class="bi bi-pencil-square "></i></div>
-                        </div>
-                    </div>
-
-                    <div class="collapse" id="collapsePart_X_Specifics">
-                        <div class="card card-body item-specifics-container">
+<div class="invoice-container">
+    <div class="mb-4">
+        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseInvoiceDetails" aria-expanded="false" aria-controls="collapseInvoiceDetails">
+            <h4>Invoice details</h4>
+        </button>
+        <div class="collapse" id="collapseInvoiceDetails">
+            <div class="card p-lg-5 card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-10 p-0">
                             <p>
-                                Cost: part.cost<br>
-                                Price: part.cost<br>
-                                Qty: part.quantity<br>
+                                Customer name: David Jones<br>
+                                Vehicle: YK15 GFE<br>
+                                Mileage: 31000<br>
+                                Date in: 31/01/2023
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-4">
-            <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
-                <h4>Labour</h4>
-            </button>
-            <div class="collapse" id="collapseLabourDetails">
-                <div class="card card-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-10 p-0 d-flex align-items-center">
-                                <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseLabour_X_Specifics" aria-expanded="false"
-                                    aria-controls="collapseLabour_X_Specifics">
-                                    <!-- replace X with {{item.id}} -->
-                                    <h5>Replace LH l asdfasbar link</h5>
-                                </a>
-                            </div>
-                            <div class="col-2 p-0 d-flex justify-content-end"><i class="bi bi-pencil-square"></i></div>
-                        </div>
-                    </div>
-
-                    <div class="collapse" id="collapseLabour_X_Specifics">
-                        <div class="card card-body item-specifics-container">
-                            <p>
-                                Hours: labour.cost<br>
-                                Price: labour.price * hours<br>
-                                Description: dasdfsadfasdfsa dfasdfasdfsadfsadfsadfasdfsadfsadfasdf sadfsadfsadfsadf<br>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-5 offset-lg-7 ">
-                <p>
-                    <button class="btn btn-outline-dark invoice-summary-button w-100" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapseTotalsDetails" aria-expanded="false"
-                        aria-controls="collapseTotalsDetails">
-                        <h4>Totals</h4>
-                    </button>
-                </p>
-                <div>
-                    <div class="collapse collapse-horizontal" id="collapseTotalsDetails">
-                        <div class="card card-body">
-                            <p>
-                                Parts: parts.subtotal<br>
-                                Labour: labour.subtotal<br>
-                                Subtotal: x <br>
-                                VAT: 20 %<br>
-                                Total: x
-                            </p>
+                        <div class="col-2 p-0 d-flex justify-content-end">
+                            <p class=" m-0"><i class="bi bi-pencil-square "></i></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="mb-4">
+        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
+            <h4>Parts</h4>
+        </button>
+        <div class="collapse" id="collapsePartsDetails">
+            <div class="card card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-10 p-0 d-flex align-items-center">
+                            <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePart_X_Specifics" aria-expanded="false"
+                                aria-controls="collapsePart_X_Specifics">
+                                <!-- replace X with {{item.id}} -->
+                                <h5 class="d-inline align-middle h-100">Oil filter</h5>
+                            </a>
+                        </div>
+                        <div class="col-2 p-0 d-flex justify-content-end"><i class="bi bi-pencil-square "></i></div>
+                    </div>
+                </div>
+
+                <div class="collapse" id="collapsePart_X_Specifics">
+                    <div class="card card-body item-specifics-container">
+                        <p>
+                            Cost: part.cost<br>
+                            Price: part.cost<br>
+                            Qty: part.quantity<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
+            <h4>Labour</h4>
+        </button>
+        <div class="collapse" id="collapseLabourDetails">
+            <div class="card card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-10 p-0 d-flex align-items-center">
+                            <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLabour_X_Specifics" aria-expanded="false"
+                                aria-controls="collapseLabour_X_Specifics">
+                                <!-- replace X with {{item.id}} -->
+                                <h5>Replace LH l asdfasbar link</h5>
+                            </a>
+                        </div>
+                        <div class="col-2 p-0 d-flex justify-content-end"><i class="bi bi-pencil-square"></i></div>
+                    </div>
+                </div>
+
+                <div class="collapse" id="collapseLabour_X_Specifics">
+                    <div class="card card-body item-specifics-container">
+                        <p>
+                            Hours: labour.cost<br>
+                            Price: labour.price * hours<br>
+                            Description: dasdfsadfasdfsa dfasdfasdfsadfsadfsadfasdfsadfsadfasdf sadfsadfsadfsadf<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-5 offset-lg-7 ">
+            <p>
+                <button class="btn btn-outline-dark invoice-summary-button w-100" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapseTotalsDetails" aria-expanded="false"
+                    aria-controls="collapseTotalsDetails">
+                    <h4>Totals</h4>
+                </button>
+            </p>
+            <div>
+                <div class="collapse collapse-horizontal" id="collapseTotalsDetails">
+                    <div class="card card-body">
+                        <p>
+                            Parts: parts.subtotal<br>
+                            Labour: labour.subtotal<br>
+                            Subtotal: x <br>
+                            VAT: 20 %<br>
+                            Total: x
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

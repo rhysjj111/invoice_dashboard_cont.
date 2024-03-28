@@ -27,19 +27,18 @@ def invoice_list(request):
         create_invoice_form = InvoiceForm(initial={'status': 2})
         invoices = Invoice.objects.all()
         all_status_options = dict(Invoice.InvoiceStatus.choices)
-        # print(all_status_options)
         
         status_mapping = {
+            1: (2, 2),
             2: (3, 1),
             3: (4, 2),
             4: (5, 3),
             5: (6, 4)
         }
         for invoice in invoices:
-            print(type(invoice.status))
             available_status_options = status_mapping.get(invoice.status, {})
-            print(invoice.__dict__)
             invoice.available_status_options = extract_options(all_status_options, *available_status_options)
+            
 
         context = {
             'create_invoice_form': create_invoice_form,

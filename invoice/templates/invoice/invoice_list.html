@@ -4,7 +4,7 @@
 
 {% block css %}
 {{ block.super }}
-    <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
+<link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
 <!-- BROWSER TITLE  -->
@@ -13,48 +13,51 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-    <a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+<a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i
+        class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-    <a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>     
+<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+        class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-    <li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
+<li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i
+            class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i
+            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
 
 <!-- FILTER AND SEARCH BAR -->
 {% block filter_search %}
-    <div class="col-7 d-none d-lg-block mb-4">
-        <ul class="nav nav-pills nav-fill">
-            
-            <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#">Active</a>
-            </li>
-            {% if user.groups.first == 'Mechanic' %} 
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'invoice_list' %}">Pending</a>
-            </li>
-            {% endif %}
-            <li class="nav-item">
-                <a class="nav-link active" href="{% url 'invoice_list' %}">Inactive</a>
-            </li>      
-        </ul>
-    </div>
-    <div class="col-lg-5 d-none d-lg-block ">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search" aria-label="Search"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-        </div>
-    </div>
+<!-- filtermenu  -->
+<div class="col-7 d-none d-lg-block mb-4">
+    <ul class="nav nav-tabs nav-fill" role="navigation">
+        {% if 'Mechanic' in user.groups.all|join:',' %}
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link {% if request.path == '' %} active" aria-current="page" {% else %} " {% endif %} href="">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-lg-none" href="{% url 'invoice_list' %}">Pending</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-lg-none" href="{% url 'invoice_list' %}">Inactive</a>
+        </li>
+    </ul>
+</div>
+<!-- searchbar  -->
+<div class="col-lg-5 d-none d-lg-block ">
+    <form action="{% url 'invoice_list' %}" method="GET">
+        {% include 'includes/searchbar.html' %}
+    </form>
+</div>
 {% endblock %}
 
 <!-- CONTENT -->
@@ -67,16 +70,19 @@
             <!-- mobile first column  -->
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
             <!-- desktop columns  -->
-            <th scope="row " class="d-none d-lg-table-cell"><a href="{% url 'invoice' invoice.slug %}">{{invoice}}{{invoice.status.display}}</a></th>
-            <td class="d-none d-lg-table-cell"><a href="{% url 'invoice' invoice.slug %}">{{invoice.pk}}{{invoice.inv_number}}</a></td>
+            <th scope="row " class="d-none d-lg-table-cell"><a
+                    href="{% url 'invoice' invoice.slug %}">{{invoice}}{{invoice.status.display}}</a></th>
+            <td class="d-none d-lg-table-cell"><a
+                    href="{% url 'invoice' invoice.slug %}">{{invoice.pk}}{{invoice.inv_number}}</a></td>
             <!-- column on all devices -->
             <td>
                 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
                     {% csrf_token %}
                     <input type="hidden" name="pk" value="{{invoice.pk}}">
-                    <select class="form-select" aria-label="Default select example" onchange="submitForm(this)" name="status">
+                    <select class="form-select" aria-label="Default select example" onchange="submitForm(this)"
+                        name="status">
                         <option selected disabled>{{invoice.get_status_display}}</option>
-                        
+
                         {% for value, desc  in invoice.available_status_options.items %}
                         <!-- a loop to display available options to user  -->
                         {% if value == 1 %}
@@ -85,7 +91,7 @@
                         {% elif value < invoice.status %}
                         <!-- option is previous  -->
                         <option value="{{value}}" style="font-style: italic;">Go back to: {{desc}}</option>
-                        {% else %} 
+                        {% else %}
                         <!-- all other options -->
                         <option value="{{value}}">{{desc}}</option>
                         {% endif %}
@@ -122,11 +128,9 @@
 
 {% block js %}
 {{block.super}}
-{% for invoice in invoices %}
 <script>
     function submitForm(selectElement) {
         selectElement.form.submit();
     }
 </script>
-{% endfor %}
 {% endblock %}

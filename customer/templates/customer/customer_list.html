@@ -4,7 +4,7 @@
 
 {% block css %}
 {{block.super}}
-    <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
+<link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
 <!-- BROWESER TITLE  -->
@@ -13,56 +13,58 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-    <a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i class="bi bi-person-plus"></i> <span>Add customer</span></a>
+<a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i
+        class="bi bi-person-plus"></i> <span>Add customer</span></a>
 
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-    <a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>     
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+        class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-    <li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+<li><a class="dropdown-item mobile-side-menu-link" href="#"><i
+            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
 
 <!-- SEARCH BAR -->
 {% block filter_search %}
-    <div class="col-12 offset-md-7 col-md-5">
-        <div class="input-group mb-3">
-            <input id="search-bar" type="text" class="form-control" placeholder="Search" aria-label="Search"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-        </div>
-    </div>
+<div class="col-12 offset-md-7 col-md-5">
+{% include 'includes/searchbar.html' %}
+</div>
 {% endblock %}
 
 
 <!-- CONTENT  -->
 {% block dashboard_content %}
 
-    <!-- customer list table -->
-    <table class="table table-hover align-middle">
-        <tbody id="table-body">
-            {% for customer in customer_list %}
-                <tr>
-                    <!-- mobile first column  -->
-                    <th scope="row"><a href="{% url 'customer_summary' slug=customer.slug  %}">{{ customer.name }}</a></th>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- customer list table -->
+<table class="table table-hover align-middle">
+    <tbody id="table-body">
+        {% for customer in customer_list %}
+        <tr>
+            <!-- mobile first column  -->
+            <th scope="row"><a href="{% url 'customer_summary' slug=customer.slug  %}">{{ customer.name }}</a></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
-    {% crispy customer_form %}
+{% crispy customer_form %}
 
 
 
 {% endblock %}
 
-
+{% block js %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'customer/js/customer.js' %}"></script>
+{% endblock %}
