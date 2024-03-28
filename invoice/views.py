@@ -61,6 +61,12 @@ def invoice_list(request):
         4: (5, 3),
         5: (6, 4)
     }
+    class_mapping = {
+        1: 'table-secondary',
+        3: 'table-success',
+        4: 'table-warning'
+    }
+
     for invoice in invoices:
         available_status_options = status_mapping.get(invoice.status, {})
         invoice.available_status_options = extract_options(all_status_options, *available_status_options)
@@ -70,7 +76,8 @@ def invoice_list(request):
         'create_invoice_form': create_invoice_form,
         'invoices': invoices,
         'search_term': query,
-        'filter_status': filter
+        'filter_status': filter,
+        'table_class_dict': class_mapping
     }
     return render(request, 'invoice/invoice_list.html', context)
 

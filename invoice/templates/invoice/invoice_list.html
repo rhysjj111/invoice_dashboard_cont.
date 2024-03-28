@@ -1,6 +1,7 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load custom_tags %}
 
 {% block css %}
 {{ block.super }}
@@ -71,15 +72,16 @@
     <tbody>
         {% if invoices %}
         {% for invoice in invoices %}
-
-        <tr>
-            <!-- mobile first column  -->
+        <tr class="{{ invoice.status|get_class:table_class_dict }}">
+            <!-- mobile column  -->
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
             <!-- desktop columns  -->
-            <th scope="row " class="d-none d-lg-table-cell"><a
-                    href="{% url 'invoice' invoice.slug %}">{{invoice}}{{invoice.status.display}}</a></th>
-            <td class="d-none d-lg-table-cell"><a
-                    href="{% url 'invoice' invoice.slug %}">{{invoice.pk}}{{invoice.inv_number}}</a></td>
+            <th scope="row " class="d-none d-lg-table-cell">
+                <a href="{% url 'invoice' invoice.slug %}">{{invoice}}{{invoice.status.display}}</a>
+            </th>
+            <td class="d-none d-lg-table-cell">
+                <a href="{% url 'invoice' invoice.slug %}">{{invoice.pk}}{{invoice.inv_number}}</a>
+            </td>
             <!-- column on all devices -->
             <td>
                 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
@@ -115,26 +117,6 @@
         
         {% endif %}
 
-        <tr class="table-primary">
-            <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-            <th scope="row" class="d-none d-lg-table-cell">Primary</th>
-            <td class="d-none d-lg-table-cell">Column content</td>
-            <td>Column content</td>
-        </tr>
-
-        <tr class="table-success">
-            <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-            <th scope="row" class="d-none d-lg-table-cell">Success</th>
-            <td class="d-none d-lg-table-cell">Column content</td>
-            <td>Column content</td>
-        </tr>
-
-        <tr class="table-warning">
-            <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>
-            <th scope="row" class="d-none d-lg-table-cell">Warning</th>
-            <td class="d-none d-lg-table-cell">Column content</td>
-            <td>Column content</td>
-        </tr>
     </tbody>
 </table>
 {% endblock %}

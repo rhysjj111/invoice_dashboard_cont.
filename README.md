@@ -101,7 +101,7 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - I needed to somehow display only the vehicles which are linked up to a customer when the user is creating an invoice. I could see two options: 1. select customer first and then produce another form with the filtered vehicles at the backend; 2. only show vehicles that correspond to the selected customer using Javascript. I chose to go with the Javascript option and so my next question was how to label each option class with the corresponding customer primary key. This wasn't very easy and after much googling, I knew I had to create a custom select widget and change each option class from there but couldn't figure out how to configure it exactly to my problem. [ChatGPT](https://chat.openai.com/) proved to be very useful as it could similate the conditions I needed and gave me a template to use to create a class with the value of the corresponding customer primary key for each vehicle option. From there I could manipulate the list using JS.
 
-- 
+- When displaying invoices in invoice_list.html (in a bootstrap table), each row needed a class depending on the invoice status number. I didn't like the verbose if statement with multiple conditions in the template, so tried making a map of the class names for each status number in the page view. I then tried using the python get function but kept getting an error. I decided to make a custom filter, using the [Django docs](https://docs.djangoproject.com/en/5.0/howto/custom-template-tags/) for information on setting it up, and put my get function inside.
 
 #### JS
 - 
