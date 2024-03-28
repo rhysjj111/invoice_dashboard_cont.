@@ -79,7 +79,7 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 
 ### Future features to include/update
-- 
+- I would like to include date search funtionality for invoices; date from and date to.
 
 
 ## Testing 

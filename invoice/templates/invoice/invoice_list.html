@@ -42,13 +42,16 @@
         {% if 'Mechanic' in user.groups.all|join:',' %}
         {% endif %}
         <li class="nav-item">
-            <a class="nav-link {% if request.path == '' %} active" aria-current="page" {% else %} " {% endif %} href="">Active</a>
+            <a class="nav-link {% if filter_status == 'active' %}active" aria-current="page" {% else %}" {% endif %}
+            href="{% url 'invoice_list' %}">Active</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-lg-none" href="{% url 'invoice_list' %}">Pending</a>
+            <a class="nav-link {% if filter_status == 'pending' %}active" aria-current="page" {% else %}" {% endif %}
+            href="{% url 'invoice_list' %}?filter=pending">Pending</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link d-lg-none" href="{% url 'invoice_list' %}">Inactive</a>
+            <a class="nav-link {% if filter_status == 'inactive' %}active" aria-current="page" {% else %}" {% endif %}
+            href="{% url 'invoice_list' %}?filter=inactive">Inactive</a>
         </li>
     </ul>
 </div>
@@ -58,6 +61,7 @@
         {% include 'includes/searchbar.html' %}
     </form>
 </div>
+<div class="text-end">{% if search_term %} <p class="fs-6 fw-light">Results for: {{search_term}}</p> {% endif %}</div>
 {% endblock %}
 
 <!-- CONTENT -->
@@ -65,7 +69,9 @@
 {% crispy create_invoice_form %}
 <table class="table table-hover align-middle">
     <tbody>
+        {% if invoices %}
         {% for invoice in invoices %}
+
         <tr>
             <!-- mobile first column  -->
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
@@ -79,6 +85,7 @@
                 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
                     {% csrf_token %}
                     <input type="hidden" name="pk" value="{{invoice.pk}}">
+                    <input type="hidden" name="filter" value="{{filter_status}}">
                     <select class="form-select" aria-label="Default select example" onchange="submitForm(this)"
                         name="status">
                         <option selected disabled>{{invoice.get_status_display}}</option>
@@ -101,6 +108,12 @@
             </td>
         </tr>
         {% endfor %}
+        {% else %}
+        <div class="text-center">
+            <h5>No results</h5>
+        </div>
+        
+        {% endif %}
 
         <tr class="table-primary">
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}">Registration & Customer</a></th>

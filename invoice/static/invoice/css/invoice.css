@@ -7,8 +7,12 @@ p{
 }
 
 .nav-item .nav-link{
-  background-color: white;
   color: #03120E;
+}
+
+.nav-tabs .nav-item .nav-link.active{
+  color: #FF9D53!important;
+  font-weight: 600;
 }
 
 

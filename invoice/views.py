@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .forms import InvoiceForm
 from .models import Invoice, Part, Labour
 from django.contrib import messages
+from django.db.models import Q
 
 
 
@@ -15,36 +16,63 @@ def extract_options(status_options, *keys_to_keep):
 
 def invoice_list(request):
     """A view to return main invoice view"""
+    create_invoice_form = InvoiceForm(initial={'status': 2})
+    invoices = Invoice.objects.all()    
+
+    query = None
+    filter_mapping = {
+        'active': [2, 3, 4],
+        'pending': [5,],
+        'inactive': [1, 6]
+    }
+    filter = 'active'
+
     if request.POST:
+        filter = request.POST.get('filter')
         invoice_pk = request.POST.get('pk')
         invoice_status = int(request.POST.get('status'))
         invoice = get_object_or_404(Invoice, pk=invoice_pk)
         invoice.status = invoice_status
         invoice.save()        
         messages.success(request, f'Successfully')
-        return redirect(reverse('invoice_list'))
-    else:
-        create_invoice_form = InvoiceForm(initial={'status': 2})
-        invoices = Invoice.objects.all()
-        all_status_options = dict(Invoice.InvoiceStatus.choices)
-        
-        status_mapping = {
-            1: (2, 2),
-            2: (3, 1),
-            3: (4, 2),
-            4: (5, 3),
-            5: (6, 4)
-        }
-        for invoice in invoices:
-            available_status_options = status_mapping.get(invoice.status, {})
-            invoice.available_status_options = extract_options(all_status_options, *available_status_options)
-            
+        return redirect(reverse('invoice_list')+f'?filter={filter}')
 
-        context = {
-            'create_invoice_form': create_invoice_form,
-            'invoices': invoices
-        }
-        return render(request, 'invoice/invoice_list.html', context)
+    if request.GET:
+        if 'filter' in request.GET:
+            filter = request.GET['filter']
+
+        if 'q' in request.GET:
+            query = request.GET['q']
+            if not query:
+                messages.error(request, 'Nothing entered in search bar.')
+                return redirect(reverse('invoice_list')) 
+            
+            queries = Q(customer__name__icontains=query) | Q(vehicle__registration__icontains=query)
+            invoices = invoices.filter(queries)
+
+    status_to_filter = filter_mapping.get(filter)
+    invoices=invoices.filter(status__in=status_to_filter)
+
+    all_status_options = dict(Invoice.InvoiceStatus.choices)
+    status_mapping = {
+        1: (2,),
+        2: (3, 1),
+        3: (4, 2),
+        4: (5, 3),
+        5: (6, 4)
+    }
+    for invoice in invoices:
+        available_status_options = status_mapping.get(invoice.status, {})
+        invoice.available_status_options = extract_options(all_status_options, *available_status_options)
+        
+
+    context = {
+        'create_invoice_form': create_invoice_form,
+        'invoices': invoices,
+        'search_term': query,
+        'filter_status': filter
+    }
+    return render(request, 'invoice/invoice_list.html', context)
 
 
 
