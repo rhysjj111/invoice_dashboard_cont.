@@ -40,16 +40,17 @@
 <!-- filtermenu  -->
 <div class="col-7 d-none d-lg-block mb-4">
     <ul class="nav nav-tabs nav-fill" role="navigation">
-        {% if 'Mechanic' in user.groups.all|join:',' %}
-        {% endif %}
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'active' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}">Active</a>
-        </li>
+        </li>        
+
+        {% if not Mechanic %}
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'pending' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}?filter=pending">Pending</a>
         </li>
+        {% endif %}
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'inactive' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}?filter=inactive">Inactive</a>
@@ -77,10 +78,10 @@
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
             <!-- desktop columns  -->
             <th scope="row " class="d-none d-lg-table-cell">
-                <a href="{% url 'invoice' invoice.slug %}">{{invoice}}{{invoice.status.display}}</a>
+                <a href="{% url 'invoice' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
             </th>
             <td class="d-none d-lg-table-cell">
-                <a href="{% url 'invoice' invoice.slug %}">{{invoice.pk}}{{invoice.inv_number}}</a>
+                <a href="{% url 'invoice' invoice.slug %}">{{invoice}}</a>
             </td>
             <!-- column on all devices -->
             <td>
@@ -94,7 +95,7 @@
 
                         {% for value, desc  in invoice.available_status_options.items %}
                         <!-- a loop to display available options to user  -->
-                        {% if value == 1 %}
+                        {% if value == 1  %}
                         <!-- option = work on hold  -->
                         <option value="{{value}}" style="font-style: italic;">{{desc}}</option>
                         {% elif value < invoice.status %}

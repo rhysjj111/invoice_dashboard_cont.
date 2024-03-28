@@ -41,14 +41,13 @@ def invoice_list(request):
         if 'filter' in request.GET:
             filter = request.GET['filter']
 
-        if 'q' in request.GET:
-            query = request.GET['q']
-            if not query:
-                messages.error(request, 'Nothing entered in search bar.')
-                return redirect(reverse('invoice_list')) 
-            
-            queries = Q(customer__name__icontains=query) | Q(vehicle__registration__icontains=query)
-            invoices = invoices.filter(queries)
+            if 'q' in request.GET:
+                query = request.GET['q']
+                if not query:
+                    messages.error(request, 'Nothing entered in search bar.')
+                    return redirect(reverse('invoice_list')) 
+                queries = Q(customer__name__icontains=query) | Q(vehicle__registration__icontains=query)
+                invoices = invoices.filter(queries)
 
     status_to_filter = filter_mapping.get(filter)
     invoices=invoices.filter(status__in=status_to_filter)

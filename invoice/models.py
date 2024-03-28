@@ -39,7 +39,7 @@ class Invoice(models.Model):
 
     def __str__(self):
         if self.inv_integer :
-            result = f'{self.inv_number} - {self.customer} - {self.vehicle}'
+            result = f'{self.customer} - {self.vehicle} - {self.inv_number}'
         elif self.customer and self.vehicle:
             result = f'{self.customer} - {self.vehicle}'
         elif self.customer or self.vehicle:
@@ -72,13 +72,13 @@ class Invoice(models.Model):
         if self.status:
             if self.status >= 5:
                 self.active = False
-                if self.status == 6 and self.inv_number is not None:
+                if self.status == 6 and self.inv_number is None:
                     try:
-                        latest = Invoice.objects.latest('inv_integer')
-                    except ObjectDoesNotExist:
-                        self.inv_integer = 1
-                    else:
-                        self.inv_integer = latest + 1
+                        latest = Invoice.objects.filter(inv_integer__gt=0).latest('inv_integer')
+                        latest = latest.inv_integer
+                    except Invoice.DoesNotExist:
+                        latest = 0                    
+                    self.inv_integer = latest + 1
                     self.inv_number = f'INV_#{self.inv_integer}'
             else:
                 self.active = True  
