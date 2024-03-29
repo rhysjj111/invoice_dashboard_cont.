@@ -111,3 +111,91 @@ class InvoiceForm(forms.ModelForm):
         )   
 
 
+class PositiveIntegerField(forms.IntegerField):
+    def clean(self, value):
+        value = super().clean(value)
+        if value < 0:
+            raise forms.ValidationError("This field must be a positive integer.")
+        return value
+
+
+class PositiveDecimalField(forms.DecimalField):
+    def clean(self, value):
+        value = super().clean(value)
+        if value < 0:
+            raise forms.ValidationError("This field must be a positive decimal.")
+        return value
+
+
+class PartForm(forms.ModelForm):
+
+    cost_to_company = PositiveDecimalField(
+        label="Cost", max_digits=10, decimal_places=2)
+    price_to_customer = PositiveDecimalField(
+        label="Price", max_digits=10, decimal_places=2)
+    quantity = PositiveIntegerField()
+
+    class Meta:
+        model  = Part
+        fields = ('invoice', 'cost_to_company', 
+                  'price_to_customer', 'title','quantity')
+        
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # convert pence to pounds
+        instance = kwargs.get('instance')
+        if instance:
+            for entry in ['cost_to_company', 'price_to_customer']:
+                price_subunit = getattr(instance, entry)
+                price_unit = int(price_subunit / 100)
+                setattr(instance, entry, price_unit)
+
+        for field_name, field in self.fields.items():
+            field.required = False
+            
+        self.helper = FormHelper()
+        #self.helper.form_action = 
+        self.helper.form_class = 'mb-1'
+        self.helper.layout = Layout(
+            Row(
+                Column(
+                    FloatingField(
+                        'title'
+                    )
+                ),
+                Column(
+                    FloatingField(
+                        'cost_to_company'
+                    )
+                ),
+                Column(
+                    FloatingField(
+                        'price_to_customer'
+                    )
+                ),
+                Column(
+                    FloatingField(
+                        'quantity'
+                    )
+                ),
+                Field('invoice', type="hidden")
+            )
+        )
+
+    def save(self, commit=True):
+
+        # convert pounds to pence
+        for entry in ['cost_to_company', 'price_to_customer']:
+            price_unit = getattr(self.cleaned_data[entry], 'amount')
+            price_subunit = int(price_unit * 100)
+            setattr(self.instance, entry, price_subunit)
+
+        if commit:
+            self.instance.save()
+        return self.instance
+
+
+
+

@@ -1,5 +1,6 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block css %}
 {{block.super}}
@@ -36,6 +37,7 @@
 {% block dashboard_content %}
 
 <div class="invoice-container">
+    <!-- INVOICE DETAILS  -->
     <div class="mb-4">
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseInvoiceDetails" aria-expanded="false" aria-controls="collapseInvoiceDetails">
@@ -62,20 +64,31 @@
         </div>
     </div>
 
+    <!-- PARTS  -->
     <div class="mb-4">
+        <!-- title  -->
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
             <h4>Parts</h4>
         </button>
+        <!-- body  -->
         <div class="collapse" id="collapsePartsDetails">
             <div class="card card-body invoice-summary-card">
-                <div class="container-fluid">
+                <form method="post">
+                    {{ part_formset.management_form }}
+                    <table>
+                        {% for form in part_formset %}
+                            {% crispy form %}
+                        {% endfor %}
+                    </table>
+                    <button type="submit">Save</button>
+                </form>
+                <!-- <div class="container-fluid">
                     <div class="row">
                         <div class="col-10 p-0 d-flex align-items-center">
                             <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapsePart_X_Specifics" aria-expanded="false"
                                 aria-controls="collapsePart_X_Specifics">
-                                <!-- replace X with {{item.id}} -->
                                 <h5 class="d-inline align-middle h-100">Oil filter</h5>
                             </a>
                         </div>
@@ -91,11 +104,12 @@
                             Qty: part.quantity<br>
                         </p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
 
+    <!-- LABOUR  -->
     <div class="mb-4">
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
@@ -130,6 +144,7 @@
         </div>
     </div>
 
+    <!-- TOTALS  -->
     <div class="row">
         <div class="col-12 col-lg-5 offset-lg-7 ">
             <p>

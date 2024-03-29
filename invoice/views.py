@@ -1,18 +1,14 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .forms import InvoiceForm
+from .forms import InvoiceForm, PartForm
+from django.forms import modelformset_factory
 from .models import Invoice, Part, Labour
 from django.contrib import messages
 from django.db.models import Q
 
 
-
 def extract_options(status_options, *keys_to_keep):
     """Extracts keys and values from dictionary"""
     return {key: status_options[key] for key in keys_to_keep}
-
-
-
-
 
 def invoice_list(request):
     """A view to return main invoice view"""
@@ -104,11 +100,21 @@ def create_invoice(request):
 def invoice_summary(request, slug):
     """A view to return a single-invoice view"""
     invoice = get_object_or_404(Invoice, slug=slug)
-    previous_url = 'invoice_list'
-    delete_url = 'invoice_list'
+
+    PartFormSet = modelformset_factory(Part, form=PartForm, extra=1)
+    if request.POST:
+        part_formset = PartFormSet(request.POST)
+        if part_formset.is_valid():
+            formset.save()
+            messages.success(request, f'Successfully updated parts')
+            return redirect(reverse('invoice_summary', args=[invoice.slug]))
+    else:
+        part_formset = PartFormSet(queryset=Part.objects.all())
+            
+
     context = {
         'item': invoice,
         'previous_url': 'invoice_list',
-        'delete_url': delete_url,
+        'part_formset': part_formset,
     }
     return render(request, 'invoice/invoice_summary.html', context)
