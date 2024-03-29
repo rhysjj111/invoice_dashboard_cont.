@@ -45,7 +45,7 @@
             href="{% url 'invoice_list' %}">Active</a>
         </li>        
 
-        {% if not Mechanic %}
+        {% if Accounts %}
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'pending' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}?filter=pending">Pending</a>
@@ -73,6 +73,10 @@
     <tbody>
         {% if invoices %}
         {% for invoice in invoices %}
+        {% with status=invoice.status %}
+        {% if status == 1 and Mechanic or status == 3 and Mechanic %}
+        {% elif status == 4 and not Accounts %}
+        {% else %}
         <tr class="{{ invoice.status|get_class:table_class_dict }}">
             <!-- mobile column  -->
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
@@ -95,10 +99,11 @@
 
                         {% for value, desc  in invoice.available_status_options.items %}
                         <!-- a loop to display available options to user  -->
-                        {% if value == 1  %}
+                        {% if value == 1 and Mechanic %}
+                        {% elif value == 1 %}
                         <!-- option = work on hold  -->
                         <option value="{{value}}" style="font-style: italic;">{{desc}}</option>
-                        {% elif value < invoice.status %}
+                        {% elif value < status %}
                         <!-- option is previous  -->
                         <option value="{{value}}" style="font-style: italic;">Go back to: {{desc}}</option>
                         {% else %}
@@ -110,6 +115,8 @@
                 </form>
             </td>
         </tr>
+        {% endif %}
+        {% endwith %}
         {% endfor %}
         {% else %}
         <div class="text-center">

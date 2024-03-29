@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.text import slugify
 from customer.models import Customer, Vehicle
 from django.utils import timezone
+from uuid import uuid4
 
 
 class Invoice(models.Model):
@@ -35,17 +36,18 @@ class Invoice(models.Model):
     grand_total = models.PositiveIntegerField(blank=True, null=True)
 
     # utilities
-    slug = models.SlugField(max_length=100, unique=True, blank=False, null=False)    
+    slug = models.SlugField(max_length=100, unique=True, blank=False, null=False)
+    unique_id = models.CharField(null=True, blank=True, max_length=100)   
 
     def __str__(self):
-        if self.inv_integer :
+        if self.inv_integer:
             result = f'{self.customer} - {self.vehicle} - {self.inv_number}'
         elif self.customer and self.vehicle:
-            result = f'{self.customer} - {self.vehicle}'
+            result = f'{self.customer} - {self.vehicle} - ({self.unique_id})'
         elif self.customer or self.vehicle:
-            result = f'{self.customer or self.vehicle}'
+            result = f'{self.customer or self.vehicle} - ({self.unique_id})'
         else:
-            result = f'Blank invoice {self.id}'
+            result = f'Blank invoice - ({self.unique_id})'
         return result
 
     def update_total(self):
@@ -81,9 +83,12 @@ class Invoice(models.Model):
                     self.inv_integer = latest + 1
                     self.inv_number = f'INV_#{self.inv_integer}'
             else:
-                self.active = True  
-            
-        self.slug = slugify(f'{self}')
+                self.active = True
+        
+        if self.unique_id is None:
+            self.unique_id = str(uuid4()).split('-')[4]
+                   
+        self.slug = slugify(f'{self.unique_id}')
         super().save(*args, **kwargs)
 
 
