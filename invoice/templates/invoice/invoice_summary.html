@@ -42,7 +42,7 @@
             <h4>Invoice details</h4>
         </button>
         <div class="collapse" id="collapseInvoiceDetails">
-            <div class="card p-lg-5 card-body">
+            <div class="card p-lg-5 card-body invoice-summary-card">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-10 p-0">
@@ -68,7 +68,7 @@
             <h4>Parts</h4>
         </button>
         <div class="collapse" id="collapsePartsDetails">
-            <div class="card card-body">
+            <div class="card card-body invoice-summary-card">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-10 p-0 d-flex align-items-center">
@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="collapse" id="collapsePart_X_Specifics">
-                    <div class="card card-body item-specifics-container">
+                    <div class="card card-body invoice-summary-card">
                         <p>
                             Cost: part.cost<br>
                             Price: part.cost<br>
@@ -102,7 +102,7 @@
             <h4>Labour</h4>
         </button>
         <div class="collapse" id="collapseLabourDetails">
-            <div class="card card-body">
+            <div class="card card-body invoice-summary-card">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-10 p-0 d-flex align-items-center">
@@ -118,7 +118,7 @@
                 </div>
 
                 <div class="collapse" id="collapseLabour_X_Specifics">
-                    <div class="card card-body item-specifics-container">
+                    <div class="card card-body invoice-summary-card">
                         <p>
                             Hours: labour.cost<br>
                             Price: labour.price * hours<br>
@@ -133,23 +133,19 @@
     <div class="row">
         <div class="col-12 col-lg-5 offset-lg-7 ">
             <p>
-                <button class="btn btn-outline-dark invoice-summary-button w-100" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapseTotalsDetails" aria-expanded="false"
-                    aria-controls="collapseTotalsDetails">
+                <div class="w-100 invoice-summary-total">
                     <h4>Totals</h4>
-                </button>
+                </div>
             </p>
             <div>
-                <div class="collapse collapse-horizontal" id="collapseTotalsDetails">
-                    <div class="card card-body">
-                        <p>
-                            Parts: parts.subtotal<br>
-                            Labour: labour.subtotal<br>
-                            Subtotal: x <br>
-                            VAT: 20 %<br>
-                            Total: x
-                        </p>
-                    </div>
+                <div class="card card-body invoice-summary-card">
+                    <p>
+                        Parts: parts.subtotal<br>
+                        Labour: labour.subtotal<br>
+                        Subtotal: x <br>
+                        VAT: 20 %<br>
+                        Total: x
+                    </p>
                 </div>
             </div>
         </div>
