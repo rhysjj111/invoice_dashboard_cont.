@@ -96,10 +96,10 @@ class Part(models.Model):
 
     invoice = models.ForeignKey(
         Invoice, on_delete=models.PROTECT, related_name='parts')
-    cost_to_company = models.PositiveIntegerField(null=True, blank=True)
+    cost_to_company = models.PositiveIntegerField( null=True, blank=True)
     price_to_customer = models.PositiveIntegerField(null=True, blank=True)
     title = models.CharField(max_length=25, null=False, blank=False)
-    quantity = models.PositiveIntegerField(default=1)
+    quantity = models.PositiveIntegerField( null=True, blank=True)
     subtotal = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):

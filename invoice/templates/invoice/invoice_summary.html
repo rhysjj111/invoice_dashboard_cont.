@@ -74,14 +74,13 @@
         <!-- body  -->
         <div class="collapse" id="collapsePartsDetails">
             <div class="card card-body invoice-summary-card">
-                <form method="post">
-                    {{ part_formset.management_form }}
-                    <table>
-                        {% for form in part_formset %}
-                            {% crispy form %}
-                        {% endfor %}
-                    </table>
-                    <button type="submit">Save</button>
+                <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+                    <div>
+                        {{ part_formset.management_form }}
+                        {% crispy part_formset %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+
                 </form>
                 <!-- <div class="container-fluid">
                     <div class="row">
@@ -168,3 +167,5 @@
 </div>
 
 {% endblock %}
+
+

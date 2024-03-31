@@ -105,7 +105,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/invoices/'
+LOGIN_REDIRECT_URL = '/invoices/invoice_list'
 
 WSGI_APPLICATION = 'invoice_dashboard.wsgi.application'
 

@@ -82,10 +82,10 @@
             <th class="d-lg-none" scope="row"><a href="{% url 'index' %}"></a></th>
             <!-- desktop columns  -->
             <th scope="row " class="d-none d-lg-table-cell">
-                <a href="{% url 'invoice' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
+                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
             </th>
             <td class="d-none d-lg-table-cell">
-                <a href="{% url 'invoice' invoice.slug %}">{{invoice}}</a>
+                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
             </td>
             <!-- column on all devices -->
             <td>

@@ -4,8 +4,10 @@ from django.shortcuts import reverse
 from .models import Invoice, Part, Labour, Customer, Vehicle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset, Field, ButtonHolder, HTML
-from crispy_forms.bootstrap import Modal, PrependedText
+from crispy_forms.bootstrap import Modal, PrependedText, InlineCheckboxes
 from crispy_bootstrap5.bootstrap5 import FloatingField
+from django.forms import inlineformset_factory, BaseInlineFormSet
+
 
 def add_or_edit_button(slug):
     if slug:
@@ -41,7 +43,13 @@ def add_or_edit_modal(slug, type, layout):
       
 
 class CustomSelectWidget(Select):
-    """ custom select widget to label each vehicle class with the corrsponding customer fk """
+    """ 
+    Custom select widget with purpose of updating each vehicle 
+    choice class with it's corrsponding customer fk.
+    (To assist with Javascript function which only shows 
+    relevant vehicle choices for the customer selected 
+    when creating an invoice.)
+    """
     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
         option = super().create_option(
             name, value, label, selected, index, subindex=subindex, attrs=attrs)
@@ -114,16 +122,18 @@ class InvoiceForm(forms.ModelForm):
 class PositiveIntegerField(forms.IntegerField):
     def clean(self, value):
         value = super().clean(value)
-        if value < 0:
-            raise forms.ValidationError("This field must be a positive integer.")
+        if value is not None:
+            if value < 0:
+                raise forms.ValidationError("This field must be a positive integer.")
         return value
 
 
 class PositiveDecimalField(forms.DecimalField):
     def clean(self, value):
         value = super().clean(value)
-        if value < 0:
-            raise forms.ValidationError("This field must be a positive decimal.")
+        if value is not None:
+            if value < 0:
+                raise forms.ValidationError("This field must be a positive decimal.")
         return value
 
 
@@ -133,69 +143,94 @@ class PartForm(forms.ModelForm):
         label="Cost", max_digits=10, decimal_places=2)
     price_to_customer = PositiveDecimalField(
         label="Price", max_digits=10, decimal_places=2)
-    quantity = PositiveIntegerField()
+    quantity = PositiveIntegerField(label='Qty')
 
     class Meta:
         model  = Part
-        fields = ('invoice', 'cost_to_company', 
-                  'price_to_customer', 'title','quantity')
-        
+        fields = ('cost_to_company',
+                  'price_to_customer', 'title','quantity')   
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # convert pence to pounds
-        instance = kwargs.get('instance')
-        if instance:
-            for entry in ['cost_to_company', 'price_to_customer']:
-                price_subunit = getattr(instance, entry)
-                price_unit = int(price_subunit / 100)
-                setattr(instance, entry, price_unit)
-
         for field_name, field in self.fields.items():
             field.required = False
-            
-        self.helper = FormHelper()
-        #self.helper.form_action = 
-        self.helper.form_class = 'mb-1'
-        self.helper.layout = Layout(
-            Row(
-                Column(
-                    FloatingField(
-                        'title'
-                    )
-                ),
-                Column(
-                    FloatingField(
-                        'cost_to_company'
-                    )
-                ),
-                Column(
-                    FloatingField(
-                        'price_to_customer'
-                    )
-                ),
-                Column(
-                    FloatingField(
-                        'quantity'
-                    )
-                ),
-                Field('invoice', type="hidden")
-            )
-        )
+
+        # convert pence to pounds
+        for entry in ['cost_to_company', 'price_to_customer']:
+            price_subunit = self.initial.get(entry)
+            if price_subunit is not None and price_subunit > 0:
+                price_unit = int(price_subunit / 100)
+                self.initial[entry] = price_unit
+
 
     def save(self, commit=True):
-
         # convert pounds to pence
         for entry in ['cost_to_company', 'price_to_customer']:
-            price_unit = getattr(self.cleaned_data[entry], 'amount')
-            price_subunit = int(price_unit * 100)
-            setattr(self.instance, entry, price_subunit)
+            price_unit = self.cleaned_data.get(entry)
+            if price_unit is not None:
+                price_subunit = int(price_unit * 100)
+                setattr(self.instance, entry, price_subunit)
 
         if commit:
             self.instance.save()
         return self.instance
 
 
+class BasePartFormSet(BaseInlineFormSet):
+
+    def __init__(self, *args, **kwargs):
+        super(BasePartFormSet, self).__init__(*args, **kwargs)
+        self.can_delete = True
+        self.extra=1
+
+    def clean(self):
+        super().clean()
+        empty_forms = []               
+        for form in self.forms:
+            if self._is_form_empty(form):
+                empty_forms.append(form)
+        for form in empty_forms:
+            self.forms.remove(form)
+
+    def _is_form_empty(self, form):
+        for field_name, value in form.cleaned_data.items():
+            if value is not None and value != '':
+                return False
+        return True
+
+
+class BasePartFormSetHelper(FormHelper):
+
+    def __init__(self, *args, **kwargs):
+        super(BasePartFormSetHelper, self).__init__(*args, **kwargs)
+
+        self.layout = Layout(
+            Row(
+                Column(
+                    FloatingField('title')
+                ),
+                Column(
+                    FloatingField('cost_to_company')
+                ),
+                Column(
+                    FloatingField('price_to_customer')
+                ),
+                Column(
+                    Row(
+                        Column(FloatingField('quantity'), css_class='w-50'),
+                        Column(Field('DELETE'), css_class='w-50'),
+                        css_class='align-items-center'
+                    )                    
+                )
+            )
+        )
+
+PartFormSet = inlineformset_factory(
+    parent_model=Invoice,
+    model=Part,
+    form=PartForm,
+    formset=BasePartFormSet,
+    can_delete=True)
 
 
