@@ -16,11 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 /*
-* Function to hide the delete input of the 'extra' for in the
-* part formset. The function gets value of the total number of
+* Function to hide the delete input of one 'extra' form of a
+* formset. The function gets value of the total number of
 * forms from the formset manager information and then constructs
 * the id of the 'extra' form (it will have the highest 'number').
 * Finally the display of the delete unput is set to none.
+* The parameter target should be the form name.
 */
 function hideLastDeleteInput(target) {
   let totalFormsInput = document.getElementById('id_' + target + '-TOTAL_FORMS');

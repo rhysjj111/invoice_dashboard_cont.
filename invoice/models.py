@@ -118,14 +118,13 @@ class Labour(models.Model):
 
     invoice = models.ForeignKey(
         Invoice, on_delete=models.PROTECT, related_name='labour')
-    title = models.CharField(max_length=27, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
     hours = models.PositiveIntegerField(null=True, blank=True)
     total = models.PositiveIntegerField(null=True, blank=True) 
 
     def save(self, *args, **kwargs):
         """update labour subtotal on save"""
-        if all([self.title, self.description, self.hours]):
+        if all([self.description, self.hours]):
             self.total = self.hours * settings.LABOUR_RATE
         else:
             self.total = None

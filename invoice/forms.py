@@ -239,13 +239,11 @@ PartFormSet = inlineformset_factory(
 
 class LabourForm(forms.ModelForm):
 
-    description = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 4}))
     hours = PositiveIntegerField(label='Hrs')
 
     class Meta:
         model  = Labour
-        fields = ('title', 'hours', 'description')   
+        fields = ('hours', 'description')   
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -297,30 +295,8 @@ class BaseLabourFormSetHelper(FormHelper):
                         Column(Field('DELETE') )                          
                     ),
                     css_class='col-2'
-                )
-            
+                )         
             )
-               
-
-
-            # Row(
-            #     Column(
-            #         FloatingField('title')
-            #     ),
-            #     Column(
-            #         FloatingField('cost_to_company')
-            #     ),
-            #     Column(
-            #         FloatingField('price_to_customer')
-            #     ),
-            #     Column(
-            #         Row(
-            #             Column(FloatingField('quantity'), css_class='w-50'),
-            #             Column(Field('DELETE'), css_class='w-50'),
-            #             css_class='align-items-center'
-            #         )                    
-            #     )
-            # )
         )
 
 LabourFormSet = inlineformset_factory(
