@@ -103,6 +103,11 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - When displaying invoices in invoice_list.html (in a bootstrap table), each row needed a class depending on the invoice status number. I didn't like the verbose if statement with multiple conditions in the template, so tried making a map of the class names for each status number in the page view. I then tried using the python get function but kept getting an error. I decided to make a custom filter, using the [Django docs](https://docs.djangoproject.com/en/5.0/howto/custom-template-tags/) for information on setting it up, and put my get function inside.
 
+- I had a few issues creating a Django formset for Part which could display all previous entries and an extra blank form. 
+  - I wanted to use django crispy form helper and layout functionality in keeping with the other forms. [ChatGPT](https://chat.openai.com/) pointed me in the direction of creating a base formset and base formset helper class to add the helper and layout functionality to the formset. 
+  - I came across another issue when I wanted to use the formsets can_delete option, to provide user with the ability to delete rows in the formset. I didn't want the user to have the option to delete the extra form (poor UX). A solution was to make use of can_delete_extra=False option but this threw an error in the console as the crispy form Layout function was looking for a field 'DELETE' on every row, which wasn't there for the extra form (due to can_delete_extra=False). After much googling and trying to adjust the form configuration, I decided to just hide the delete option on the extra form with Javascript.
+  - Finally, I wanted the formset to ignore blank forms on submit so that if the user is just updating an already present field and not adding a new instance to the database, they wouldn't end up with an extra blank row each time they save. [ChatGPT](https://chat.openai.com/) gave me the boilerplate to edit the clean function of the base formset class so that any forms with all blank fields would be deleted before save.
+
 #### JS
 - 
 

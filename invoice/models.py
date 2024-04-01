@@ -100,12 +100,14 @@ class Part(models.Model):
     price_to_customer = models.PositiveIntegerField(null=True, blank=True)
     title = models.CharField(max_length=25, null=False, blank=False)
     quantity = models.PositiveIntegerField( null=True, blank=True)
-    subtotal = models.PositiveIntegerField(null=True, blank=True)
+    total = models.PositiveIntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         """update part subtotal on save"""
-        if self.price_to_customer: 
-            self.subtotal = self.price_to_customer * self.quantity
+        if all([self.price_to_customer, self.cost_to_company, self.title, self.quantity]): 
+            self.total = self.price_to_customer * self.quantity
+        else:
+            self.total = None
         super().save(*args, **kwargs)
 
 
@@ -116,14 +118,15 @@ class Labour(models.Model):
 
     invoice = models.ForeignKey(
         Invoice, on_delete=models.PROTECT, related_name='labour')
-    title = models.CharField(max_length=27, null=False, blank=False)
+    title = models.CharField(max_length=27, null=True, blank=True)
     description = models.CharField(max_length=250, null=True, blank=True)
-    hours = models.PositiveIntegerField(default=1)
-    subtotal = models.PositiveIntegerField(null=True, blank=True) 
+    hours = models.PositiveIntegerField(null=True, blank=True)
+    total = models.PositiveIntegerField(null=True, blank=True) 
 
     def save(self, *args, **kwargs):
         """update labour subtotal on save"""
-        self.subtotal = self.hours * settings.LABOUR_RATE
+        if all([self.title, self.description, self.hours]):
+            self.total = self.hours * settings.LABOUR_RATE
         super().save(*args, **kwargs)
 
     
