@@ -127,6 +127,8 @@ class Labour(models.Model):
         """update labour subtotal on save"""
         if all([self.title, self.description, self.hours]):
             self.total = self.hours * settings.LABOUR_RATE
+        else:
+            self.total = None
         super().save(*args, **kwargs)
 
     

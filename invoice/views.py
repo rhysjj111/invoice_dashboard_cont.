@@ -122,5 +122,6 @@ def invoice_summary(request, slug):
         'item': invoice,
         'previous_url': 'invoice_list',
         'part_formset': part_formset,
+        'parts': parts
     }
     return render(request, 'invoice/invoice_summary.html', context)

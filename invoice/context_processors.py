@@ -4,3 +4,4 @@ def user_creds(request):
         'Accounts': request.user.groups.filter(name='Accounts').exists(),
         'Foreman': request.user.groups.filter(name='Foreman').exists(),
     }
+

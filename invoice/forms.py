@@ -158,9 +158,10 @@ class PartForm(forms.ModelForm):
 
         # convert pence to pounds
         for entry in ['cost_to_company', 'price_to_customer']:
-            price_subunit = self.initial.get(entry)
-            if price_subunit is not None and price_subunit > 0:
-                price_unit = int(price_subunit / 100)
+            price_sub_unit = self.initial.get(entry)
+            print(price_sub_unit)
+            if price_sub_unit is not None:
+                price_unit = price_sub_unit / 100
                 self.initial[entry] = price_unit
 
 
@@ -169,8 +170,8 @@ class PartForm(forms.ModelForm):
         for entry in ['cost_to_company', 'price_to_customer']:
             price_unit = self.cleaned_data.get(entry)
             if price_unit is not None:
-                price_subunit = int(price_unit * 100)
-                setattr(self.instance, entry, price_subunit)
+                price_sub_unit = price_unit * 100
+                setattr(self.instance, entry, price_sub_unit)
 
         if commit:
             self.instance.save()
