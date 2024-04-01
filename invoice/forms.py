@@ -4,8 +4,8 @@ from django.shortcuts import reverse
 from .models import Invoice, Part, Labour, Customer, Vehicle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset, Field, ButtonHolder, HTML
-from crispy_forms.bootstrap import Modal, PrependedText, InlineCheckboxes, AccordionGroup
-from crispy_bootstrap5.bootstrap5 import FloatingField, BS5Accordion
+from crispy_forms.bootstrap import Modal
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from django.forms import inlineformset_factory, BaseInlineFormSet
 
 
