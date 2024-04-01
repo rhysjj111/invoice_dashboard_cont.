@@ -239,6 +239,8 @@ PartFormSet = inlineformset_factory(
 
 class LabourForm(forms.ModelForm):
 
+    description = forms.CharField(
+        widget=forms.Textarea())
     hours = PositiveIntegerField(label='Hrs')
 
     class Meta:

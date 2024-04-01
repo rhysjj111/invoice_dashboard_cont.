@@ -95,36 +95,62 @@ def invoice_summary(request, slug):
     invoice = get_object_or_404(Invoice, slug=slug)
     parts = Part.objects.filter(invoice=invoice.id)
     labour = Labour.objects.filter(invoice=invoice.id)
+    part_formset = PartFormSet(queryset=parts, instance=invoice, prefix='parts')
+    part_formset.helper = BasePartFormSetHelper()
+    labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
+    labour_formset.helper = BaseLabourFormSetHelper()
 
     if request.method == 'POST':
-        # fetch formset from post information 
-        part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice)
-        if part_formset.is_valid():
-            instances = part_formset.save(commit=False)
-            # loop over forms 
-            for form in part_formset:
-                # delete any forms with delete checked 
-                if form.cleaned_data.get('DELETE'):
-                    instance=form.instance
-                    instance.delete()
-                else:
-                   part_formset.save()
-            messages.success(request, 'Changes saved successfully.')
-            return redirect('invoice_summary', slug=slug)
-        else:
-            messages.error(request, 'Form validation failed. Please check your input.')
-            return redirect(reverse('invoice_summary', args=[invoice.slug]))
+        print('hello')
+        if 'parts-TOTAL_FORMS' in request.POST:
+            print('hello')
+            # handles part formset submission
+            part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
+            if part_formset.is_valid():
+                instances = part_formset.save(commit=False)
+                # loop over forms 
+                for form in part_formset:
+                    # delete any forms with delete checked 
+                    if form.cleaned_data.get('DELETE'):
+                        instance=form.instance
+                        instance.delete()
+                    else:
+                        part_formset.save()
+                messages.success(request, 'Parts changes saved successfully.')
+                return redirect('invoice_summary', slug=slug)
+            else:
+                messages.error(request, 'Parts form validation failed. Please check your input.')
+                return redirect(reverse('invoice_summary', args=[invoice.slug]))
+
+        elif 'labour-TOTAL_FORMS' in request.POST:
+            # handles labour formset submission
+            labour = Labour.objects.filter(invoice=invoice.id)
+            labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
+            if labour_formset.is_valid():
+                instances = labour_formset.save(commit=False)
+                for form in labour_formset:
+                    if form.cleaned_data.get('DELETE'):
+                        instance = form.instance
+                        instance.delete()
+                    else:
+                        form.save()
+                messages.success(request, 'Labour changes saved successfully.')
+                return redirect('invoice_summary', slug=slug)
+            else:
+                messages.error(request, 'Labour form validation failed. Please check your input.')
+                return redirect(reverse('invoice_summary', args=[invoice.slug]))
     else:
-        part_formset = PartFormSet(queryset=parts, instance=invoice)
+        part_formset = PartFormSet(queryset=parts, instance=invoice, prefix='parts')
         part_formset.helper = BasePartFormSetHelper()
-        labour_formset = LabourFormSet(queryset=labour, instance=invoice)
+        labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
         labour_formset.helper = BaseLabourFormSetHelper()       
 
     context = {
         'item': invoice,
         'previous_url': 'invoice_list',
         'part_formset': part_formset,
-        'parts': parts,
+        'parts_list': parts,
         'labour_formset': labour_formset,
+        'labour_list': labour
     }
     return render(request, 'invoice/invoice_summary.html', context)
