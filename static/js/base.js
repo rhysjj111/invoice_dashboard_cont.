@@ -3,7 +3,8 @@ const currentUrl = window.location.href;
 document.addEventListener('DOMContentLoaded', function() {
   
   if (currentUrl.includes("invoice_select")){
-    hideLastDeleteInput()
+    hideLastDeleteInput('parts')
+    hideLastDeleteInput('labour')
   }
   
   if (currentUrl.includes('invoice_list')) {
@@ -21,10 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
 * the id of the 'extra' form (it will have the highest 'number').
 * Finally the display of the delete unput is set to none.
 */
-function hideLastDeleteInput() {
-  let totalFormsInput = document.getElementById('id_parts-TOTAL_FORMS');
+function hideLastDeleteInput(target) {
+  let totalFormsInput = document.getElementById('id_' + target + '-TOTAL_FORMS');
   let totalForms = parseInt(totalFormsInput.value);
-  let lastDeleteInputId = '#div_id_parts-' + (totalForms - 1) + '-DELETE';
+  let lastDeleteInputId = '#div_id_' + target + '-' + (totalForms - 1) + '-DELETE';
   let lastDeleteInput = document.querySelector(lastDeleteInputId);
   if (lastDeleteInput) {
     lastDeleteInput.style.display = 'none';

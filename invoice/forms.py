@@ -4,8 +4,8 @@ from django.shortcuts import reverse
 from .models import Invoice, Part, Labour, Customer, Vehicle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset, Field, ButtonHolder, HTML
-from crispy_forms.bootstrap import Modal, PrependedText, InlineCheckboxes
-from crispy_bootstrap5.bootstrap5 import FloatingField
+from crispy_forms.bootstrap import Modal, PrependedText, InlineCheckboxes, AccordionGroup
+from crispy_bootstrap5.bootstrap5 import FloatingField, BS5Accordion
 from django.forms import inlineformset_factory, BaseInlineFormSet
 
 
@@ -147,8 +147,8 @@ class PartForm(forms.ModelForm):
 
     class Meta:
         model  = Part
-        fields = ('cost_to_company',
-                  'price_to_customer', 'title','quantity')   
+        fields = ('cost_to_company', 'price_to_customer', 
+                  'title','quantity')   
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -187,14 +187,16 @@ class BasePartFormSet(BaseInlineFormSet):
 
     def clean(self):
         super().clean()
+        # deletes form with no input values 
         empty_forms = []               
         for form in self.forms:
             if self._is_form_empty(form):
                 empty_forms.append(form)
         for form in empty_forms:
             self.forms.remove(form)
-
+    
     def _is_form_empty(self, form):
+        """Function to check all input values in form are empty"""
         for field_name, value in form.cleaned_data.items():
             if value is not None and value != '':
                 return False
@@ -232,6 +234,100 @@ PartFormSet = inlineformset_factory(
     model=Part,
     form=PartForm,
     formset=BasePartFormSet,
+    can_delete=True)
+
+
+class LabourForm(forms.ModelForm):
+
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 4}))
+    hours = PositiveIntegerField(label='Hrs')
+
+    class Meta:
+        model  = Labour
+        fields = ('title', 'hours', 'description')   
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name, field in self.fields.items():
+            field.required = False
+
+
+class BaseLabourFormSet(BaseInlineFormSet):
+
+    def __init__(self, *args, **kwargs):
+        super(BaseLabourFormSet, self).__init__(*args, **kwargs)
+        self.can_delete = True
+        self.extra=1
+
+    def clean(self):
+        super().clean()
+        # deletes form with no input values 
+        empty_forms = []               
+        for form in self.forms:
+            if self._is_form_empty(form):
+                empty_forms.append(form)
+        for form in empty_forms:
+            self.forms.remove(form)
+    
+    def _is_form_empty(self, form):
+        """Function to check all input values in form are empty"""
+        for field_name, value in form.cleaned_data.items():
+            if value is not None and value != '':
+                return False
+        return True
+
+
+class BaseLabourFormSetHelper(FormHelper):
+
+    def __init__(self, *args, **kwargs):
+        super(BaseLabourFormSetHelper, self).__init__(*args, **kwargs)
+
+        self.layout = Layout(
+            Row(  
+                Column(FloatingField('description', css_class='desc_text_area col-10')),
+                Column(
+                    Row(
+                        Column(FloatingField('hours'))
+                        
+                    ),
+                    Row(
+
+                        Column(Field('DELETE') )                          
+                    ),
+                    css_class='col-2'
+                )
+            
+            )
+               
+
+
+            # Row(
+            #     Column(
+            #         FloatingField('title')
+            #     ),
+            #     Column(
+            #         FloatingField('cost_to_company')
+            #     ),
+            #     Column(
+            #         FloatingField('price_to_customer')
+            #     ),
+            #     Column(
+            #         Row(
+            #             Column(FloatingField('quantity'), css_class='w-50'),
+            #             Column(Field('DELETE'), css_class='w-50'),
+            #             css_class='align-items-center'
+            #         )                    
+            #     )
+            # )
+        )
+
+LabourFormSet = inlineformset_factory(
+    parent_model=Invoice,
+    model=Labour,
+    form=LabourForm,
+    formset=BaseLabourFormSet,
     can_delete=True)
 
 

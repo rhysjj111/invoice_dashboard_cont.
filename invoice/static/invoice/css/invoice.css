@@ -31,4 +31,8 @@ p{
   border-radius: 0;
 }
 
+.desc_text_area{
+  height: 100px!important;
+}
+
 

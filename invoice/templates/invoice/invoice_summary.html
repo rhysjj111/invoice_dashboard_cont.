@@ -82,35 +82,27 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
-                <div>
-                    {{parts.quantity}}
-                    {% for part in parts %} {{part.total}} {% endfor %}
-                </div>
             </div>
         </div>
     </div>
 
     <!-- LABOUR  -->
     <div class="mb-4">
+        <!-- title -->
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
             <h4>Labour</h4>
         </button>
+        <!-- body  -->
         <div class="collapse" id="collapseLabourDetails">
             <div class="card card-body invoice-summary-card">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 p-0 d-flex align-items-center">
-                            <a class="part-specifics-collapse" role="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseLabour_X_Specifics" aria-expanded="false"
-                                aria-controls="collapseLabour_X_Specifics">
-                                <!-- replace X with {{item.id}} -->
-                                <h5>Replace LH l asdfasbar link</h5>
-                            </a>
-                        </div>
-                        <div class="col-2 p-0 d-flex justify-content-end"><i class="bi bi-pencil-square"></i></div>
+                <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+                    <div>
+                        {{ labour_formset.management_form }}
+                        {% crispy labour_formset %}
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
-                </div>
+                </form>
 
                 <div class="collapse" id="collapseLabour_X_Specifics">
                     <div class="card card-body invoice-summary-card">
