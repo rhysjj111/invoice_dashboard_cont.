@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
-{% block page_title %}Invoice #{{invoice.invoice_number}}{% endblock %}
+{% block page_title %}Invoice #{{item.invoice_number}}{% endblock %}
 
-{% block page_heading %}Invoice #{{invoice.invoice_number}}{% endblock %}
+{% block page_heading %}Invoice #{{item.invoice_number}}{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
@@ -45,22 +45,9 @@
             <h4>Invoice details</h4>
         </button>
         <div class="collapse" id="collapseInvoiceDetails">
-            <div class="card p-lg-5 card-body invoice-summary-card">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 p-0">
-                            <p>
-                                Customer name: David Jones<br>
-                                Vehicle: YK15 GFE<br>
-                                Mileage: 31000<br>
-                                Date in: 31/01/2023
-                            </p>
-                        </div>
-                        <div class="col-2 p-0 d-flex justify-content-end">
-                            <p class=" m-0"><i class="bi bi-pencil-square "></i></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="card card-body invoice-summary-card">
+                {% crispy edit_invoice_form %}
+
             </div>
         </div>
     </div>

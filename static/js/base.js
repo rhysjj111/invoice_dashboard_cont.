@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     hideLastDeleteInput('labour')
   }
   
-  if (currentUrl.includes('invoice_list')) {
+  if (currentUrl.includes('invoice')) {
     updateVehicles();
     document.getElementById('id_customer').addEventListener('change', updateVehicles);
   }

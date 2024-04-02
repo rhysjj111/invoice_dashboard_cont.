@@ -4,7 +4,7 @@ from django.shortcuts import reverse
 from .models import Invoice, Part, Labour, Customer, Vehicle
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Reset, Field, ButtonHolder, HTML
-from crispy_forms.bootstrap import Modal
+from crispy_forms.bootstrap import Modal, UneditableField
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from django.forms import inlineformset_factory, BaseInlineFormSet
 
@@ -28,6 +28,13 @@ def add_or_edit_path(slug, type):
     else:
         path = reverse('create_'+type)
     return path
+
+def add_or_edit_customer_field(slug):
+    if slug:
+        field = FloatingField('customer', disabled=True)
+    else:
+        field = FloatingField('customer')
+    return field
 
 def add_or_edit_modal(slug, type, layout):
     if slug:
@@ -94,9 +101,8 @@ class InvoiceForm(forms.ModelForm):
                 ),
                 Row(
                     Column(
-                        FloatingField(
-                            'customer', 'date_in'
-                        )
+                        add_or_edit_customer_field(self.instance.slug), 
+                        FloatingField('date_in')
                     ),
                     Column(
                         FloatingField(
@@ -156,12 +162,12 @@ class PartForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.required = False
 
-        # convert pence to pounds
+        # convert pence to pounds (formatted to 2dp)
         for entry in ['cost_to_company', 'price_to_customer']:
             price_sub_unit = self.initial.get(entry)
             if price_sub_unit is not None:
-                price_unit = price_sub_unit / 100
-                self.initial[entry] = price_unit
+                price_unit = round((price_sub_unit / 100), 2)
+                self.initial[entry] = "{:.2f}".format(price_unit)
 
 
     def save(self, commit=True):
