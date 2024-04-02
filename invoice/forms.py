@@ -159,7 +159,6 @@ class PartForm(forms.ModelForm):
         # convert pence to pounds
         for entry in ['cost_to_company', 'price_to_customer']:
             price_sub_unit = self.initial.get(entry)
-            print(price_sub_unit)
             if price_sub_unit is not None:
                 price_unit = price_sub_unit / 100
                 self.initial[entry] = price_unit
@@ -241,7 +240,8 @@ class LabourForm(forms.ModelForm):
 
     description = forms.CharField(
         widget=forms.Textarea())
-    hours = PositiveIntegerField(label='Hrs')
+    hours = PositiveDecimalField(
+        label='Hrs', max_digits=4, decimal_places=2)
 
     class Meta:
         model  = Labour

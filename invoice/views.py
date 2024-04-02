@@ -99,11 +99,11 @@ def invoice_summary(request, slug):
     part_formset.helper = BasePartFormSetHelper()
     labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
     labour_formset.helper = BaseLabourFormSetHelper()
+    for form in labour_formset:
+        print(form.initial)
 
     if request.method == 'POST':
-        print('hello')
         if 'parts-TOTAL_FORMS' in request.POST:
-            print('hello')
             # handles part formset submission
             part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
             if part_formset.is_valid():
@@ -134,9 +134,11 @@ def invoice_summary(request, slug):
                         instance.delete()
                     else:
                         form.save()
+                        print(form.cleaned_data['hours'])
                 messages.success(request, 'Labour changes saved successfully.')
                 return redirect('invoice_summary', slug=slug)
             else:
+
                 messages.error(request, 'Labour form validation failed. Please check your input.')
                 return redirect(reverse('invoice_summary', args=[invoice.slug]))
     else:

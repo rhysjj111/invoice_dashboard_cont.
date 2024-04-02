@@ -119,7 +119,7 @@ class Labour(models.Model):
     invoice = models.ForeignKey(
         Invoice, on_delete=models.PROTECT, related_name='labour')
     description = models.CharField(max_length=250, null=True, blank=True)
-    hours = models.PositiveIntegerField(null=True, blank=True)
+    hours = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     total = models.PositiveIntegerField(null=True, blank=True) 
 
     def save(self, *args, **kwargs):
