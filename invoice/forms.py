@@ -29,13 +29,6 @@ def add_or_edit_path(slug, type):
         path = reverse('create_'+type)
     return path
 
-def add_or_edit_customer_field(slug):
-    if slug:
-        field = FloatingField('customer', disabled=True)
-    else:
-        field = FloatingField('customer')
-    return field
-
 def add_or_edit_modal(slug, type, layout):
     if slug:
         layout
@@ -101,13 +94,12 @@ class InvoiceForm(forms.ModelForm):
                 ),
                 Row(
                     Column(
-                        add_or_edit_customer_field(self.instance.slug), 
-                        FloatingField('date_in')
+                        FloatingField('customer', 'date_in')
                     ),
                     Column(
                         FloatingField(
                             'vehicle', 'mileage'
-                        ),
+                        )
                     ),
                 ),
                 Row(

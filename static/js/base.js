@@ -9,9 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (currentUrl.includes('invoice')) {
     updateVehicles();
-    document.getElementById('id_customer').addEventListener('change', updateVehicles);
+    document.getElementById('id_customer').addEventListener('change', function(){
+      updateVehicles();
+      resetVehicleSelect()
+    });
   }
-  
 });
 
 
@@ -45,18 +47,25 @@ let originalVehicleSelectInput = document.getElementById('id_vehicle');
 * customer.
 */
 function updateVehicles() {
+  let vehicleSelect = document.getElementById('id_vehicle');
   let selectedCustomer = document.getElementById('id_customer').value;
   let vehicleOptions = document.querySelectorAll('#id_vehicle option'); 
   // resets vehicle options
-  document.getElementById('id_vehicle').innerHTML = originalVehicleSelectInput.innerHTML;
+  vehicleSelect.innerHTML = originalVehicleSelectInput.innerHTML;
   vehicleOptions = document.querySelectorAll('#id_vehicle option');
   // loop through vehicle options and hide/show depending on customer selected
   vehicleOptions.forEach(function(option) {
-      if (option.className === selectedCustomer || option.className === 'no_customer') {
-        option.style.display = 'block';
-      } else {
-        option.style.display = 'none';
-      }
-    });
-  }
+    if (option.className === selectedCustomer || option.className === 'no_customer') {
+      option.style.display = 'block';
+    } else {
+      option.style.display = 'none';
+    }
+  });
+}
+
+function resetVehicleSelect(){
+  // resets vehicle selected option
+  let vehicleSelect = document.getElementById('id_vehicle');
+  vehicleSelect.selectedIndex = 0;
+}
 
