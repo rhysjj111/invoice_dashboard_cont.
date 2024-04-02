@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="{% static 'invoice/css/invoice.css' %}">
 {% endblock %}
 
-{% block page_title %}Invoice #{{item.invoice_number}}{% endblock %}
+{% block page_title %}Invoice #{{item.id}}{% endblock %}
 
-{% block page_heading %}Invoice #{{item.invoice_number}}{% endblock %}
+{% block page_heading %}Invoice #{{item.id}}{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
@@ -105,11 +105,11 @@
             <div>
                 <div class="card card-body invoice-summary-card">
                     <p>
-                        Parts: parts.subtotal<br>
-                        Labour: labour.subtotal<br>
-                        Subtotal: x <br>
-                        VAT: 20 %<br>
-                        Total: x
+                        Parts: {{item.parts_subtotal|format_currency}}<br>
+                        Labour: {{item.labour_subtotal|format_currency}}<br>
+                        Subtotal: {{item.subtotal|format_currency}}<br>
+                        VAT: {{item.vat_total|format_currency}}<br>
+                        Total: {{item.grand_total|format_currency}}
                     </p>
                 </div>
             </div>

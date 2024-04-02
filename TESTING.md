@@ -42,3 +42,18 @@ Mechanic, Foreman | Visit invoice_list.html | Only see filter views for valid an
 Accounts | " " | See filters for valid, pending and inactive. | Pass
 Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
 Mechanic | Change status of invoice from 'open' to 'ready for processing'  | Invoice status changes successfully, user feedback to say so, invoice disapears from view and into Foreman view | #####################
+
+### Invoice app
+#### Invoice summary
+**Section** | **Action** | **Expected view** | **Pass/Fail**
+:-----:|:-----:|:-----:|:-----:|:-----:
+Invoice details form, parts form, labour form | Edit any of the fields and submit. | Success message, redirect to page, entry successfully edited. | Pass
+Invoice details form, parts form, labour form | Submit with no changes to field. | Success message, redirect to page, no changes made. | Pass
+Invoice details form, parts form, labour form | Enter invalid information and submit form. | Error message, redirect to page, no changes made. | Pass
+Parts form, labour form | Check delete and submit. | Success message, redirect to page, entry deleted. | Pass
+Invoice form | Change 'customer' select input to another customer when both 'customer' and 'vehicle' are prepopulated. | Vehicle choice is reset to default '-----' answer and vehicle list is filtered to new customer. | Pass
+Totals | Parts and Labour rows added, fully populated | Subtotal calculated for field(s), total calculated. | Pass
+Totals | Parts or Labour rows added, fully populated (not both) | Subtotal calculated for field, total calculated. | Pass
+Totals | Parts or Labour rows added, partially populated | Error message displayed at subtotal and total. | Pass
+Invoice | Delete button pressed #######
+

@@ -31,8 +31,10 @@ class Invoice(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=InvoiceStatus.choices, blank=True, null=True)
     active = models.BooleanField(default=True, blank=True, null=True)
+    parts_subtotal = models.PositiveIntegerField(blank=True, null=True)
+    labour_subtotal = models.PositiveIntegerField(blank=True, null=True)
     subtotal = models.PositiveIntegerField(blank=True, null=True)
-    vat_subtotal = models.PositiveIntegerField(blank=True, null=True)
+    vat_total = models.PositiveIntegerField(blank=True, null=True)
     grand_total = models.PositiveIntegerField(blank=True, null=True)
 
     # utilities
@@ -52,15 +54,19 @@ class Invoice(models.Model):
 
     def update_total(self):
         #update grand_total each time a part or labour entry is updated.
-        part_subtotal = self.parts.aggregate(Sum('subtotal'))['subtotal__sum'] or 0
-        labour_subtotal = self.labour.aggregate(Sum('subtotal'))['subtotal__sum'] or 0
-        self.subtotal = part_subtotal + labour_subtotal
-        if self.subtotal > 0:
-            self.vat_subtotal = self.subtotal * settings.VAT_PERCENTAGE
-            self.grand_total = self.subtotal + self.vat_subtotal
+        try:
+            self.parts_subtotal = self.parts.aggregate(Sum('total'))['total__sum'] or 0
+            self.labour_subtotal = self.labour.aggregate(Sum('total'))['total__sum'] or 0
+            self.subtotal = self.parts_subtotal + self.labour_subtotal
+        except:
+            self.subtotal, self.total, self.parts_subtotal, self.labour_subtotal = 'Incomplete entries present'
         else:
-            self.grand_total = 0
-            self.vat_subtotal = 0
+            if self.subtotal > 0:
+                self.vat_total = self.subtotal * settings.VAT_PERCENTAGE
+                self.grand_total = self.subtotal + self.vat_total
+            else:
+                self.grand_total = 0
+                self.vat_total = 0
         self.save()
 
         

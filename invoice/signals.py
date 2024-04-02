@@ -11,6 +11,7 @@ def update_on_save(sender, instance, created, **kwargs):
     """
     instance.invoice.update_total()
 
+
 @receiver(post_delete, sender=Part)
 def update_on_delete(sender, instance, **kwargs):
     """
