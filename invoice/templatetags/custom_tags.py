@@ -18,5 +18,5 @@ def format_currency(value, currency='£'):
         format_pounds = number_format(pounds_value, decimal_pos=2, force_grouping=True)
         result = f'{currency}{format_pounds}'
     except:
-        result = "Incomplete field"
+        result = f'{currency}0.00'
     return result

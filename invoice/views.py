@@ -85,7 +85,7 @@ def create_invoice(request):
     if form.is_valid():
         invoice = form.save()
         messages.success(request, f'Successfully added invoice')
-        return redirect(reverse('invoice', args=[invoice.slug]))
+        return redirect(reverse('invoice_summary', args=[invoice.slug]))
     else:
         messages.error(request, 'Failed to add invoice. Please ensure the form is valid.')
         return redirect(reverse('invoice_list')) 
@@ -171,6 +171,7 @@ def invoice_summary(request, slug):
         'previous_url': 'invoice_list',
         'part_formset': part_formset,
         'labour_formset': labour_formset,
+        'parts_list': parts,
         'labour_list': labour,
         'edit_invoice_form': invoice_form,
     }

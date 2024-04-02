@@ -58,15 +58,16 @@ class Invoice(models.Model):
             self.parts_subtotal = self.parts.aggregate(Sum('total'))['total__sum'] or 0
             self.labour_subtotal = self.labour.aggregate(Sum('total'))['total__sum'] or 0
             self.subtotal = self.parts_subtotal + self.labour_subtotal
-        except:
-            self.subtotal, self.total, self.parts_subtotal, self.labour_subtotal = 'Incomplete entries present'
-        else:
+
             if self.subtotal > 0:
                 self.vat_total = self.subtotal * settings.VAT_PERCENTAGE
                 self.grand_total = self.subtotal + self.vat_total
             else:
                 self.grand_total = 0
                 self.vat_total = 0
+        except:
+            self.grand_total = self.vat_total = self.subtotal = 0
+
         self.save()
 
         
@@ -95,6 +96,7 @@ class Invoice(models.Model):
             self.unique_id = str(uuid4()).split('-')[4]
                    
         self.slug = slugify(f'{self.unique_id}')
+
         super().save(*args, **kwargs)
 
 

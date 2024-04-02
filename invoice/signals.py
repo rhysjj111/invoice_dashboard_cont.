@@ -5,31 +5,31 @@ from .models import Part, Labour
 
 #parts signals
 @receiver(post_save, sender=Part)
-def update_on_save(sender, instance, created, **kwargs):
+def update_on_parts_save(sender, instance, created, **kwargs):
     """
-    Update order total on lineitem update/create
+    Update invoice totals upon part add/edit
     """
     instance.invoice.update_total()
 
 
 @receiver(post_delete, sender=Part)
-def update_on_delete(sender, instance, **kwargs):
+def update_on_parts_delete(sender, instance, **kwargs):
     """
-    Update order total on lineitem delete
+    Update invoice totals upon part delete
     """
     instance.invoice.update_total()
 
 #labour signals
 @receiver(post_save, sender=Labour)
-def update_on_save(sender, instance, created, **kwargs):
+def update_on_labour_save(sender, instance, created, **kwargs):
     """
-    Update order total on lineitem update/create
+    Update invoice totals upon labour add/edit
     """
     instance.invoice.update_total()
 
 @receiver(post_delete, sender=Labour)
-def update_on_delete(sender, instance, **kwargs):
+def update_on_labour_delete(sender, instance, **kwargs):
     """
-    Update order total on lineitem delete
+    Update invoice totals upon labour delete
     """
     instance.invoice.update_total()
