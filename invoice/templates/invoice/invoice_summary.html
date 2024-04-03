@@ -36,7 +36,7 @@
 
 
 {% block dashboard_content %}
-
+{% if item.status < 5 %}
 <div class="invoice-container">
     <!-- INVOICE DETAILS  -->
     <div class="mb-4">
@@ -57,7 +57,7 @@
         <!-- title  -->
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
-            <h4>Parts {{item.parts_subtotal}}</h4>
+            <h4>Parts</h4>
         </button>
         <!-- body  -->
         <div class="collapse" id="collapsePartsDetails">
@@ -78,7 +78,7 @@
         <!-- title -->
         <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
             data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
-            <h4>Labour {{item.labour_subtotal}}</h4>
+            <h4>Labour</h4>
         </button>
         <!-- body  -->
         <div class="collapse" id="collapseLabourDetails">
@@ -116,7 +116,9 @@
         </div>
     </div>
 </div>
-
+{% else %}
+{% include 'includes/invoice_complete.html'%}
+{% endif %}
 {% endblock %}
 
 

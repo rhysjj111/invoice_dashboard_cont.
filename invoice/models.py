@@ -80,8 +80,8 @@ class Invoice(models.Model):
         # Set active to True or False and create invoice number depending on invoice status.
         if self.status:
             if self.status >= 5:
-                self.active = False
-                if self.status == 6 and self.inv_number is None:
+                self.active = False 
+                if self.inv_number is None:
                     try:
                         latest = Invoice.objects.filter(inv_integer__gt=0).latest('inv_integer')
                         latest = latest.inv_integer

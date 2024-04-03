@@ -167,3 +167,17 @@ td > a{
     color:#FF7F11;    
 }
 
+/* tables */
+.invoice-list-table tr, 
+.invoice-list-table td,
+.invoice-list-table th,
+.bottom-row,
+.bottom-row td{
+    border: none!important;
+}
+
+/* complete invoices  */
+.complete-invoice-container{
+    max-width: 900px;
+}
+

@@ -1,0 +1,99 @@
+{% load custom_tags %}
+{% load static %}
+<div class="text-center mb-3">
+    <h1>Your invoice {{item.invoice_number}}</h1>
+</div>
+
+<div class="container d-flex justify-content-center">
+    <div class="complete-invoice-container px-md-5">
+        <!-- INVOICE DETAILS  -->
+        <div class="row">
+            <h4>Invoice details</h4>
+            <div class="col-12 col-md-6 mb-3">
+                <p>{{item.customer}}</p>
+                <p>{{item.customer.address_line_1}}</p>
+                <p>{{item.customer.address_line_2}}</p>
+                <p>{{item.customer.city_region}}</p>
+                <p>{{item.customer.postcode}}</p>
+            </div>
+            <div class="col-12 col-md-6 mb-3 text-end">
+                <p>Invoice number: {{item.inv_number}}</p>
+                <p>Vehicle: {{item.vehicle.registration}}</p>
+                <p>Mileage: {{item.mileage}}</p>
+                <p>Date in: {{item.date_in|date_uk}}</p>
+                <p>Invoice terms: {{item.customer.get_payment_terms_display}}</p>
+            </div>
+        </div>
+        <!-- PARTS  -->
+        <div class="row">
+            <h4>Parts details</h4>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table minimal-table">
+                        <tbody>
+                            {% for part in parts_list %}
+                            <tr>
+                                <td class="col-6">{{part.title}}</td>
+                                <td class="col-3 text-end">QTY: {{part.quantity}}</td>
+                                <td class="col-3 text-end">{{part.total|format_currency}}</td>
+                            </tr>
+                            {% endfor %}                    
+                            <tr class="bottom-row">
+                                <td class="col-6"></td>
+                                <td class="col-3 text-end"></td>
+                                <td class="col-3 text-end">Subtotal: {{item.parts_subtotal|format_currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>                
+                </div>
+
+            </div>
+        </div>
+
+        <!-- LABOUR  -->
+        <div class="row">
+            <h4>Labour details</h4>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table minimal-table">
+                        <tbody>
+                            {% for labour in labour_list %}
+                            <tr>
+                                <td class="col-6">{{labour.description}}</td>
+                                <td class="col-3 text-end">HRS: {{labour.hours}}</td>
+                                <td class="col-3 text-end">{{labour.total|format_currency}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="bottom-row">
+                                <td class="col-6"></td>
+                                <td class="col-3 text-end"></td>
+                                <td class="col-3 text-end">Subtotal: {{item.labour_subtotal|format_currency}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TOTALS  -->
+        <div class="row mb-5">
+            <div class="col-12 col-lg-3 offset-lg-9">
+                <h4>Totals</h4>
+                <div class="text-end">
+                    <p>Parts: {{item.parts_subtotal|format_currency}}</p>
+                    <p>Labour: {{item.labour_subtotal|format_currency}}</p>
+                    <p>Subtotal: {{item.subtotal|format_currency}}</p>
+                    <p>VAT: {{item.vat_total|format_currency}}</p>
+                    <p>Grand Total: {{item.grand_total|format_currency}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
