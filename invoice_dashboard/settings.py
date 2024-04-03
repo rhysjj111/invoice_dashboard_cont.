@@ -27,10 +27,10 @@ SECRET_KEY = 'django-insecure-a$3q_9ty^g=xjv2u&ptv_yc0*r3c^hwxs$l!vspnw)dzlvks7z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ckz8780-boutique-ado.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['invoice-project-9aaf4928352b.herokuapp.com', 'localhost']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-rhysjj111-project4invoi-9c8kgozjesx.ws-eu110.gitpod.io',
+    'invoice-project-9aaf4928352b.herokuapp.com','localhost'
 ]
 
 
