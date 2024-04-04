@@ -11,6 +11,5 @@ class VehicleAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(
-    Customer, CustomerAdmin)
+admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Vehicle, VehicleAdmin)
