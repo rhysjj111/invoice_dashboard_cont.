@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'invoice',
     'login',
     'customer',
+    'checkout',
 
     'crispy_forms',
     'crispy_bootstrap5',

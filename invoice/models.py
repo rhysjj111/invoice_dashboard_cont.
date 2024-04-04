@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from customer.models import Customer, Vehicle
 from django.utils import timezone
 from uuid import uuid4
+from django.contrib import messages
 
 
 class Invoice(models.Model):
@@ -31,8 +32,8 @@ class Invoice(models.Model):
     status = models.PositiveSmallIntegerField(
         choices=InvoiceStatus.choices, blank=True, null=True)
     active = models.BooleanField(default=True, blank=True, null=True)
-    parts_subtotal = models.PositiveIntegerField(blank=True, null=True)
-    labour_subtotal = models.PositiveIntegerField(blank=True, null=True)
+    parts_total = models.PositiveIntegerField(blank=True, null=True)
+    labour_total = models.PositiveIntegerField(blank=True, null=True)
     subtotal = models.PositiveIntegerField(blank=True, null=True)
     vat_total = models.PositiveIntegerField(blank=True, null=True)
     grand_total = models.PositiveIntegerField(blank=True, null=True)
@@ -54,10 +55,18 @@ class Invoice(models.Model):
 
     def update_total(self):
         #update grand_total each time a part or labour entry is updated.
-        try:
-            self.parts_subtotal = self.parts.aggregate(Sum('total'))['total__sum'] or 0
-            self.labour_subtotal = self.labour.aggregate(Sum('total'))['total__sum'] or 0
-            self.subtotal = self.parts_subtotal + self.labour_subtotal
+
+        #check no parts or labour total fields equal None
+        parts_total_none = any(part.total is None for part in self.parts.all())
+        labour_total_none = any(labour.total is None for labour in self.labour.all())
+
+        if not parts_total_none and not labour_total_none:     
+            parts_total = self.parts.aggregate(Sum('total'))['total__sum']
+            labour_total = self.labour.aggregate(Sum('total'))['total__sum']
+
+            self.parts_total = parts_total or 0
+            self.labour_total = labour_total or 0
+            self.subtotal = self.parts_total + self.labour_total
 
             if self.subtotal > 0:
                 self.vat_total = self.subtotal * settings.VAT_PERCENTAGE
@@ -65,9 +74,8 @@ class Invoice(models.Model):
             else:
                 self.grand_total = 0
                 self.vat_total = 0
-        except:
+        else:
             self.grand_total = self.vat_total = self.subtotal = 0
-
         self.save()
 
         
