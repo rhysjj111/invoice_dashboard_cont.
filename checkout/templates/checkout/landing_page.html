@@ -1,0 +1,32 @@
+{% extends "base_simple.html" %}
+{% load static %}
+{% load custom_tags %}
+
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
+{% endblock %}
+
+{% block page_title %}{{item.inv_number}}{% endblock %}
+
+{% block page_heading %}{{item.inv_number}}{% endblock %}
+
+
+{% block simple_content %}
+
+{% include 'includes/invoice_complete.html'%}
+<div class="container">
+    <div class="row justify-content-end">
+        <div class="col-12 col-md-5 p-3 text-center">
+            <a href="{% url 'payment' item.slug %}" class="btn btn-success btn-lg">Proceed to payment</a> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center p-4">
+            <p>Not completely happy with your invoice, or have a question?<br>Contact us via email: info@madeupemail.com, or give us a call: 02920 111 111</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

@@ -87,7 +87,6 @@ i{
 .heading-row{
     height: 100px;
     margin-bottom: 15px;
-
     border-radius: 8px;
 }
 
@@ -95,7 +94,7 @@ i{
     color: white;
 }
 
-.dashboard-outer{
+.outer-container{
     overflow-y: auto;
     height: 100vh;
 }

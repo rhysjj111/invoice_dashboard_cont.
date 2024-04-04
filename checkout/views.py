@@ -1,15 +1,39 @@
-# from django.shortcuts import render, redirect, reverse, get_object_or_404
-# from .models import Invoice, Customer, Vehicle
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from invoice.models import Invoice, Part, Labour
 # from .forms import CustomerForm, VehicleForm
-# from django.contrib import messages
+from django.contrib import messages
 
 
 
 
+def landing_page(request, slug):
+    """A view to return the landing page for customer payment"""
+    invoice = get_object_or_404(Invoice, slug=slug)
+    parts = Part.objects.filter(invoice=invoice.id)
+    labour = Labour.objects.filter(invoice=invoice.id)
 
+    template = 'checkout/landing_page.html'
 
+    context = {
+        'item': invoice,
+        'parts_list': parts,
+        'labour_list': labour,
+    }
 
+    return render(request, template, context)
 
+def payment(request,slug):
+    """A view to return checkout page"""
+
+    invoice = get_object_or_404(Invoice, slug=slug)
+    
+    template = 'checkout/payment.html'
+
+    context = {
+        'item': invoice,
+    }
+
+    return render(request, template, context)
 
 
 

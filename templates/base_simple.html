@@ -2,15 +2,17 @@
 {% load static %}
 
 {% block content %}
+<!-- HEADER  -->
+<div class="outer-container p-0">
   <header class="container-fluid header-container">
-    <div class="row h-100">
-      <div class="col d-flex align-items-center justify-content-center">
+    <div class="row heading-row">
+      <div class="col d-flex align-items-center justify-content-center heading-container">
         <h1 class="d-block">{% block page_heading %}{% endblock %}</h1>
       </div>
     </div>
   </header>
 
-  <!-- content body  -->
+  <!-- MAIN CONTENT  -->
   <div class="container content-container">
     <div class="row">
       <div class="col-12">
@@ -19,5 +21,6 @@
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}
