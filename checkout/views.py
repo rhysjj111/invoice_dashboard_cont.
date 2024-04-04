@@ -1,8 +1,69 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import JsonResponse
 from invoice.models import Invoice, Part, Labour
-# from .forms import CustomerForm, VehicleForm
+from django.conf import settings
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+import os
+import stripe
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+def get_domain(request):
+    if 'DYNO' in os.environ:  # Running on Heroku
+        return 'https://' + settings.ALLOWED_HOSTS[0]
+    else:  # Running locally
+        return 'http://localhost:' + settings.ALLOWED_HOSTS[1]
+
+@csrf_exempt
+def create_checkout_session(request, slug):
+    YOUR_DOMAIN = get_domain(request)
+    print('TESTING')
+    
+    invoice = get_object_or_404(Invoice, slug=slug)
+    
+    if invoice:
+        line_items = [{
+            'name': invoice.inv_number,
+            'description': f'For work carried out on vehicle: {invoice.vehicle.registration}, on: {invoice.date_in}',
+            'amount': int(invoice.grand_total),
+            'currency': 'gbp', 
+            'quantity': 1, 
+        }]
+    else:
+        return JsonResponse({'error': f'Product with slug {product_slug} not found'}, status=404)
+    
+    try:
+        session = stripe.checkout.Session.create(
+            ui_mode = 'embedded',
+            line_items=line_items,
+            mode='payment',
+            # success_url=YOUR_DOMAIN + reverse('checkout_success') + '?session_id={CHECKOUT_SESSION_ID}',
+            # cancel_url=YOUR_DOMAIN + reverse('checkout_cancel'),
+            return_url=YOUR_DOMAIN + reverse('checkout_return') + '?session_id={CHECKOUT_SESSION_ID}',
+        )
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=403)
+
+    return JsonResponse({'sessionId': session.id})
+
+@csrf_exempt
+def session_status(request):
+    session_id = request.GET.get('session_id')
+
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+        status = session.get('status')
+        customer_email = session.get('customer_email')
+        return JsonResponse({'status': status, 'customer_email': customer_email})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=400)
+
+def checkout_return(request):
+    return render(request, 'checkout/return.html')
+
+# def checkout_cancel(request):
+#     return render(request, 'checkout/cancel.html')
 
 
 
@@ -11,6 +72,7 @@ def landing_page(request, slug):
     invoice = get_object_or_404(Invoice, slug=slug)
     parts = Part.objects.filter(invoice=invoice.id)
     labour = Labour.objects.filter(invoice=invoice.id)
+    print(settings.STRIPE_SECRET_KEY, 'HELLO')
 
     template = 'checkout/landing_page.html'
 
@@ -22,18 +84,26 @@ def landing_page(request, slug):
 
     return render(request, template, context)
 
-def payment(request,slug):
+
+def payment(request, slug):
     """A view to return checkout page"""
 
     invoice = get_object_or_404(Invoice, slug=slug)
+
+    
+
+    checkout_url = reverse('create_checkout_session', kwargs={'slug': invoice.slug})
     
     template = 'checkout/payment.html'
 
     context = {
         'item': invoice,
+        'checkout_url': checkout_url,
     }
 
     return render(request, template, context)
+
+
 
 
 
