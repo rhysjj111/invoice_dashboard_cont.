@@ -13,25 +13,29 @@ def get_domain(request):
     if 'DYNO' in os.environ:  # Running on Heroku
         return 'https://' + settings.ALLOWED_HOSTS[0]
     else:  # Running locally
-        return 'http://localhost:' + settings.ALLOWED_HOSTS[1]
+        return 'https://' + settings.ALLOWED_HOSTS[1]
 
 @csrf_exempt
 def create_checkout_session(request, slug):
     YOUR_DOMAIN = get_domain(request)
-    print('TESTING')
     
     invoice = get_object_or_404(Invoice, slug=slug)
+    price = stripe.Price.create(
+    unit_amount=invoice.grand_total,
+    currency='gbp',
+    product_data={
+    'name': 'Custom Product',  # You can customize this name as needed
+    # You can include more details about the product if necessary
+    })
     
     if invoice:
         line_items = [{
-            'name': invoice.inv_number,
-            'description': f'For work carried out on vehicle: {invoice.vehicle.registration}, on: {invoice.date_in}',
-            'amount': int(invoice.grand_total),
-            'currency': 'gbp', 
-            'quantity': 1, 
+            'price': price.id,
+            'quantity': 1,
+ 
         }]
     else:
-        return JsonResponse({'error': f'Product with slug {product_slug} not found'}, status=404)
+        return JsonResponse({'error': f'Invoice not found'}, status=404)
     
     try:
         session = stripe.checkout.Session.create(
@@ -45,25 +49,36 @@ def create_checkout_session(request, slug):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=403)
 
-    return JsonResponse({'sessionId': session.id})
+    return JsonResponse({'clientSecret': session.client_secret})
 
 @csrf_exempt
 def session_status(request):
     session_id = request.GET.get('session_id')
-
     try:
         session = stripe.checkout.Session.retrieve(session_id)
+        print(session, '***************************')
         status = session.get('status')
-        customer_email = session.get('customer_email')
+        print(status)
+        customer_email = session.get('customer_details', {}).get('email')
+        print(customer_email, '**************************************')
         return JsonResponse({'status': status, 'customer_email': customer_email})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=400)
 
 def checkout_return(request):
+    session_status_url = reverse('session_status')
+    context = {
+        'session_status_url': session_status_url
+    }
+    return render(request, 'checkout/return.html', context)
+
+def checkout_cancel(request):
     return render(request, 'checkout/return.html')
 
-# def checkout_cancel(request):
-#     return render(request, 'checkout/cancel.html')
+def checkout_success(request):
+    return render(request, 'checkout/return.html')
+
+
 
 
 
@@ -72,7 +87,6 @@ def landing_page(request, slug):
     invoice = get_object_or_404(Invoice, slug=slug)
     parts = Part.objects.filter(invoice=invoice.id)
     labour = Labour.objects.filter(invoice=invoice.id)
-    print(settings.STRIPE_SECRET_KEY, 'HELLO')
 
     template = 'checkout/landing_page.html'
 

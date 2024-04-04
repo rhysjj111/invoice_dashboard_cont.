@@ -5,7 +5,7 @@
 {% block css %}
 {{block.super}}
 <link rel="stylesheet" href="{% static 'checkout/css/checkout.css' %}">
-<script src="{% static 'checkout/js/return.js'}" defer></script>
+<script src="{% static 'checkout/js/return.js' %}" defer></script>
 {% endblock %}
 
 {% block page_title %}{{item.inv_number}}{% endblock %}
@@ -35,4 +35,8 @@
 </div>
 {% endblock %}
 
-
+{% block js %}
+{{ block.super }}
+{{ session_status_url|json_script:"session_status_url" }}
+{{ checkout_url|json_script:"checkout_url" }}
+{% endblock %}

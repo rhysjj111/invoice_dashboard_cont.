@@ -11,4 +11,5 @@ urlpatterns = [
     path('session-status/', views.session_status, name='session_status'),
     path('return/', views.checkout_return, name='checkout_return'),
     # path('checkout-cancel/', views.checkout_cancel, name='checkout_cancel'),
+    # path('checkout-success/', views.checkout_success, name='checkout_success'),
 ]

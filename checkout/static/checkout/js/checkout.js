@@ -7,12 +7,9 @@ initialize();
 async function initialize() {
   const fetchClientSecret = async () => {
     let checkout_url = document.getElementById('checkout_url').innerText.replace(/["']/g, '');
-    console.log(checkout_url)
     const response = await fetch(checkout_url, {
       method: "POST",
     });
-    console.log(response)
-    
     const { clientSecret } = await response.json();
     return clientSecret;
   };
@@ -23,4 +20,5 @@ async function initialize() {
 
   // Mount Checkout
   checkout.mount('#checkout');
+  console.log('fin')
 }
