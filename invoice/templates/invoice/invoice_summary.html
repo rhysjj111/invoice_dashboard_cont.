@@ -105,8 +105,8 @@
             <div>
                 <div class="card card-body invoice-summary-card">
                     <p>
-                        Parts: {{item.parts_subtotal|format_currency}}<br>
-                        Labour: {{item.labour_subtotal|format_currency}}<br>
+                        Parts: {{item.parts_total|format_currency}}<br>
+                        Labour: {{item.labour_total|format_currency}}<br>
                         Subtotal: {{item.subtotal|format_currency}}<br>
                         VAT: {{item.vat_total|format_currency}}<br>
                         Total: {{item.grand_total|format_currency}}
