@@ -6,6 +6,8 @@ from customer.models import Customer, Vehicle
 from django.utils import timezone
 from uuid import uuid4
 from django.contrib import messages
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
 class Invoice(models.Model):
@@ -79,27 +81,6 @@ class Invoice(models.Model):
         self.save()
 
 
-    # def clean(self):
-    #     super().clean()
-
-    #     if self.status == 5:
-    #         # Check if the customer has an email address
-    #         if not self.customer.email:
-    #             raise ValidationError("Customer must have an email address.")
-
-    #         # Check if grand_total is greater than 0
-    #         if self.grand_total <= 0:
-    #             raise ValidationError("Grand total must be greater than 0.")
-
-    #         # Check if all required fields are filled in
-    #         if not all([self.customer, self.vehicle, self.date_in, self.mileage,
-    #                     self.parts_total, self.labour_total, self.subtotal, 
-    #                     self.vat_total, self.grand_total]):
-    #             raise ValidationError("All invoice fields must be filled in.")
-            
-    #         self.status = 5    
-
-
     def save(self, *args, **kwargs):
         # create a todays date if no date provided
         if self.date_in is None:
@@ -107,8 +88,28 @@ class Invoice(models.Model):
 
         # Set active to True or False and create invoice number depending on invoice status.
         if self.status:
-            if self.status >= 5:
+            if self.status == 5:
+                # Check if the customer has an email address
+                if not self.customer.email:
+                    raise ValidationError("Customer must have an email address.")
+                
+                # Check email is valid
+                try:
+                    validate_email(self.customer.email)
+                except ValidationError as e:
+                    raise ValueError("Invalid email address: {}".format(e))
+
+                # Check if all required fields are filled in
+                if not all([self.customer, self.vehicle, self.date_in, 
+                            self.mileage]):
+                    raise ValidationError("All invoice details must be filled in.")
+
+                # Check if grand_total is greater than 0
+                if self.grand_total is not None and self.grand_total <= 0:
+                    raise ValidationError("Grand total must be greater than 0.")
+
                 self.active = False 
+
                 if self.inv_number is None:
                     try:
                         latest = Invoice.objects.filter(inv_integer__gt=0).latest('inv_integer')

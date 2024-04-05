@@ -3,6 +3,7 @@ from .forms import InvoiceForm, PartFormSet, BasePartFormSetHelper, LabourFormSe
 from .models import Invoice, Part, Labour
 from django.contrib import messages
 from django.db.models import Q
+from django.db import transaction
 from django.conf import settings
 
 from invoice_dashboard.utils import get_domain
@@ -39,33 +40,36 @@ def invoice_list(request):
         # 'send to customer'
         if new_invoice_status == 5:
             try:
-                DOMAIN = get_domain(request)
-                landing_page = DOMAIN + reverse('landing_page', args=[invoice.slug])
-                subject = render_to_string(
-                    'invoice/request_payment_email/request_payment_subject.txt',
-                    {'invoice': invoice}
-                )
-                print(landing_page)
-                body = render_to_string(
-                    'invoice/request_payment_email/request_payment_body.txt',
-                    {'invoice': invoice, 'landing_page': landing_page}
-                )
-                send_mail(
-                    subject,
-                    body,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [invoice.customer.email]
-                )
+                with transaction.atomic():
+                    # Change invoice status      
+                    invoice.status = new_invoice_status
+                    invoice.save()
+                    DOMAIN = get_domain(request)
+                    landing_page = DOMAIN + reverse('landing_page', args=[invoice.slug])
+                    subject = render_to_string(
+                        'invoice/request_payment_email/request_payment_subject.txt',
+                        {'invoice': invoice}
+                    )
+                    body = render_to_string(
+                        'invoice/request_payment_email/request_payment_body.txt',
+                        {'invoice': invoice, 'landing_page': landing_page}
+                    )
+                    send_mail(
+                        subject,
+                        body,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [invoice.customer.email]
+                    )
             except Exception as e:
-                # If email failed then redirect with error message 
+                # If email failed then redirect with error message
+                transaction.rollback()
                 messages.error(
-                    request, 'Invoice failed to send to customer. Check email '+
-                    'settings and customer email is valid and try again.')
+                    request, f'Invoice failed to send to customer. Check email '+
+                    f'settings and customer email is valid and try again. '+
+                    f'More info: {str(e)}')
                 return redirect(reverse('invoice_list')+f'?filter={filter}')
             else:
-                # Redirect with success message and change invoice status
-                invoice.status = new_invoice_status
-                invoice.save()        
+                # Redirect with success message
                 messages.success(request, f'Invoice successfully sent to customer')
                 return redirect(reverse('invoice_list')+f'?filter={filter}')                
 
@@ -96,7 +100,7 @@ def invoice_list(request):
         2: (3, 1),
         3: (4, 2),
         4: (5, 3),
-        5: (6, 4,)
+        5: (6,),
     }
 
     # a map for invoice class depending on current status
@@ -195,7 +199,6 @@ def invoice_summary(request, slug):
                         instance.delete()
                     else:
                         form.save()
-                        print(form.cleaned_data['hours'])
                 messages.success(request, 'Labour changes saved successfully.')
                 return redirect('invoice_summary', slug=slug)
             else:

@@ -9,8 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 from invoice_dashboard.utils import get_domain
 import os
 import stripe
+from django.views.decorators.cache import never_cache
 
 
+@never_cache
 def landing_page(request, slug):
     """A view to return the landing page for customer payment"""
     invoice = get_object_or_404(Invoice, slug=slug)
@@ -28,6 +30,7 @@ def landing_page(request, slug):
     return render(request, template, context)
 
 
+@never_cache
 def payment(request, slug):
     """A view to return stripe embeded form"""
 
@@ -98,6 +101,7 @@ def session_status(request):
         return JsonResponse({'error': str(e)}, status=400)
 
 
+@never_cache
 def checkout_return(request):
     # Get session info 
     session_id = request.GET.get('session_id')
