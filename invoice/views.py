@@ -3,6 +3,12 @@ from .forms import InvoiceForm, PartFormSet, BasePartFormSetHelper, LabourFormSe
 from .models import Invoice, Part, Labour
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
+
+from invoice_dashboard.utils import get_domain
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 def extract_options(status_options, *keys_to_keep):
@@ -25,11 +31,47 @@ def invoice_list(request):
     if request.method == 'POST':
         filter = request.POST.get('filter')
         invoice_pk = request.POST.get('pk')
-        invoice_status = int(request.POST.get('status'))
+        # Get invoice
         invoice = get_object_or_404(Invoice, pk=invoice_pk)
-        invoice.status = invoice_status
+        # Get new invoice status user has selected
+        new_invoice_status = int(request.POST.get('status'))
+        # Send invoice summary to customer if new status is 
+        # 'send to customer'
+        if new_invoice_status == 5:
+            try:
+                DOMAIN = get_domain(request)
+                landing_page = DOMAIN + reverse('landing_page', args=[invoice.slug])
+                subject = render_to_string(
+                    'invoice/request_payment_email/request_payment_subject.txt',
+                    {'invoice': invoice}
+                )
+                print(landing_page)
+                body = render_to_string(
+                    'invoice/request_payment_email/request_payment_body.txt',
+                    {'invoice': invoice, 'landing_page': landing_page}
+                )
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [invoice.customer.email]
+                )
+            except Exception as e:
+                # If email failed then redirect with error message 
+                messages.error(
+                    request, 'Invoice failed to send to customer. Check email '+
+                    'settings and customer email is valid and try again.')
+                return redirect(reverse('invoice_list')+f'?filter={filter}')
+            else:
+                # Redirect with success message and change invoice status
+                invoice.status = new_invoice_status
+                invoice.save()        
+                messages.success(request, f'Invoice successfully sent to customer')
+                return redirect(reverse('invoice_list')+f'?filter={filter}')                
+
+        invoice.status = new_invoice_status
         invoice.save()        
-        messages.success(request, f'Successfully')
+        messages.success(request, f'Successfully changed invoice status')
         return redirect(reverse('invoice_list')+f'?filter={filter}')
 
     if request.method == 'GET':
@@ -123,7 +165,7 @@ def invoice_summary(request, slug):
 
     if request.method == 'POST':
         if 'parts-TOTAL_FORMS' in request.POST:
-            # handles part formset submission
+            # Handles part formset submission
             part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
             if part_formset.is_valid():
                 instances = part_formset.save(commit=False)
@@ -142,7 +184,7 @@ def invoice_summary(request, slug):
                 return redirect(reverse('invoice_summary', args=[invoice.slug]))
 
         elif 'labour-TOTAL_FORMS' in request.POST:
-            # handles labour formset submission
+            # Handles labour formset submission
             labour = Labour.objects.filter(invoice=invoice.id)
             labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
             if labour_formset.is_valid():

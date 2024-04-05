@@ -154,7 +154,7 @@ class PartForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             field.required = False
 
-        # convert pence to pounds (formatted to 2dp)
+        # Convert pence to pounds (formatted to 2dp)
         for entry in ['cost_to_company', 'price_to_customer']:
             price_sub_unit = self.initial.get(entry)
             if price_sub_unit is not None:
@@ -163,7 +163,7 @@ class PartForm(forms.ModelForm):
 
 
     def save(self, commit=True):
-        # convert pounds to pence
+        # Convert pounds to pence
         for entry in ['cost_to_company', 'price_to_customer']:
             price_unit = self.cleaned_data.get(entry)
             if price_unit is not None:

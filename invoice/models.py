@@ -78,7 +78,27 @@ class Invoice(models.Model):
             self.grand_total = self.vat_total = self.subtotal = 0
         self.save()
 
-        
+
+    # def clean(self):
+    #     super().clean()
+
+    #     if self.status == 5:
+    #         # Check if the customer has an email address
+    #         if not self.customer.email:
+    #             raise ValidationError("Customer must have an email address.")
+
+    #         # Check if grand_total is greater than 0
+    #         if self.grand_total <= 0:
+    #             raise ValidationError("Grand total must be greater than 0.")
+
+    #         # Check if all required fields are filled in
+    #         if not all([self.customer, self.vehicle, self.date_in, self.mileage,
+    #                     self.parts_total, self.labour_total, self.subtotal, 
+    #                     self.vat_total, self.grand_total]):
+    #             raise ValidationError("All invoice fields must be filled in.")
+            
+    #         self.status = 5    
+
 
     def save(self, *args, **kwargs):
         # create a todays date if no date provided

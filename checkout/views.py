@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from invoice_dashboard.utils import get_domain
 import os
 import stripe
 
@@ -47,15 +48,9 @@ def payment(request, slug):
 # STRIPE 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-def get_domain(request):
-    if 'DYNO' in os.environ:  # Running on Heroku
-        return 'https://' + settings.ALLOWED_HOSTS[0]
-    else:  # Running locally
-        return 'https://' + settings.ALLOWED_HOSTS[1]
-
 @csrf_exempt
 def create_checkout_session(request, slug):
-    YOUR_DOMAIN = get_domain(request)
+    DOMAIN = get_domain(request)
     
     invoice = get_object_or_404(Invoice, slug=slug)
     price = stripe.Price.create(
@@ -82,7 +77,7 @@ def create_checkout_session(request, slug):
             metadata={
                 'invoice_id':invoice.id
             },
-            return_url=YOUR_DOMAIN + reverse('checkout_return') + '?session_id={CHECKOUT_SESSION_ID}',
+            return_url=DOMAIN + reverse('checkout_return') + '?session_id={CHECKOUT_SESSION_ID}',
         )
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=403)

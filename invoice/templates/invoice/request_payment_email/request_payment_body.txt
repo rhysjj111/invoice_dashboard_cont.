@@ -1,0 +1,22 @@
+Hi {{invoice.customer.name}},
+
+Payment is due for {{inv_number}}, please find details bellow:
+
+Vehicle: {{invoice.vehicle.registration}}
+Date in: {{invoice.date_in}}
+Total due: {{invoice.grand_total}}
+
+Please find a full breakdown of the invoice and an opportunity to pay securely through Stripe at:
+
+{{landing_page}}
+
+Alternative payment methods are:
+- Cash at our offices
+- Payment over phone
+- BACS transfer
+
+Please call on 02920 111 111 to pay or if you have any questions.
+
+BACS details:
+account: 11111 111
+sort code: 11-11-11
