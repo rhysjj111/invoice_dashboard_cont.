@@ -10,7 +10,7 @@
 
 {% block page_title %}{{item.inv_number}}{% endblock %}
 
-{% block page_heading %}{{item.inv_number}}{% endblock %}
+{% block page_heading %}{{item}}{% endblock %}
 
 
 {% block simple_content %}
@@ -18,22 +18,28 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
+          {% if invoice.item == 5 %}
           <div id="checkout">
             <!-- Checkout will insert the payment form here -->
           </div>
+          {% else %}
+          <div class="text-center">
+            <h5 class="m-5">It appears this invoice has been paid! If you think there has been a mistake, please get in touch with us.</h5>
+          </div>
+          {% endif %}
         </div>
     </div>
     <div class="row">
         <div class="col-12 text-center p-4">
-            <p>Not completely happy with your invoice, or have a question?<br>Contact us via email: info@madeupemail.com, or give us a call: 02920 111 111</p>
+            <p>Not completely happy with your invoice, or have a question?
+              <br>Contact us via email: info@madeupemail.com, or give us a call: 02920 111 111</p>
         </div>
     </div>
 </div>
-{% endblock %}
 
+{% endblock %}
 {% block js %}
 {{ block.super }}
-
 {{ checkout_url|json_script:"checkout_url" }}
 {% endblock %}
 

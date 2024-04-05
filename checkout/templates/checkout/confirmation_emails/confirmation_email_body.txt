@@ -1,0 +1,9 @@
+Hello {{ invoice.customer.name }},
+
+This is a confirmation email for the payment recieved for the work complete on {{ invoice.vehicle.registration }}.
+
+Invoice number: {{ invoice.inv_number }}
+
+Please contact us on {{ contact_email }} or 02920 111 111 if you need to get in touch.
+
+Thank you!

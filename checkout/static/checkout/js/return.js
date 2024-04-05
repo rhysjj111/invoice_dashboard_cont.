@@ -7,9 +7,7 @@ async function initialize() {
   const sessionId = urlParams.get('session_id');
   let session_status_url = document.getElementById('session_status_url').innerText.replace(/["']/g, '');
   const response = await fetch(`${session_status_url}?session_id=${sessionId}`);
-  console.log(response)
   const session = await response.json();
-  console.log(session)
 
   if (session.status == 'open') {
     let checkout_url = document.getElementById('checkout_url').innerText.replace(/["']/g, '')

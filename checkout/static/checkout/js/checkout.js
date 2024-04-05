@@ -20,5 +20,4 @@ async function initialize() {
 
   // Mount Checkout
   checkout.mount('#checkout');
-  console.log('fin')
 }

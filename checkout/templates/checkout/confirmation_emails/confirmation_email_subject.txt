@@ -1,0 +1,1 @@
+Confirmation of payment of your invoice: {{ invoice.inv_number }}

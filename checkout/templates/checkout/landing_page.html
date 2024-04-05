@@ -9,7 +9,7 @@
 
 {% block page_title %}{{item.inv_number}}{% endblock %}
 
-{% block page_heading %}{{item.inv_number}}{% endblock %}
+{% block page_heading %}{{item}}{% endblock %}
 
 
 {% block simple_content %}
@@ -18,7 +18,11 @@
 <div class="container">
     <div class="row justify-content-end">
         <div class="col-12 col-md-5 p-3 text-center">
-            <a href="{% url 'payment' item.slug %}" class="btn btn-success btn-lg">Proceed to payment</a> 
+            {% if item.status == 5 %}
+            <a href="{% url 'payment' item.slug %}" class="btn btn-primary btn-lg">Proceed to payment</a>
+            {% else %}
+            <p class="fs-1"><span class="badge text-bg-success">Paid</span></p>
+            {% endif %}
         </div>
     </div>
     <div class="row">
