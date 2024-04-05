@@ -14,24 +14,25 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-nut"></i> <span>Add Part</span></a>
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-clock"></i> <span>Add Labour</span></a>
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+<a href="" class="btn side-menu-link text-white"> <span>-</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="" class="btn side-menu-link text-white"><i class="bi bi-box-arrow-right"></i><span>Customers</span></a>
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+    class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
+    <a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+        class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i
-            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+    class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
+<li><a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+    class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
 
@@ -120,5 +121,3 @@
 {% include 'includes/invoice_complete.html'%}
 {% endif %}
 {% endblock %}
-
-

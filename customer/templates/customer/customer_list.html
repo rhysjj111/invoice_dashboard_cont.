@@ -15,7 +15,6 @@
 {% block side_menu_action_items %}
 <a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i
         class="bi bi-person-plus"></i> <span>Add customer</span></a>
-
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
@@ -25,20 +24,20 @@
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-gear"></i><span>Add part</span></a></li>
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i class="bi bi-clock"></i><span>Add labour</span></a></li>
+<li><a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i
+            class="bi bi-person-plus"></i> <span>Add customer</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-<li><a class="dropdown-item mobile-side-menu-link" href="#"><i
-            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+            class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
 
 <!-- SEARCH BAR -->
 {% block filter_search %}
 <div class="col-12 offset-md-7 col-md-5">
-{% include 'includes/searchbar.html' %}
+    {% include 'includes/searchbar.html' %}
 </div>
 {% endblock %}
 

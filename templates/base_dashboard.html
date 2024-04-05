@@ -2,118 +2,128 @@
 {% load static %}
 
 {% block content %}
-  <div class="container-fluid vh-100 main-container">
-      <div class="row h-100">
+<div class="container-fluid vh-100 main-container">
+  <div class="row h-100">
 
-      <!-- SIDE MENU -->
-      <div class="col-lg-2 d-none d-lg-block side-menu">
-        <div class="container-fluid vh-100 border-end">
+    <!-- SIDE MENU -->
+    <div class="col-lg-2 d-none d-lg-block side-menu">
+      <div class="container-fluid vh-100 border-end">
 
-          <!-- empty space -->
-          <div class="row h-50">
-            <div class="col-12"></div>
+        <!-- empty space -->
+        <div class="row h-50">
+          <div class="col-12"></div>
+        </div>
+
+        <!-- action sub-menu -->
+        <div class="row h-25">
+          <div class="col-12 action-container side-menu-container d-flex align-items-end">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title menu-title">Action</h5>
+              </div>
+              <div class="card-body p-0 w-100">
+                {% block side_menu_action_items %}
+                {% endblock side_menu_action_items %}
+              </div>
+            </div>
           </div>
-
-          <!-- action menu -->
-          <div class="row h-25">
-            <div class="col-12 action-container side-menu-container d-flex align-items-end">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title menu-title">Action</h5>
-                </div>
-                <div class="card-body p-0 w-100">
-                  {% block side_menu_action_items %}
-                  {% endblock side_menu_action_items %}
-                </div>
+        </div>
+        
+        <!-- navigation sub-menu -->
+        <div class="row h-25">
+          <div class="mb-5 col-12 navigation-container side-menu-container d-flex align-items-end">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title menu-title">Navigation</h5>
+              </div>
+              <div class="card-body p-0 w-100">
+                {% block side_menu_nav_items %}
+                {% endblock side_menu_nav_items %}
               </div>
             </div>
-          </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <!-- DASHBOARD MAIN CONTENT -->
+    <div class="col-12 col-lg-10 outer-container p-0">
 
-          <!-- navigation menu -->
-          <div class="row h-25">
-            <div class="mb-5 col-12 navigation-container side-menu-container d-flex align-items-end">
-              <div class="card">
-                <div class="card-header">
-                  <h5 class="card-title menu-title">Navigation</h5>
-                </div>
-                <div class="card-body p-0 w-100">
-                  {% block side_menu_nav_items %}
-                  {% endblock side_menu_nav_items %}               
-                </div>
-              </div>
+      <!-- header  -->
+      <header class="container-fluid header-container">
+        <div class="row">
+          <div class="col text-end">
+            <div class="dropdown">
+              <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-fill-gear fs-4 text-white"></i>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/accounts/logout">Logout</a></li>
+                {% if not Mechanic %}
+                <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                {% endif %}
+              </ul>
             </div>
-          </div> 
+          </div>
+        </div>
+        <div class="row heading-row">
+          <div class="col d-flex align-items-center justify-content-center heading-container">
+            
+            <!-- back button  -->
+            {% if item %}
+            <a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-3 me-lg-4 align-middle"></i></a>
+            {% endif %}
+            
+            <!-- heading -->
+            <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
+            
+            <!-- trash button  -->
+            {% if item %}
+            <button type="button" data-bs-toggle="modal" data-bs-target="#delete-{{item.slug}}-modal" class="btn btn-danger p-2 ms-3 ms-lg-4 rounded-4 d-flex 
+            justify-content-center"><i class="bi-trash icon text-light fs-3 align-middle"></i>
+          </button>
+          {% endif %}
+        </div>
+        </div>
+      </header>
+
+      <!-- filter and search menu -->
+      <div class="container-fluid filter-search-container">
+        <div class="row">
+          {% block filter_search %}
+          {% endblock %}
+        </div>
+      </div>
+      
+      <!-- content body  -->
+      <div class="container dashboard-content-container mt-4">
+        <div class="row h-100">
+          <div class="col-12">
+            {% block dashboard_content %}
+            {% endblock %}
+          </div>
         </div>
       </div>
 
-
-      <!-- DASHBOARD MAIN CONTENT -->
-      <div class="col-12 col-lg-10 outer-container p-0">
-
-          <!-- header  -->
-          <header class="container-fluid header-container">
-            <div class="row">
-                <div class="col text-end">
-                  <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                      aria-expanded="false">
-                      <i class="bi bi-person-fill-gear fs-4 text-white"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/accounts/logout">Logout</a></li>
-                      {% if not Mechanic %}
-                      <li><a class="dropdown-item" href="/admin">Admin</a></li>
-                      {% endif %}
-                    </ul>
-                </div>
-              </div>
-            </div>
-            <div class="row heading-row">
-                <div class="col d-flex align-items-center justify-content-center heading-container">
-                  
-                  <!-- back button  -->
-                  {% if item %}
-                    <a href="{% url previous_url %}"><i class="bi-arrow-left icon fs-2 me-3 me-lg-4 align-middle"></i></a>
-                  {% endif %}
-                  
-                  <!-- heading -->
-                  <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
-
-                  <!-- trash button  -->
-                  {% if item %}
-                    <button type="button" data-bs-toggle="modal" data-bs-target=
-                      "#delete-{{item.slug}}-modal" class="btn btn-danger p-2 ms-3 ms-lg-4 rounded-4 d-flex 
-                      justify-content-center"><i class="bi-trash icon text-light fs-3 align-middle"></i>
-                    </button>
-                  {% endif %}
-                </div>
-            </div>
-          </header>
-
-          <!-- filter and search menu -->
-          <div class="container-fluid filter-search-container">
-            <div class="row">
-              {% block filter_search %}
-
-              {% endblock %}
-            </div>
-          </div>
-
-          <!-- content body  -->
-          <div class="container dashboard-content-container mt-4">
-            <div class="row h-100">
-                <div class="col-12">
-                {% block dashboard_content %}
-                {% endblock %}
-                </div>
-            </div>
-          </div>
-
-      </div>
     </div>
   </div>
-  
-{% include "includes/mobile_menu.html" %}
+</div>
+
+<!-- MOBILE NAV  -->
+<div class="dropup mobile-menu-container">
+  <button class="btn btn-secondary mobile-menu-button rounded-4 shadow" type="button" data-bs-toggle="dropdown"
+      aria-expanded="false">
+      <i class="bi bi-plus-square"></i>
+  </button>
+  <ul class="dropdown-menu mobile-menu">
+      {% block mobile_menu_action_items %}
+      {% endblock %}
+      <br>
+      <li><hr class="dropdown-divider"></li>
+      {% block mobile_menu_nav_items %}
+      {% endblock %}
+  </ul>
+</div>
 
 {% endblock %}
-
