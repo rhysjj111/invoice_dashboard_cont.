@@ -62,10 +62,18 @@ def edit_customer(request, slug):
         return redirect(reverse('customer_list')) 
 
 def delete_customer(request, slug):
-    customer = get_object_or_404(Customer, slug=slug)
-    customer.delete()
-    messages.success(request, f'Successfully deleted {customer.name}')
-    return redirect(reverse('customer_list'))
+    try:
+        customer = get_object_or_404(Customer, slug=slug)
+        customer.delete()
+    except Exception as e:
+        messages.error(
+            request, f'Failed to delete customer. More info: {str(e)}')
+        return redirect(reverse('customer_list'))
+    else:
+        messages.success(request, f'Successfully deleted {customer.name}')
+        return redirect(reverse('customer_list'))
+
+
 
 # --------------------------------------------------------CRUD VEHICLE
 def add_vehicle(request): 

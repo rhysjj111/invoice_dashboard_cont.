@@ -147,6 +147,19 @@ def edit_invoice(request, slug):
         messages.error(request, 'Failed to edit invoice. Please ensure the form is valid.')
         return redirect(reverse('invoice_summary', args=[invoice.slug])) 
 
+def delete_invoice(request, slug):
+    try:
+        invoice = get_object_or_404(Invoice, slug=slug)
+        invoice.delete()
+    except Exception as e:
+        messages.error(
+            request, f'Failed to delete invoice. More info: {str(e)}')
+        return redirect(reverse('invoice_list'))
+    else:
+        messages.success(request, f'Successfully deleted {invoice}')
+        return redirect(reverse('invoice_list'))
+
+
 
 def invoice_summary(request, slug):
     """

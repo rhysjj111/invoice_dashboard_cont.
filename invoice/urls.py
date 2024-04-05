@@ -6,4 +6,5 @@ urlpatterns = [
     path('invoice_select/<slug:slug>', views.invoice_summary, name='invoice_summary'),
     path('create_invoice', views.create_invoice, name='create_invoice'),
     path('edit_invoice/<slug:slug>', views.edit_invoice, name='edit_invoice'),
+    path('delete_invoice/<slug:slug>', views.delete_invoice, name='delete_invoice'),
 ]
