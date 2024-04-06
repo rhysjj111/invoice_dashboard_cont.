@@ -19,19 +19,17 @@ invoice_list.html | Add invoice, edit invoice | None | Relevant modal pops up, f
 " " | Go to customers | None | Redirects to customer_list.html | Pass
 " " | Change status of invoice | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Status of invoice successfuly changes to intended status, feedback provided to user | Pass
 " " | Change filter view of invoices | Logged in as 'Mechanic', 'Foreman' and 'Accounts' at seperate times. | Each filter should display only the relevant invoices | Pass
-invoice_summary.html | Toggle invoice headings (Details, Parts, Labour) | None | Each heading should reveal correct information or message conveying no information added to database | Pass
+invoice_summary.html | Toggle invoice collapsibles (Details, Parts, Labour) | None | Each heading should reveal correct information or message conveying no information added to database | Pass
 " " | Add part, add labour, edit part/labour/details | None | Relevant modal pops up, feedback provided to user | Pass
 " " | Delete part, labour entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
 " " | Add invoice, edit invoice | None | Relevant modal pops up | Pass
 " " | Delete invoice entry | None | Confirmation modal pops up, entry is successfuly deleted from the database, feedback provided to user | Pass
+customer_list.html | (all navigation buttons)| - | expected page opened. | Pass
+" " | Add vehicle | * | Add vehicle modal pops up | Pass
+
 
 ### Forms
 Tests on link URLs.
-
-**Question** | **Answer given** | **Expected outcome** | **Result** | **Pass/Fail**
-:-----:|:-----:|:-----:|:-----:|:-----:
-Start date | 30 Decemeber 2016 | Validation warning message. Form not submitted. | 'Please enter date in format dd/mm/yyyy'. Form not submitted.| Pass
-Start date | 30/12/2016 | Success message. Form submitted and data stored in database | 'Success'. Data in database.| Pass
 
 ### Account access
 Test whether users with different accounts have appropriate access to information.
@@ -42,6 +40,9 @@ Mechanic, Foreman | Visit invoice_list.html | Only see filter views for valid an
 Accounts | " " | See filters for valid, pending and inactive. | Pass
 Mechanic | Search for invoices that are restricted  | Only show invoices that are appropriate | #####################
 Mechanic | Change status of invoice from 'open' to 'ready for processing'  | Invoice status changes successfully, user feedback to say so, invoice disapears from view and into Foreman view | #####################
+Accounts | Cycle invoice status | Can go all the way to complete | Pass
+Foreman | Cycle invoice status | Can go up to ready for verification then loose ability to edit | Pass
+
 
 ### Invoice app
 #### Invoice summary
@@ -55,5 +56,12 @@ Invoice form | Change 'customer' select input to another customer when both 'cus
 Totals | Parts and Labour rows added, fully populated | Subtotal calculated for field(s), total calculated. | Pass
 Totals | Parts or Labour rows added, fully populated (not both) | Subtotal calculated for field, total calculated. | Pass
 Totals | Parts or Labour rows added, partially populated | Error message displayed at subtotal and total. | Pass
-Invoice | Delete button pressed #######
+Invoice | Delete button pressed | Delete invoice if not violating models config. | Pass
+
+### Stripe
+**Section** | **Action** | **Expected view** | **Pass/Fail**
+:-----:|:-----:|:-----:|:-----:|:-----:
+Email invoice | Invoice sent to customer. | Invoice contains details and link to landing page | Pass
+Email | click landing page link | Landing page shows up with correct information | Pass
+Landing page | proceed to payment button | embeded form shows up | Pass
 

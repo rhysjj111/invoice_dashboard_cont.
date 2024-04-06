@@ -1,21 +1,29 @@
 # An invoice dashboard for a vehicle repair workshop.
 
-Live site: <br>
+Live site: https://invoice-project-9aaf4928352b.herokuapp.com/
 Github repository: https://github.com/rhysjj111/project_4_invoice_dashboard
+
+Credentials (values are both username and password):
+- mechanic
+- foreman
+- accounts
+(each account has a different level of access of what invoice status they need to see. Accounts has the most access, mechanic has the least.)
+
+I have a few customers added with my own email address added to test confirmation emails work through Heroku. If you'd like to check this works, please change a customers email to your own.
 
 ### Overview
 
-This project is MS4 for The Code Academy. It is an MVP for an invoice dashboard which will be tried and tested in a vehicle repair workshop once finished. It comprises of two main sections for configuration; 'invoices' and 'customers', three user types, who can use the software; 'mechanic', 'foreman' and 'accounts'. A finished invoice will be sent the the customer who will have the opportunity to view the invoice, save it to keep and pay securely via 'Stripe'.
+This project is MS4 for The Code Academy. It is an MVP for an invoice dashboard with the purpose of providing a basic app which can catalyse the migration from invoices on paper to electronic invoices. It comprises of two main sections for configuration; 'invoices' and 'customers', three user types, who can use the software; 'mechanic', 'foreman' and 'accounts'. A finished invoice will be sent the the customer who will have the opportunity to view the invoice and pay securely via 'Stripe'.
 
 ## UX
 
 ### Site owner/developer goals
-To construct a working MVP that can provide the most basic level of functionality for an invoice dashboard, for a workshop, which can either be iterated upon, changed or scrapped depending on results. 
+To construct a working MVP that can provide the most basic level of functionality for an invoice dashboard, for a workshop, which can either be iterated upon, changed or scrapped with little loss, depending on results. 
 
 ### External users goals
 * Eliminate the need for paper invoices which will save time when; constructing and editing and finding invoices, and save money on paper. 
-* Provide a constant record of which invoices are at which stage, making sure invoices are double checked before they go out.
-* Provide a record of who has paid, who's invoices are due, which means customers can be reminded before payments are overdue. 
+* Provide a constant record of which invoices are at which stage, making sure invoices are double checked by multiple staff members before they go out.
+* Provide a record of who has paid, which invoices are due, which means customers can be reminded before payments are overdue. 
 * Automate sending reminder emails so they can be constructed with the click of a button to save time and keep emails consistent.
 * Provide customers with an easy and safe way of paying an invoice.
 
@@ -28,7 +36,7 @@ To construct a working MVP that can provide the most basic level of functionalit
 The features listed are the core functionality required to move from paper invoicing to online. I believe these are achievable with the technology and timeframe available.
 
 ### User stories
-(user stories image)
+![User stories](/static/readme_images/user_stories.jpg)
 
 ## Design
 
@@ -43,7 +51,7 @@ The features listed are the core functionality required to move from paper invoi
 - I plan to make good use of Bootstrap throughout the project and keep custom css styling to a minimum; this can be updated at a later time.
 - Bootstrap modals will be used for much of the new entries to the database (adding parts/labour/starting an invoice etc.)
 
-##### Forms
+#### Forms
 - Crispy forms has been used with the Bootstrap 5 add on to style the forms. You can conveniently use the Layout function to add bootstrap classes and components. I added the floating fields component to each field.
 
 ### Security
@@ -53,16 +61,20 @@ The features listed are the core functionality required to move from paper invoi
 
 ### Wireframes
 Desktop wireframes:
-![Desktop wireframes](/)
+![Desktop wireframes](/static/readme_images/Desktop%20-%20project%204.png)
 
 
 Mobile wireframes:
-![Mobile wireframes](/)
+![Mobile wireframes](/static/readme_images/Mobile-%20project%204.png)
 
 
 
 ### Additional diagrams
-- 
+ERM:
+![ERM](/static/readme_images/project4_erm.png)  
+
+Flows:
+![Flows](/static/readme_images/Untitled-2024-02-29-1550.png)
 
 
 
@@ -70,16 +82,7 @@ Mobile wireframes:
 The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-00469b-ffffff-31e981-ff7f11). The scheme is based on the colour of the logo of the company this project is designed for.
 - (colour scheme picture)
 
-### Form data validation
-#### 
-- 
-
-### End design similarity/difference
-- 
-
-
-### Future features to include/update
-- I would like to include date search funtionality for invoices; date from and date to.
+ 
 
 
 ## Testing 
@@ -110,26 +113,49 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 - There was an issue when editing an invoice as the customer and vehicle fields will likely be prepopulated. The problem lies if the user changes the customer and the vehicle option remains selected, resulting in a customer possibly being assigned someone elses vehicle. Originally, I wanted to make the customer field readonly when the user is editing an invoice. This wasn't a good solution, as an invoice can be created blank, with no customer, which would then be uneditable. I decided to leave the customer editable and added a function to reset the registration selection back to the standard '-----'. This was triggered after the function to hide unrelated vehicles, when the customer field is changed. I need to add validation at the backend to ensure a customer can't be assigned an unrelated vehicle in the future.
 
+- I had ran into a few issues when linking stripe up to the app. I didn't want to follow the Boutique Ado walkthrough as it was fairly complex and specific to the websites needs. I wanted a much simpler set up so I set out to follow the Stripe docs to add an embedded form. The first problem was the stripe docs use Flask instead of Django, so although similar, quite a bit of Googling had to be done to decipher the boilerplate code. Secondly, the walkthrough was pointing me towards setting up products on their dashboard and using that, where I only wanted to use one price, which will be dynamically created depending on the invoice. I got round this by passing the invoice id via Javascript and creating custom product data when creating the stripe intent. Another issue I had come across was after successful payment, if the user pressed back at the browser, the user had the chance to pay again. I got round this with Django's never_cache decorator on the payment pages, so a fresh page was loaded each time it was visited, and my logic which avoided second payments would be implimented.
+
+### End design similarity/difference
+- I think the end product is fairly similar to the original design in terms of functionality and how it looks on the screen. I stuck with the simple payment flow with little options for the customer to save details or check orders etc. as this was not the main purpose of the project.
+- The models were largely similar with a few key differences which were hashed out and decided a better route during development.
+- The invoice flow of status was very close, with the difference of when the invoice is sent to customer on the actual project, it can't be moved back a stage, whereas that was originally planned to be allowed.
+
+
+### Future features to include/update
+- I would like to include date search funtionality for invoices; date from and date to.
+- I didn't manage to include an option to automatically send an email to customers who are late payers. This could be easily implimented in the future.
+- Confirmation modals when users are moving between invoice status as they can be fairly permenant and have significant actions, like sending an invoice to a customer. You would want to avoid such accidents.
+- Go through views, models, forms and consolidate code where possible, update functions etc. to make it simpler and more uniform.
+- Add invoice sent date and invoice due date to invoice so customer can be informed as well as staff.
+- Change the ordering of the invoice list, so that status colours are grouped together. Also give the user the option to change make more advanced filters and searches.
+- Make invoice status readonly in admin. The invoice status is important and needs to go through the proper channels for an invoice to be successfully validated and payment to work.
+- Improve on the validation of the invoice as this is done at the last stage before sending to customer as I wanted to allow blank invoices.
+- Open invoice collapsibles automatically.
+- Update navigation as it's not the most intuitive. Put more links that make sense and speed up the process. ie. when customer has paid, a link back to his invoice. If a user submits an invalid invoice, a link to the problem ie. edit customer information.
+- Update the invoice list at the mobile screen size as this is still cramped.
+- Add 'no parts' or 'no labour' to completed invoice template if there are none present.
+- Add more information to confirmation emails to customer.
+- Improve payment process.
+- Improve on security including passwords for users etc.
+
 #### JS
-- 
+- I used Javascript to filter names or customers as they type.
+- There was also Javascript involved in the Stripe embeded form, most of it from the [Stripe documentation](https://docs.stripe.com/payments/accept-a-payment?locale=en-GB), changed slightly to fit the needs of the project. 
+- It was also used to filter vehicles based on selected customer at invoice creation/edit.
 
 #### CSS
-- 
+- I used bits and pieces of custom css, but a lot of the project relied on bootstrap classes.
 
 #### Features
--
+- Invoice flow of status, where each status has a purpose and can be viewed by specific users.
+- Add delete and edit vehicles, customers, invoices, parts and labour to construct an invoice.
+- Send the invoice to the customer email.
+
 
 
 ### Validators
 
-- HTML
-  - 
-
-- CSS
-  - 
-
-- JS
-  - 
+Didn't get chance to use the validators.
 
 ### Lighthouse
 
@@ -138,6 +164,50 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 
 ## Deployment
 
+##### Clone the repository
+- Create a Github account & login.
+- Locate the GitHub Repository [here](https://github.com/rhysjj111/project_4_invoice_dashboard)
+- Locate 'Code' button.
+- Copy the URL.
+- Open Git Bash or Terminal or Command Prompt/Powershell.
+- Enter 'git clone'.
+- Enter copied url: `git clone https://github.com/rhysjj111/project_4_invoice_dashboard.git`
+- You should have your local clone in the directory you have specified.
+
+#### Deploy with Heroku using CodeInstitute database
+##### Elephant SQL
+- I used code institute database as it has a recent enough version of Postgres whereas ElephantSQL might not.
+- Create a database.
+- Copy the URL given.
+- 
+##### Heroku with Amazon AWS
+- Make sure your repository contains your 'requirements.txt' file, which contains relevant packages, and a 'Procfile' which tells Heroku how to start your app.
+- Create a Heroku account & login.
+- Click 'New' followed by 'Create new app'.
+- Choose a name for your app and select a region close to you. Click 'Create app'.
+- Go to 'settings' and click 'Reveal Config Vars'.
+- Add Key value pairs as below.
+
+|KEY         |VALUE                 |
+|------------|----------------------|
+|DATABASE_URL|(copied database url) |
+|IP          |0.0.0.0               |
+|PORT        |5000                  |
+|SECRET_KEY  |(your secret key)     |
+|DEBUG       |True                  |
+|AWS_ACCESS_KEY_ID | (your key) |
+|AWS_SECRET_KEY | (key) |
+
+- You want an S3 bucket and IAM user. Follow Amazon instructions to get them. Save credentials.
+- Debug is set to True in settings if you want to check for any bugs/errors. You can set to False straight away if you do not want debug mode, or once deployed and you are happy.
+- Locate 'Deploy' (next to settings). Click 'Connect to GitHub' (look for the logo).
+- Connect your repository.
+- Locate 'Deploy Branch' of Manual Deploy and click.
+- Look for conformation the app is deployed.
+- If not, enable automatic deploys and commit and push the repository to GitHub.
+- Migrate databases to Heroku app.
+- Finally go back to the dashboard and click 'Open app'.
+- Use the Heroku documentation if there are any issues.
 
 
 
