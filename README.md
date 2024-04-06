@@ -1,6 +1,6 @@
 # An invoice dashboard for a vehicle repair workshop.
 
-Live site: https://invoice-project-9aaf4928352b.herokuapp.com/
+Live site: https://invoice-project-9aaf4928352b.herokuapp.com/ <br>
 Github repository: https://github.com/rhysjj111/project_4_invoice_dashboard
 
 Credentials (values are both username and password):
@@ -44,7 +44,7 @@ The features listed are the core functionality required to move from paper invoi
 - I've designed the wireframes 'mobile-first' to minimise unnecessary features or content. Another reason this design choice is it's anticipated the invoices will be created on the go, via mobile, by the mechanics/foreman on the ground as they work.
 - I've chosen only to show invoices with 'open' status, and remove filter views of 'pending' (ready to send to customers) and 'inactive' (complete invoices) to remove complexity from mobile devices. Tablets will be the same as mobiles with just the structures edited slightly where needed.
 - The invoices will follow a path of status'; 'open', 'work on hold', 'to be processed', 'to be verified', 'sent to customer' and paid. Each status will determine which users can access the invoice. This is intended to keep their view of the list of 'active' invoices as relevant as possible. Invoices can be moved forward and backwards along the path/journey if mistakes are made.
-- An invoice number will only be created when an invoice has the status 'paid'. Once an invoice has been marked paid it can't be changed again for editting and the invoice number permanent.
+- An invoice number will only be created when an invoice has the status 'sent to customer'. Once an invoice has been marked sent to customer it can't be editted again. The invoice will also have to undergo some sort of validation at this stage so that they are complete to a minimum standard. The reason I have chosen to include the validation at this late stage, instead of when each element is created, is to keep the invoices flexible. It's to recreate how the garage uses paper invoices now. A mechanic might open a job card and start work without knowing the customer name. Eventually the invoice is filled in fully by the time it gets to the customer.
 - I've chosen not to give the customer a login, or a view of their previous invoices, just a link to download the invoice and store it themselves. The reason for this is to focus on the users in the garage and their experience. The customer won't need a login or history view if the garage staff don't move from paper invoices to online.
 - Invoices and customers will have a search bar which will search for multiple fields in the database; vehicle registration, name, date etc. rather than have multiple filter fields, again for simplicity.
 - Bootstrap alerts will be used to provide the user with feedback when making changes to the database etc. A confirmation or error page will be used for customers paying through Stripe.
@@ -119,6 +119,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 - I think the end product is fairly similar to the original design in terms of functionality and how it looks on the screen. I stuck with the simple payment flow with little options for the customer to save details or check orders etc. as this was not the main purpose of the project.
 - The models were largely similar with a few key differences which were hashed out and decided a better route during development.
 - The invoice flow of status was very close, with the difference of when the invoice is sent to customer on the actual project, it can't be moved back a stage, whereas that was originally planned to be allowed.
+- I ended up using bootstrap toasts instread of alerts as I believe they take up a lot less room on the screen and compliment the way I've set up the dashboard better.
+- Bootstrap modals were made good use of, mostly for adding new items, which I think gives a professional look and feels better as a user, than being directed to another page somehow. You know where you are.
 
 
 ### Future features to include/update
@@ -137,6 +139,8 @@ The colour scheme was constructed on [coolors.co](https://coolors.co/03120e-0046
 - Add more information to confirmation emails to customer.
 - Improve payment process.
 - Improve on security including passwords for users etc.
+- I'd like to add more styling such as fonts, and images and add a favicon. I didn't get chance to do these although they were on my list, just ran out of time and had to focus on a working project.
+- Improve the testing documentation. I tested extensively as I went along and started the docs strong but they got less an less attention as time ran out. Also put my code through the validators.
 
 #### JS
 - I used Javascript to filter names or customers as they type.
@@ -176,10 +180,10 @@ Didn't get chance to use the validators.
 
 #### Deploy with Heroku using CodeInstitute database
 ##### Elephant SQL
-- I used code institute database as it has a recent enough version of Postgres whereas ElephantSQL might not.
+- I used code institute database as it has a recent enough version of Postgres whereas ElephantSQL might not (randomly generated apparently).
 - Create a database.
-- Copy the URL given.
-- 
+- Copy the URL given in email confirmation.
+
 ##### Heroku with Amazon AWS
 - Make sure your repository contains your 'requirements.txt' file, which contains relevant packages, and a 'Procfile' which tells Heroku how to start your app.
 - Create a Heroku account & login.
@@ -198,7 +202,10 @@ Didn't get chance to use the validators.
 |AWS_ACCESS_KEY_ID | (your key) |
 |AWS_SECRET_KEY | (key) |
 
-- You want an S3 bucket and IAM user. Follow Amazon instructions to get them. Save credentials.
+- Set up an Amazon AWS account.
+  - Find the console and create an IAM user. Choose policies, and create.
+  - Set up and S3 bucket.
+  - Save credentials and configure in Heroku as above.
 - Debug is set to True in settings if you want to check for any bugs/errors. You can set to False straight away if you do not want debug mode, or once deployed and you are happy.
 - Locate 'Deploy' (next to settings). Click 'Connect to GitHub' (look for the logo).
 - Connect your repository.
@@ -219,3 +226,9 @@ Didn't get chance to use the validators.
 - An article by [geeksforgeeks](https://www.geeksforgeeks.org/how-to-perform-a-real-time-search-and-filter-on-a-html-table/) gave me the jQuery needed to filter a list of values while the user types. I coupled this code with an article from [Stack Overflow](https://stackoverflow.com/questions/9127498/how-to-perform-a-real-time-search-and-filter-on-a-html-table) which gave a function to 'debounce' which gives a delay of typing, which is much better user experience than using built in time delay function.
 - I used the [Django Crispy forms](https://crispy-forms-foundation.readthedocs.io/en/latest/index.html) documentation a lot when constructing forms.
 - I used [chatGPT](chat.openai.com) to help with creating available_options function of invoice>views.py.
+- I relied on [chatGPT](https://chat.openai.com) for explanations, boiler plates of code, possible options of how to attack a situation, as well as docs for [Bootstrap](https://getbootstrap.com/), [Stripe](https://stripe.com/), [Django](https://www.djangoproject.com/), [Crispy-forms](https://django-crispy-forms.readthedocs.io/en/latest/), and forums like [Stack Overflow](https://stackoverflow.com/).
+
+
+
+
+
