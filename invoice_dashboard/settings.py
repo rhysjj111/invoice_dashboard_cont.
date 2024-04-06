@@ -125,12 +125,11 @@ else:
         }
     }
 
-# DATABASES = {
-#      'default': dj_database_url.parse('postgres://uyldjwgiiz7:db7yAwYfBK3r@ep-gentle-mountain-a23bxz6h.eu-central-1.aws.neon.tech/relax_putt_gray_373007')
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+
+# Commented out as will not use for now but maybe at a later stage.
 
 # AUTH_PASSWORD_VALIDATORS = [
 #     {
