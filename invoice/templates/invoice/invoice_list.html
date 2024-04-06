@@ -82,7 +82,7 @@
             <tr class="{{ invoice.status|get_class:table_class_dict }}">
                 <!-- mobile column  -->
                 <td class=" d-lg-none fs-6">
-                    <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:20}}</a>
+                    <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:25}}</a>
                 </td>
                 <!-- desktop columns  -->
                 <th scope="row " class="d-none d-lg-table-cell">
