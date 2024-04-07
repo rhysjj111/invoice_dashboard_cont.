@@ -74,54 +74,54 @@
     <table class="table table-hover align-middle invoice-list-table">
         <tbody>
             {% if invoices %}
-            {% for invoice in invoices %}
-            {% with status=invoice.status %}
-            {% if status == 1 and Mechanic or status == 3 and Mechanic %}
-            {% elif status == 4 and not Accounts %}
-            {% else %}
-            <tr class="{{ invoice.status|get_class:table_class_dict }}">
-                <!-- mobile column  -->
-                <td class=" d-lg-none fs-6">
-                    <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:25}}</a>
-                </td>
-                <!-- desktop columns  -->
-                <th scope="row " class="d-none d-lg-table-cell">
-                    <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
-                </th>
-                <td class="d-none d-lg-table-cell">
-                    <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
-                </td>
-                <!-- column on all devices -->
-                <td>
-                    <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
-                        {% csrf_token %}
-                        <input type="hidden" name="pk" value="{{invoice.pk}}">
-                        <input type="hidden" name="filter" value="{{filter_status}}">
-                        <select class="form-select" aria-label="Default select example" onchange="submitForm(this)"
-                            name="status">
-                            <option selected disabled>{{invoice.get_status_display}}</option>
-    
-                            {% for value, desc  in invoice.available_status_options.items %}
-                            <!-- a loop to display available options to user  -->
-                            {% if value == 1 and Mechanic %}
-                            {% elif value == 1 %}
-                            <!-- option = work on hold  -->
-                            <option value="{{value}}" style="font-style: italic;">{{desc}}</option>
-                            {% elif value < status %}
-                            <!-- option is previous  -->
-                            <option value="{{value}}" style="font-style: italic;">Go back to: {{desc}}</option>
-                            {% else %}
-                            <!-- all other options -->
-                            <option value="{{value}}">{{desc}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </form>
-                </td>
-            </tr>
-            {% endif %}
-            {% endwith %}
-            {% endfor %}
+                {% for invoice in invoices %}
+                    {% with status=invoice.status %}
+                        {% if status == 1 and Mechanic or status == 3 and Mechanic %}
+                        {% elif status == 4 and not Accounts %}
+                        {% else %}
+                        <tr class="{{ invoice.status|get_class:table_class_dict }}">
+                            <!-- mobile column  -->
+                            <td class=" d-lg-none fs-6">
+                                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:25}}</a>
+                            </td>
+                            <!-- desktop columns  -->
+                            <th scope="row " class="d-none d-lg-table-cell">
+                                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
+                            </th>
+                            <td class="d-none d-lg-table-cell">
+                                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
+                            </td>
+                            <!-- column on all devices -->
+                            <td class="d-none d-md-table-cell">
+                                <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="pk" value="{{invoice.pk}}">
+                                    <input type="hidden" name="filter" value="{{filter_status}}">
+                                    <select class="form-select" aria-label="Default select example" onchange="submitForm(this)"
+                                        name="status">
+                                        <option selected disabled>{{invoice.get_status_display}}</option>
+                
+                                        {% for value, desc  in invoice.available_status_options.items %}
+                                        <!-- a loop to display available options to user  -->
+                                        {% if value == 1 and Mechanic %}
+                                        {% elif value == 1 %}
+                                        <!-- option = work on hold  -->
+                                        <option value="{{value}}" style="font-style: italic;">{{desc}}</option>
+                                        {% elif value < status %}
+                                        <!-- option is previous  -->
+                                        <option value="{{value}}" style="font-style: italic;">Go back to: {{desc}}</option>
+                                        {% else %}
+                                        <!-- all other options -->
+                                        <option value="{{value}}">{{desc}}</option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endwith %}
+                {% endfor %}
             {% else %}
             <div class="text-center">
                 <h5>No results</h5>

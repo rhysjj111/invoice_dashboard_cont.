@@ -27,10 +27,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['invoice-project-9aaf4928352b.herokuapp.com', '8000-rhysjj111-project4invoi-9c8kgozjesx.ws-eu110.gitpod.io']
+ALLOWED_HOSTS = [
+    'invoice-project-9aaf4928352b.herokuapp.com', 
+    '8000-rhysjj111-invoicedashbo-tvj28sfd36r.ws-eu110.gitpod.io'
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://invoice-project-9aaf4928352b.herokuapp.com','https://8000-rhysjj111-project4invoi-9c8kgozjesx.ws-eu110.gitpod.io'
+    'https://invoice-project-9aaf4928352b.herokuapp.com',
+    'https://8000-rhysjj111-invoicedashbo-tvj28sfd36r.ws-eu110.gitpod.io'
 ]
 
 

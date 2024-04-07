@@ -1,6 +1,7 @@
 from django import template
 from django.utils import formats
 from django.utils.formats import number_format
+
 register = template.Library()
 
 @register.filter

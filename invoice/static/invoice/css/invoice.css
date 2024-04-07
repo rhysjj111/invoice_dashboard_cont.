@@ -22,8 +22,9 @@ p{
 }
 
 .invoice-summary-total{
-  background-color:#212529;
-  color: white;
+  background-color: white;
+  border: 1px solid #03120E ;
+  color: black;
   padding: 0.375rem 0.75rem;
 }
 

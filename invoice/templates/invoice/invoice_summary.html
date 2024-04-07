@@ -14,13 +14,14 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a href="" class="btn side-menu-link text-white"> <span>-</span></a>
+<a href="" class="btn side-menu-link text-white"> <span>Save all forms</span></a>
+<a href="" class="btn side-menu-link text-white"> <span>Save all forms</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
 <a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
-    class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
-    <a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+        class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
+<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
         class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
@@ -30,93 +31,109 @@
 
 {% block mobile_menu_nav_items %}
 <li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
-    class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
+            class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
 <li><a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
-    class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
+            class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
+{% block side_menu_top %}
+
+<div class="d-md-block d-none align-self-center flex-fill">
+    <p class="text-center mb-2 fs-4">Totals</p>
+    <div class="px-2">
+        {% include "includes/invoice_totals.html" %}
+    </div>
+</div>
+
+{% endblock %}
 
 {% block dashboard_content %}
 {% if item.status < 5 %}
-<div class="invoice-container">
-    <!-- INVOICE DETAILS  -->
-    <div class="mb-4">
-        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseInvoiceDetails" aria-expanded="false" aria-controls="collapseInvoiceDetails">
-            <h4>Invoice details</h4>
-        </button>
-        <div class="collapse" id="collapseInvoiceDetails">
-            <div class="card card-body invoice-summary-card">
-                {% crispy edit_invoice_form %}
-
+<div class="invoice-container mb-5">
+    <div class="accordion mb-4" id="invoice-accordion">
+        <!-- INVOICE DETAILS  -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#invoice-accordion-collapseOne" aria-expanded="true"
+                    aria-controls="invoice-accordion-collapseOne">
+                    Invoice Details
+                </button>
+            </h2>
+            <div id="invoice-accordion-collapseOne" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    {% crispy edit_invoice_form %}
+                </div>
+            </div>
+        </div>
+        <!-- PARTS  -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                    aria-controls="panelsStayOpen-collapseTwo">
+                    Parts
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+                        <div>
+                            {{ part_formset.management_form }}
+                            {% crispy part_formset %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary float-end">Save</button>
+                                </div>
+                            </div>                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- LABOUR  -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                    aria-controls="panelsStayOpen-collapseThree">
+                    Labour
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+                        <div>
+                            {{ labour_formset.management_form }}
+                            {% crispy labour_formset %}
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary float-end">Save</button>
+                                </div>
+                            </div> 
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- PARTS  -->
-    <div class="mb-4">
-        <!-- title  -->
-        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapsePartsDetails" aria-expanded="false" aria-controls="collapsePartsDetails">
-            <h4>Parts</h4>
-        </button>
-        <!-- body  -->
-        <div class="collapse" id="collapsePartsDetails">
-            <div class="card card-body invoice-summary-card">
-                <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
-                    <div>
-                        {{ part_formset.management_form }}
-                        {% crispy part_formset %}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- LABOUR  -->
-    <div class="mb-4">
-        <!-- title -->
-        <button class="btn btn-outline-dark invoice-summary-button w-100" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseLabourDetails" aria-expanded="false" aria-controls="collapseLabourDetails">
-            <h4>Labour</h4>
-        </button>
-        <!-- body  -->
-        <div class="collapse" id="collapseLabourDetails">
-            <div class="card card-body invoice-summary-card">
-                <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
-                    <div>
-                        {{ labour_formset.management_form }}
-                        {% crispy labour_formset %}
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- TOTALS  -->
     <div class="row">
-        <div class="col-12 col-lg-5 offset-lg-7 ">
-            <p>
-                <div class="w-100 invoice-summary-total">
-                    <h4>Totals</h4>
-                </div>
-            </p>
+        <div class="col-12 d-md-none">
+            <div class="invoice-summary-total p-2">
+                <p>Totals</p>
+            </div>
             <div>
                 <div class="card card-body invoice-summary-card">
-                    <p>
-                        Parts: {{item.parts_total|format_currency}}<br>
-                        Labour: {{item.labour_total|format_currency}}<br>
-                        Subtotal: {{item.subtotal|format_currency}}<br>
-                        VAT: {{item.vat_total|format_currency}}<br>
-                        Total: {{item.grand_total|format_currency}}
-                    </p>
+                    <div class="px-2">
+                        {% include "includes/invoice_totals.html" %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 {% else %}
 {% include 'includes/invoice_complete.html'%}
 {% endif %}

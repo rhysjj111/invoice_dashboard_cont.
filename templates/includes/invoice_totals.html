@@ -1,0 +1,7 @@
+{% load custom_tags %}
+Parts: {{item.parts_total|format_currency}}<br>
+Labour: {{item.labour_total|format_currency}}<br>
+Subtotal: {{item.subtotal|format_currency}}<br>
+<hr class="m-1">
+VAT: {{item.vat_total|format_currency}}<br>
+Total: {{item.grand_total|format_currency}}

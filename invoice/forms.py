@@ -84,7 +84,7 @@ class InvoiceForm(forms.ModelForm):
             
         self.helper = FormHelper()
         self.helper.form_action = add_or_edit_path(self.instance.slug, 'invoice')
-        self.helper.form_class = 'mb-3'
+        self.helper.form_class = ''
         self.helper.layout = add_or_edit_modal(
             self.instance.slug,
             'invoice',
@@ -107,12 +107,12 @@ class InvoiceForm(forms.ModelForm):
                         ButtonHolder(
                             Submit(
                                 'submit',
-                                add_or_edit_button(self.instance.slug),
-                                css_class='ms-2'
-                            ),css_class='float-end',
+                                'Save',
+                                css_class='float-end'
+                            ),css_class='',
                         )
                     )
-                )
+                )                        
             )
         )   
 
