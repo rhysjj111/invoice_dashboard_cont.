@@ -12,9 +12,25 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
 
-def extract_options(status_options, *keys_to_keep):
-    """Extracts keys and values from dictionary"""
-    return {key: status_options[key] for key in keys_to_keep}
+# A map for avaiable invoice status option keys, depending on current status 
+available_status_key_map = {
+    1: (2,),
+    2: (3, 1),
+    3: (4, 2),
+    4: (5, 3),
+    5: (6,)
+}
+
+# All possible status options and their values
+all_status_options_dict = dict(Invoice.InvoiceStatus.choices)
+all_status_options_dict[5] = 'Send to customer'
+all_status_options_dict[6] = 'Paid'
+
+# A dictionary of dictionaries, where each original status maps it's available status' keys and values
+available_status_full_dict_map = {
+    key: {value: all_status_options_dict[value] for value in status_tuple} 
+    for key, status_tuple in available_status_key_map.items()
+} 
 
 def invoice_list(request):
     """A view to return main invoice view"""
@@ -68,6 +84,7 @@ def invoice_list(request):
                     f'settings and customer email is valid and try again. '+
                     f'More info: {str(e)}')
                 return redirect(reverse('invoice_list')+f'?filter={filter}')
+      
             else:
                 # Redirect with success message
                 messages.success(request, f'Invoice successfully sent to customer')
@@ -93,34 +110,23 @@ def invoice_list(request):
     status_to_filter = filter_mapping.get(filter)
     invoices=invoices.filter(status__in=status_to_filter)
 
-    all_status_options = dict(Invoice.InvoiceStatus.choices)
-    # a map for avaiable invoice options depending on current status 
-    status_mapping = {
-        1: (2,),
-        2: (3, 1),
-        3: (4, 2),
-        4: (5, 3),
-    }
-
     # a map for invoice class depending on current status
-    class_mapping = {
-        1: 'table-secondary',
-        3: 'table-success',
-        4: 'table-warning'
-    }
-
-    # append next available invoice status options to invoices
-    for invoice in invoices:
-        available_status_options = status_mapping.get(invoice.status, {})
-        invoice.available_status_options = extract_options(all_status_options, *available_status_options)
-        
+    status_class_map = {
+        1: 'secondary',
+        2: 'light',
+        3: 'success',
+        4: 'warning',
+        5: 'danger',
+        6: 'light'
+    } 
 
     context = {
         'create_invoice_form': create_invoice_form,
         'invoices': invoices,
         'search_term': query,
         'filter_status': filter,
-        'table_class_dict': class_mapping
+        'status_class_map': status_class_map,
+        'available_status_map': available_status_full_dict_map
     }
     return render(request, 'invoice/invoice_list.html', context)
 
@@ -221,7 +227,16 @@ def invoice_summary(request, slug):
         part_formset = PartFormSet(queryset=parts, instance=invoice, prefix='parts')
         part_formset.helper = BasePartFormSetHelper()
         labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
-        labour_formset.helper = BaseLabourFormSetHelper()       
+        labour_formset.helper = BaseLabourFormSetHelper()     
+
+    # a map for invoice class depending on current status
+    status_class_map = {
+        1: 'light',
+        2: 'success',
+        3: 'warning',
+        4: 'danger',
+        5: 'light'
+    }   
 
     context = {
         'item': invoice,
@@ -231,5 +246,7 @@ def invoice_summary(request, slug):
         'parts_list': parts,
         'labour_list': labour,
         'edit_invoice_form': invoice_form,
+        'status_class_map': status_class_map,
+        'available_status_map': available_status_full_dict_map
     }
     return render(request, 'invoice/invoice_summary.html', context)

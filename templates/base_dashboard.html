@@ -7,7 +7,7 @@
 
     <!-- SIDE MENU -->
     <div class="col-lg-2 d-none d-lg-block side-menu">
-      <div class="container-fluid vh-100 border-end">
+      <div class="container vh-100">
 
         <!-- top -->
         <div class="row h-50">
@@ -18,32 +18,18 @@
         </div>
 
         <!-- action sub-menu -->
-        <div class="row h-25">
-          <div class="col-12 action-container side-menu-container d-flex align-items-end">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title menu-title">Action</h5>
-              </div>
-              <div class="card-body p-0 w-100">
+        <div class="row h-25 d-flex align-items-end">
+          <div class="col-12">
                 {% block side_menu_action_items %}
                 {% endblock side_menu_action_items %}
-              </div>
-            </div>
           </div>
         </div>
         
         <!-- navigation sub-menu -->
-        <div class="row h-25">
-          <div class="mb-5 col-12 navigation-container side-menu-container d-flex align-items-end">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="card-title menu-title">Navigation</h5>
-              </div>
-              <div class="card-body p-0 w-100">
-                {% block side_menu_nav_items %}
-                {% endblock side_menu_nav_items %}
-              </div>
-            </div>
+        <div class="row h-25 d-flex align-items-end">
+          <div class="col-12 ">
+              {% block side_menu_nav_items %}
+              {% endblock side_menu_nav_items %}
           </div>
         </div>
       </div>
@@ -100,7 +86,7 @@
       </div>
       
       <!-- content body  -->
-      <div class="container dashboard-content-container mt-4">
+      <div class="container dashboard-content-container mt-4 px-lg-5">
         <div class="row h-100">
           <div class="col-12">
             {% block dashboard_content %}
@@ -114,7 +100,7 @@
 </div>
 
 <!-- MOBILE NAV  -->
-<div class="dropup mobile-menu-container d-md-none">
+<div class="dropup mobile-menu-container d-lg-none">
   <button class="btn btn-secondary mobile-menu-button rounded-4 shadow" type="button" data-bs-toggle="dropdown"
       aria-expanded="false">
       <i class="bi bi-plus-square"></i>

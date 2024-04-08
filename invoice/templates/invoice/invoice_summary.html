@@ -13,22 +13,58 @@
 {% block page_heading %}Invoice #{{item.id}}{% endblock %}
 
 <!-- SIDE MENU ITEMS -->
+
+{% block side_menu_top %}
+<div class=" bg-light text-black align-self-center flex-fill mt-5">
+   <div class="d-md-block d-none px-1  m-3">
+    <h4 class="mb-2">Totals</h4>
+    <div>
+        {% include "includes/invoice_totals.html" %}
+    </div>
+</div> 
+</div>
+
+{% endblock %}
+
+<!-- action  -->
 {% block side_menu_action_items %}
-<a href="" class="btn side-menu-link text-white"> <span>Save all forms</span></a>
-<a href="" class="btn side-menu-link text-white"> <span>Save all forms</span></a>
+<!-- save all forms potential future feature  -->
+<!-- <a href="" class="btn btn-light side-menu-link"> <span>Save all forms</span></a> -->
+<form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status">
+    {% csrf_token %}
+    <input type="hidden" name="pk" value="{{item.pk}}">
+    <input type="hidden" name="filter" value="active">
+    {% with available_status=item.status|get_dict_value:available_status_map %}
+        {% for key, desc in available_status.items %}
+            <!-- a loop to display available options to user  -->
+            {% if key < item.status %}
+            <!-- previous status not available, this should be done from invoice_list  -->
+            {% else %}
+            <!-- all other options -->
+            <button type="submit" name="status" value="{{key}}" 
+                class="btn btn-{{ item.status|get_dict_value:status_class_map }} side-menu-link">
+                <i class="bi bi-chevron-double-right"></i>{{desc}}
+            </button>
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+</form>
 {% endblock side_menu_action_items %}
 
+<!-- nav  -->
 {% block side_menu_nav_items %}
-<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link btn-light"><i
         class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
-<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+<a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light"><i
         class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
+
+<!-- action  -->
 {% block mobile_menu_action_items %}
 {% endblock mobile_menu_action_items %}
-
+<!-- nav  -->
 {% block mobile_menu_nav_items %}
 <li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
             class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
@@ -36,17 +72,7 @@
             class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
-{% block side_menu_top %}
-
-<div class="d-md-block d-none align-self-center flex-fill">
-    <p class="text-center mb-2 fs-4">Totals</p>
-    <div class="px-2">
-        {% include "includes/invoice_totals.html" %}
-    </div>
-</div>
-
-{% endblock %}
-
+<!-- DASHBOARD CONTENT  -->
 {% block dashboard_content %}
 {% if item.status < 5 %}
 <div class="invoice-container mb-5">

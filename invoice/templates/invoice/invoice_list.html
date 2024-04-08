@@ -15,12 +15,12 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i
+<a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
         class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+<a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light"><i
         class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
@@ -75,11 +75,14 @@
         <tbody>
             {% if invoices %}
                 {% for invoice in invoices %}
+                    <!-- LOOP THROUGH INVOICES  -->
                     {% with status=invoice.status %}
                         {% if status == 1 and Mechanic or status == 3 and Mechanic %}
+                        <!-- 'work on hold' and 'ready for processing' (and above) not available for mechanic users  -->
                         {% elif status == 4 and not Accounts %}
+                        <!-- 'ready for verification' only available to accounts users  -->
                         {% else %}
-                        <tr class="{{ invoice.status|get_class:table_class_dict }}">
+                        <tr class="table-{{ invoice.status|get_dict_value:status_class_map }}">
                             <!-- mobile column  -->
                             <td class=" d-lg-none fs-6">
                                 <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:25}}</a>
@@ -100,21 +103,24 @@
                                     <select class="form-select" aria-label="Default select example" onchange="submitForm(this)"
                                         name="status">
                                         <option selected disabled>{{invoice.get_status_display}}</option>
-                
-                                        {% for value, desc  in invoice.available_status_options.items %}
-                                        <!-- a loop to display available options to user  -->
-                                        {% if value == 1 and Mechanic %}
-                                        {% elif value == 1 %}
-                                        <!-- option = work on hold  -->
-                                        <option value="{{value}}" style="font-style: italic;">{{desc}}</option>
-                                        {% elif value < status %}
-                                        <!-- option is previous  -->
-                                        <option value="{{value}}" style="font-style: italic;">Go back to: {{desc}}</option>
-                                        {% else %}
-                                        <!-- all other options -->
-                                        <option value="{{value}}">{{desc}}</option>
-                                        {% endif %}
-                                        {% endfor %}
+                                        <!-- NEXT STATUS SELECTIONS  -->
+                                        {% with available_status=invoice.status|get_dict_value:available_status_map %}
+                                            {% for key, desc in available_status.items %}
+                                                <!-- a loop to display available options to user  -->
+                                                {% if key == 1 and Mechanic %}
+                                                <!-- option 'work on hold' is not available for mechanic users  -->
+                                                {% elif key == 1 %}
+                                                <!-- option = work on hold  -->
+                                                <option value="{{key}}" style="font-style: italic;">{{desc}}</option>
+                                                {% elif key < status %}
+                                                <!-- option is previous  -->
+                                                <option value="{{key}}" style="font-style: italic;">Go back to: {{desc}}</option>
+                                                {% else %}
+                                                <!-- all other options -->
+                                                <option value="{{key}}">{{desc}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endwith %}
                                     </select>
                                 </form>
                             </td>

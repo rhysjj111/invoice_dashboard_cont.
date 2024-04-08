@@ -22,47 +22,32 @@ i{
 }
 
 /* side menu dashboard */
-.side-menu{
-    padding: 0;
-}
 
-.menu-title{
-    color: slategrey;
-    margin: 0;
-}
-
-.side-menu .card{
-    border: 0;
-}
 .side-menu{
     background-color: rgba(255, 124, 26, 0.75) !important;
     color: white;
     border: 0;
 }
-.side-menu .card .card-header,
-.side-menu .card .card-body{
-    background-color: rgba(255, 124, 26, 0.75);
-    border:0;
-}
-
 
 .side-menu-link{
     display: flex;
-    justify-content: end;
     align-items: center;
-    justify-content: start;
     font-size: 14px;
     font-weight: 500;
     border:none;
-    margin-right: 0px;
-    padding: 0;
-
+    width: 100%;
+    margin-bottom: 15px;
 }
 
-.side-menu-link:hover,
-.side-menu-link:active,
-.side-menu-link:focus{
-    border: none;
+.accordion-button:focus {
+    --bs-accordion-btn-focus-box-shadow: none;
+}
+.accordion{
+    --bs-accordion-bg: #c7f5c309;
+    --bs-accordion-bg-color: #327b270f;
+    --bs-accordion-active-bg: #c7f5c381;
+    --bs-accordion-active-color: #161c22;
+    --bs-accordion-btn-color: #161c22;
 }
 
 .side-menu-link > i{
@@ -126,7 +111,8 @@ td > a{
 
 .mobile-menu{
     padding:20px;
-    min-width: 200px;
+    min-width: 250px;
+    min-height:300px;
 }
 .mobile-menu-button{
     min-height: 3rem;
@@ -134,9 +120,9 @@ td > a{
 }
 
 .mobile-menu-button:active{
-    background-color: #FF7F11!important;
-    border-color: #FF7F11!important;
-    box-shadow: 0 0 5px #FF7F11 !important;
+    background-color: #00000069!important;
+    border-color: #0c08040e!important;
+    box-shadow: 0 0 5px #97dbd833 !important;
 }
 
 .mobile-menu-button i{

@@ -5,8 +5,8 @@ from django.utils.formats import number_format
 register = template.Library()
 
 @register.filter
-def get_class(value, arg):
-    return arg.get(value, 'table-light')
+def get_dict_value(key_to_search, dict):
+    return dict.get(key_to_search, {})
 
 @register.filter
 def date_uk(value):

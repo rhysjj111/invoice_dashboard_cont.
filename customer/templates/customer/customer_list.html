@@ -13,23 +13,23 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i
+<a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-light"><i
         class="bi bi-person-plus"></i> <span>Add customer</span></a>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link btn-light"><i
         class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link text-white"><i
+<li><a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-light"><i
             class="bi bi-person-plus"></i> <span>Add customer</span></a></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white"><i
+<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link btn-light"><i
             class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
 {% endblock mobile_menu_nav_items %}
 
