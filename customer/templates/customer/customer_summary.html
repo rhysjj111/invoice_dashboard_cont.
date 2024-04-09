@@ -13,27 +13,27 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<button type="button" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link text-white">
+<button type="button" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link btn-success">
         <i class="bi bi-truck"></i><span>Add vehicle</span></button>
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
-<a href="{% url 'customer_list' %}" class="btn side-menu-link text-white">
+<a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light">
         <i class="bi bi-box-arrow-right"></i><span>Customers</span></a>
-<a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white">
+<a href="{% url 'invoice_list' %}" class="btn side-menu-link btn-light">
         <i class="bi bi-box-arrow-right"></i><span>Invoices</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><button type="button" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link text-white">
+<li><button type="button" data-bs-toggle="modal" data-bs-target="#vehicle_modal" class="btn side-menu-link btn-success">
         <i class="bi bi-truck"></i><span>Add vehicle</span></button></li>
 {% endblock mobile_menu_action_items %}
 
 {% block mobile_menu_nav_items %}
-<li><a href="{% url 'customer_list' %}" class="btn side-menu-link text-white">
+<li><a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light">
         <i class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
-<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link text-white">
+<li><a href="{% url 'invoice_list' %}" class="btn side-menu-link btn-light">
         <i class="bi bi-box-arrow-right"></i><span>Invoices</span></a></li>
 {% endblock mobile_menu_nav_items %}
 

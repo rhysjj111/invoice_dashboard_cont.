@@ -108,14 +108,16 @@ def invoice_list(request):
                 invoices = invoices.filter(queries)
 
     status_to_filter = filter_mapping.get(filter)
-    invoices=invoices.filter(status__in=status_to_filter)
-
+    if filter == 'inactive':
+        invoices=invoices.filter(status__in=status_to_filter).order_by('status')
+    else: 
+        invoices=invoices.filter(status__in=status_to_filter).order_by('-status')
     # a map for invoice class depending on current status
     status_class_map = {
         1: 'secondary',
         2: 'light',
         3: 'success',
-        4: 'warning',
+        4: 'info',
         5: 'danger',
         6: 'light'
     } 

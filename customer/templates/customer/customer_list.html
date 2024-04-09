@@ -13,7 +13,7 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-light"><i
+<a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-success"><i
         class="bi bi-person-plus"></i> <span>Add customer</span></a>
 {% endblock side_menu_action_items %}
 
@@ -24,7 +24,7 @@
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-light"><i
+<li><a type="button" data-bs-toggle="modal" data-bs-target="#customer_modal" class="btn side-menu-link btn-success"><i
             class="bi bi-person-plus"></i> <span>Add customer</span></a></li>
 {% endblock mobile_menu_action_items %}
 
@@ -51,7 +51,7 @@
         {% for customer in customer_list %}
         <tr>
             <!-- mobile first column  -->
-            <th scope="row"><a href="{% url 'customer_summary' slug=customer.slug  %}">{{ customer.name }}</a></th>
+            <td scope="row"><a href="{% url 'customer_summary' slug=customer.slug  %}" class="fs-4">{{ customer.name }}</a></td>
         </tr>
         {% endfor %}
     </tbody>

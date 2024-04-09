@@ -26,12 +26,12 @@
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link text-white"><i
+<li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
             class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
 {% endblock %}
 
 {% block mobile_menu_nav_items %}
-<li><a href="{% url 'customer_list' %}" class="btn side-menu-link text-white"><i
+<li><a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light"><i
     class="bi bi-box-arrow-right"></i><span>Customers</span></a></li>
 {% endblock %}
 
@@ -39,8 +39,8 @@
 <!-- FILTER AND SEARCH BAR -->
 {% block filter_search %}
 <!-- filtermenu  -->
-<div class="col-7 d-none d-lg-block mb-4">
-    <ul class="nav nav-tabs nav-fill" role="navigation">
+<div class="col-5 offset-2 d-none d-lg-block mb-4">
+    <ul class="nav nav-tabs" role="navigation">
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'active' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}">Active</a>
@@ -71,7 +71,7 @@
 {% block dashboard_content %}
 {% crispy create_invoice_form %}
 <div class="table-responsive">
-    <table class="table table-hover align-middle invoice-list-table">
+    <table class="table table-hover align-middle invoice-list-table fs-6">
         <tbody>
             {% if invoices %}
                 {% for invoice in invoices %}
@@ -85,12 +85,12 @@
                         <tr class="table-{{ invoice.status|get_dict_value:status_class_map }}">
                             <!-- mobile column  -->
                             <td class=" d-lg-none fs-6">
-                                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:25}}</a>
+                                <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice|truncatechars:28}}</a>
                             </td>
                             <!-- desktop columns  -->
-                            <th scope="row " class="d-none d-lg-table-cell">
+                            <td scope="row " class="d-none d-lg-table-cell">
                                 <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice.date_in|date_uk}}</a>
-                            </th>
+                            </td>
                             <td class="d-none d-lg-table-cell">
                                 <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
                             </td>

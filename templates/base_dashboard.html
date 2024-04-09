@@ -27,7 +27,7 @@
         
         <!-- navigation sub-menu -->
         <div class="row h-25 d-flex align-items-end">
-          <div class="col-12 ">
+          <div class="col-12 pb-4">
               {% block side_menu_nav_items %}
               {% endblock side_menu_nav_items %}
           </div>
@@ -65,7 +65,7 @@
             {% endif %}
             
             <!-- heading -->
-            <h1 class="d-inline">{% block page_heading %}{% endblock %}</h1>
+            <h1 class="d-inline text-center">{% block page_heading %}{% endblock %}</h1>
             
             <!-- trash button  -->
             {% if item %}
@@ -108,7 +108,6 @@
   <ul class="dropdown-menu mobile-menu">
       {% block mobile_menu_action_items %}
       {% endblock %}
-      <br>
       <li><hr class="dropdown-divider"></li>
       {% block mobile_menu_nav_items %}
       {% endblock %}

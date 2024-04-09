@@ -3,6 +3,10 @@ html {
     overflow: hidden;
 }
 
+body {
+    font-family: 'Nunito', Arial, sans-serif; /* Fallback font stack */
+}
+
 a{
     color: black;
     text-decoration: none;
@@ -24,7 +28,9 @@ i{
 /* side menu dashboard */
 
 .side-menu{
-    background-color: rgba(255, 124, 26, 0.75) !important;
+    background-color: #ffe8aa!important;
+    /* border-right:7px solid #e7af36!important; */
+    border-right:3px solid #8a240d!important;
     color: white;
     border: 0;
 }
@@ -45,20 +51,56 @@ i{
 .accordion{
     --bs-accordion-bg: #c7f5c309;
     --bs-accordion-bg-color: #327b270f;
-    --bs-accordion-active-bg: #c7f5c381;
+    --bs-accordion-active-bg: #c7f5c32c;
     --bs-accordion-active-color: #161c22;
     --bs-accordion-btn-color: #161c22;
 }
-
+.accordion-button:not(.collapsed) {
+    color: var(--bs-accordion-active-color);
+    box-shadow: inset 0 calc(-1* var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+    font-weight: 800;
+}
 .side-menu-link > i{
     font-size: 25px;
-    margin-right: 6px;
+    margin-right: 10px;
+}
+
+/* mobile menu */
+
+.mobile-menu-container{
+    position: fixed;
+    bottom: 36px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.mobile-menu{
+    padding:20px;
+    min-width: 250px;
+    z-index: 1000;
+    background-color: #ffe8aa;
+}
+.mobile-menu-button{
+    min-height: 3rem;
+    min-width: 3rem;
+}
+
+.mobile-menu-button:active{
+    background-color: #00000069!important;
+    border-color: #0c08040e!important;
+    box-shadow: 0 0 5px #97dbd833 !important;
+}
+
+.mobile-menu-button i{
+    font-weight: 800;
+    color: white;
+    font-size: 25px;
 }
 
 /* main content dashboard */
 
 .header-container{
-    background-color: #00469B;
+    background-color: #C17767;
 }
 
 .dropdown-toggle{
@@ -99,57 +141,6 @@ th > a,
 td > a{
     text-decoration: none;
     display:block
-}
-
-/* mobile menu */
-
-.mobile-menu-container{
-    position: fixed;
-    bottom: 25px;
-    right: 15px;
-}
-
-.mobile-menu{
-    padding:20px;
-    min-width: 250px;
-    min-height:300px;
-}
-.mobile-menu-button{
-    min-height: 3rem;
-    min-width: 3rem;
-}
-
-.mobile-menu-button:active{
-    background-color: #00000069!important;
-    border-color: #0c08040e!important;
-    box-shadow: 0 0 5px #97dbd833 !important;
-}
-
-.mobile-menu-button i{
-    font-weight: 800;
-    color: white;
-    font-size: 25px;
-}
-
-/* dropup menu  */
-.dropdown-item{
-    padding: 6px 12px;
-    display: flex;
-    align-items: center;
-}
-.dropdown-item:active{
-    background-color: white!important;
-}
-
-.mobile-side-menu-link span{
-    margin-left:5px
-}
-
-.mobile-menu * {
-    color:#FF7F11;    
-}
-.mobile-menu *:target {
-    color:#FF7F11;    
 }
 
 /* tables */
