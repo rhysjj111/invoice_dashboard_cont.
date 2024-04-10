@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.db import transaction
 from django.conf import settings
+from invoice_dashboard.utils import user_group_contains
 
 from invoice_dashboard.utils import get_domain
 
@@ -43,6 +44,10 @@ def invoice_list(request):
         'pending': [5,],
         'inactive': [1, 6]
     }
+    
+    # if user_group_contains(request, 'Accounts'):
+    #     filter = 'pending'
+    # else:
     filter = 'active'
 
     if request.method == 'POST':
@@ -174,62 +179,87 @@ def invoice_summary(request, slug):
     """
     # fetch the invoice in question and a create instance of it's form 
     invoice = get_object_or_404(Invoice, slug=slug)
-    invoice_form = InvoiceForm(instance=invoice)
-
-    # fetch list of parts and instantiate formset
-    parts = Part.objects.filter(invoice=invoice.id)
-    part_formset = PartFormSet(queryset=parts, instance=invoice, prefix='parts')
-    part_formset.helper = BasePartFormSetHelper()
-
-    # fetch list of labour entries and instantiate formset
     labour = Labour.objects.filter(invoice=invoice.id)
-    labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
-    labour_formset.helper = BaseLabourFormSetHelper()
-
+    parts = Part.objects.filter(invoice=invoice.id)
 
     if request.method == 'POST':
-        if 'parts-TOTAL_FORMS' in request.POST:
-            # Handles part formset submission
-            part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
-            if part_formset.is_valid():
-                instances = part_formset.save(commit=False)
-                # loop over forms 
-                for form in part_formset:
-                    # delete any forms with delete checked 
-                    if form.cleaned_data.get('DELETE'):
-                        instance=form.instance
-                        instance.delete()
-                    else:
-                        part_formset.save()
-                messages.success(request, 'Parts changes saved successfully.')
-                return redirect('invoice_summary', slug=slug)
-            else:
-                messages.error(request, 'Parts form validation failed. Please check your input.')
-                return redirect(reverse('invoice_summary', args=[invoice.slug]))
+        invoice_details_form = InvoiceForm(request.POST, request.FILES, instance=invoice)
+        part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
+        labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
 
-        elif 'labour-TOTAL_FORMS' in request.POST:
-            # Handles labour formset submission
-            labour = Labour.objects.filter(invoice=invoice.id)
-            labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
-            if labour_formset.is_valid():
-                instances = labour_formset.save(commit=False)
-                for form in labour_formset:
-                    if form.cleaned_data.get('DELETE'):
-                        instance = form.instance
-                        instance.delete()
-                    else:
-                        form.save()
-                messages.success(request, 'Labour changes saved successfully.')
-                return redirect('invoice_summary', slug=slug)
-            else:
+        if invoice_details_form.is_valid() and part_formset.is_valid() and labour_formset.is_valid():
+            invoice_details = invoice_details_form.save()
 
-                messages.error(request, 'Labour form validation failed. Please check your input.')
-                return redirect(reverse('invoice_summary', args=[invoice.slug]))
+            part_instances = part_formset.save(commit=False)
+            for form in part_formset:
+                # delete any forms with delete checked 
+                if form.cleaned_data.get('DELETE'):
+                    instance=form.instance
+                    instance.delete()
+                else:
+                    form.save()
+
+            labour_instances = labour_formset.save(commit=False)
+            for form in labour_formset:
+                if form.cleaned_data.get('DELETE'):
+                    instance=form.instance
+                    instance.delete()
+                else:
+                    form.save()
+            
+            messages.success(request, 'Parts changes saved successfully.')
+            return redirect('invoice_summary', slug=slug)
+        else:
+            messages.error(request, 'Form validation failed. Please check your input.')
+            return redirect(reverse('invoice_summary', args=[invoice.slug]))
     else:
+
+        invoice_details_form = InvoiceForm(instance=invoice)
+        # fetch list of parts and instantiate formset
         part_formset = PartFormSet(queryset=parts, instance=invoice, prefix='parts')
         part_formset.helper = BasePartFormSetHelper()
+        # fetch list of labour entries and instantiate formset
         labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
-        labour_formset.helper = BaseLabourFormSetHelper()     
+        labour_formset.helper = BaseLabourFormSetHelper()
+
+
+        
+        # if 'parts-TOTAL_FORMS' in request.POST:
+        #     # Handles part formset submission
+        #     part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
+        #     if part_formset.is_valid():
+                # instances = part_formset.save(commit=False)
+                # # loop over forms 
+                # for form in part_formset:
+                #     # delete any forms with delete checked 
+                #     if form.cleaned_data.get('DELETE'):
+                #         instance=form.instance
+                #         instance.delete()
+                #     else:
+                #         part_formset.save()
+        #         messages.success(request, 'Parts changes saved successfully.')
+        #         return redirect('invoice_summary', slug=slug)
+        #     else:
+        #         messages.error(request, 'Parts form validation failed. Please check your input.')
+        #         return redirect(reverse('invoice_summary', args=[invoice.slug]))
+
+        # elif 'labour-TOTAL_FORMS' in request.POST:
+        #     # Handles labour formset submission
+        #     labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
+        #     if labour_formset.is_valid():
+        #         instances = labour_formset.save(commit=False)
+        #         for form in labour_formset:
+        #             if form.cleaned_data.get('DELETE'):
+        #                 instance = form.instance
+        #                 instance.delete()
+        #             else:
+        #                 form.save()
+        #         messages.success(request, 'Labour changes saved successfully.')
+        #         return redirect('invoice_summary', slug=slug)
+        #     else:
+
+        #         messages.error(request, 'Labour form validation failed. Please check your input.')
+        #         return redirect(reverse('invoice_summary', args=[invoice.slug]))   
 
     # a map for invoice class depending on current status
     status_class_map = {
@@ -247,7 +277,7 @@ def invoice_summary(request, slug):
         'labour_formset': labour_formset,
         'parts_list': parts,
         'labour_list': labour,
-        'edit_invoice_form': invoice_form,
+        'edit_invoice_form': invoice_details_form,
         'status_class_map': status_class_map,
         'available_status_map': available_status_full_dict_map
     }

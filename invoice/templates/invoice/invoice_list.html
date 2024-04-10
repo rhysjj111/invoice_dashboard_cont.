@@ -15,19 +15,23 @@
 
 <!-- SIDE MENU ITEMS -->
 {% block side_menu_action_items %}
-<a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
-        class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+
+    <a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
+            class="bi bi-patch-plus"></i> <span>Add invoice</span></a>
+
 {% endblock side_menu_action_items %}
 
 {% block side_menu_nav_items %}
 <a href="{% url 'customer_list' %}" class="btn side-menu-link btn-light"><i
-        class="bi bi-box-arrow-right"></i><span>Customers</span></a>
+    class="bi bi-box-arrow-right"></i><span>Customers</span></a>
 {% endblock side_menu_nav_items %}
 
 <!-- MOBILE MENU ITEMS  -->
 {% block mobile_menu_action_items %}
-<li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
-            class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
+{% if not Accounts %}
+    <li><a type="button" data-bs-toggle="modal" data-bs-target="#invoice_modal" class="btn side-menu-link btn-success"><i
+        class="bi bi-patch-plus"></i> <span>Add invoice</span></a></li>
+{% endif %}
 {% endblock %}
 
 {% block mobile_menu_nav_items %}
@@ -44,9 +48,8 @@
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'active' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}">Active</a>
-        </li>        
-
-        {% if Accounts %}
+        </li> 
+        {% if not Mechanic %}
         <li class="nav-item">
             <a class="nav-link {% if filter_status == 'pending' %}active" aria-current="page" {% else %}" {% endif %}
             href="{% url 'invoice_list' %}?filter=pending">Pending</a>
@@ -77,10 +80,8 @@
                 {% for invoice in invoices %}
                     <!-- LOOP THROUGH INVOICES  -->
                     {% with status=invoice.status %}
-                        {% if status == 1 and Mechanic or status == 3 and Mechanic %}
-                        <!-- 'work on hold' and 'ready for processing' (and above) not available for mechanic users  -->
-                        {% elif status == 4 and not Accounts %}
-                        <!-- 'ready for verification' only available to accounts users  -->
+                        {% if status == 1 and not Foreman or status == 2 and Accounts or status == 3 and not Foreman or status == 4 and Mechanic %}
+                        <!-- 'work on hold', 'ready for processing', 'ready for verification' not available for mechanic users  -->
                         {% else %}
                         <tr class="table-{{ invoice.status|get_dict_value:status_class_map }}">
                             <!-- mobile column  -->
@@ -95,6 +96,7 @@
                                 <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
                             </td>
                             <!-- column on all devices -->
+                            {% if Foreman %}
                             <td class="d-none d-md-table-cell">
                                 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
                                     {% csrf_token %}
@@ -124,6 +126,7 @@
                                     </select>
                                 </form>
                             </td>
+                            {% endif %}
                         </tr>
                         {% endif %}
                     {% endwith %}

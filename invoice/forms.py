@@ -9,32 +9,23 @@ from crispy_bootstrap5.bootstrap5 import FloatingField
 from django.forms import inlineformset_factory, BaseInlineFormSet
 
 
-def add_or_edit_button(slug):
-    if slug:
-        text = 'Edit'
-    else:
-        text = 'Create'
-    return text
-
-def add_or_edit_trash(slug):
-    if slug:
-        return HTML('<button type="button" data-bs-toggle="modal" data-bs-target='
-                    f'"#delete-{slug}-modal" class="btn btn-light p-2 rounded-4">'
-                    '<i class="bi-trash icon text-danger fs-3 align-middle"></i></button>')
-
-def add_or_edit_path(slug, type):
-    if slug:
-        path = reverse('edit_'+type, args=[slug])
-    else:
-        path = reverse('create_'+type)
-    return path
-
 def add_or_edit_modal(slug, type, layout):
     if slug:
         layout
     else:
         layout = Modal(
             layout,
+            Row(
+                Column(
+                    ButtonHolder(
+                        Submit(
+                            'submit',
+                            'Save',
+                            css_class='float-end'
+                        ),css_class='',
+                    )
+                )
+            ),
             css_id=type+"_modal",
             title="Add "+type.capitalize(),
             css_class="modal-lg h-100 overflow-y-auto"
@@ -81,12 +72,16 @@ class InvoiceForm(forms.ModelForm):
 
         for field_name, field in self.fields.items():
             field.required = False
-            
+        
+        slug = self.instance.slug
+
         self.helper = FormHelper()
-        self.helper.form_action = add_or_edit_path(self.instance.slug, 'invoice')
-        self.helper.form_class = ''
+        self.helper.form_action = 'None' if slug else reverse('create_invoice')
+        if slug:
+            self.helper.form_tag = False
+            self.helper.disable_csrf = True
         self.helper.layout = add_or_edit_modal(
-            self.instance.slug,
+            slug,
             'invoice',
             Layout(
                 Row(
@@ -101,18 +96,7 @@ class InvoiceForm(forms.ModelForm):
                             'vehicle', 'mileage'
                         )
                     ),
-                ),
-                Row(
-                    Column(
-                        ButtonHolder(
-                            Submit(
-                                'submit',
-                                'Save',
-                                css_class='float-end'
-                            ),css_class='',
-                        )
-                    )
-                )                        
+                )                       
             )
         )   
 
@@ -204,7 +188,8 @@ class BasePartFormSetHelper(FormHelper):
 
     def __init__(self, *args, **kwargs):
         super(BasePartFormSetHelper, self).__init__(*args, **kwargs)
-
+        self.form_tag = False
+        self.disable_csrf = True
         self.layout = Layout(
             Row(
                 Column(
@@ -282,6 +267,8 @@ class BaseLabourFormSetHelper(FormHelper):
     def __init__(self, *args, **kwargs):
         super(BaseLabourFormSetHelper, self).__init__(*args, **kwargs)
 
+        self.form_tag = False
+        self.disable_csrf = True
         self.layout = Layout(
             Row(  
                 Column(FloatingField('description', css_class='desc_text_area col-10')),

@@ -48,7 +48,7 @@ class Invoice(models.Model):
         if self.inv_integer:
             result = f'{self.customer} - {self.vehicle} - {self.inv_number}'
         elif self.customer and self.vehicle:
-            result = f'{self.customer} - {self.vehicle} - ({self.unique_id})'
+            result = f'{self.customer} - {self.vehicle}'
         elif self.customer or self.vehicle:
             result = f'{self.customer or self.vehicle} - ({self.unique_id})'
         else:

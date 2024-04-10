@@ -28,8 +28,9 @@
 
 <!-- action  -->
 {% block side_menu_action_items %}
-<!-- save all forms potential future feature  -->
-<!-- <a href="" class="btn btn-light side-menu-link"> <span>Save all forms</span></a> -->
+<!-- save all forms  -->
+<button class="btn btn-primary side-menu-link" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+<!-- change invoice status  -->
 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status">
     {% csrf_token %}
     <input type="hidden" name="pk" value="{{item.pk}}">
@@ -63,6 +64,28 @@
 
 <!-- action  -->
 {% block mobile_menu_action_items %}
+<!-- save all forms  -->
+<button class="btn btn-primary side-menu-link" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+<!-- change invoice status  -->
+<form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status">
+    {% csrf_token %}
+    <input type="hidden" name="pk" value="{{item.pk}}">
+    <input type="hidden" name="filter" value="active">
+    {% with available_status=item.status|get_dict_value:available_status_map %}
+        {% for key, desc in available_status.items %}
+            <!-- a loop to display available options to user  -->
+            {% if key < item.status %}
+            <!-- previous status not available, this should be done from invoice_list  -->
+            {% else %}
+            <!-- all other options -->
+            <button type="submit" name="status" value="{{key}}" 
+                class="btn btn-{{ item.status|get_dict_value:status_class_map }} side-menu-link">
+                <i class="bi bi-chevron-double-right"></i>{{desc}}
+            </button>
+            {% endif %}
+        {% endfor %}
+    {% endwith %}
+</form>
 {% endblock mobile_menu_action_items %}
 <!-- nav  -->
 {% block mobile_menu_nav_items %}
@@ -78,70 +101,59 @@
 <div class="invoice-container mb-5">
     <div class="accordion mb-4" id="invoice-accordion">
         <!-- INVOICE DETAILS  -->
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#invoice-accordion-collapseOne" aria-expanded="true"
-                    aria-controls="invoice-accordion-collapseOne">
-                    Invoice Details
-                </button>
-            </h2>
-            <div id="invoice-accordion-collapseOne" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% crispy edit_invoice_form %}
+        <form action="{% url 'invoice_summary' item.slug %}" method="POST" id="invoice-form">
+            {% csrf_token %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#invoice-accordion-collapseOne" aria-expanded="true"
+                        aria-controls="invoice-accordion-collapseOne">
+                        Invoice Details
+                    </button>
+                </h2>
+                <div id="invoice-accordion-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        {% crispy edit_invoice_form %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- PARTS  -->
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
-                    aria-controls="panelsStayOpen-collapseTwo">
-                    Parts
-                </button>
-            </h2>
-            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+            <!-- PARTS  -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                        Parts
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
                         <div>
                             {{ part_formset.management_form }}
-                            {% crispy part_formset %}
-                            <div class="row">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary float-end">Save</button>
-                                </div>
-                            </div>                            
+                            {% crispy part_formset %}                       
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- LABOUR  -->
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                    aria-controls="panelsStayOpen-collapseThree">
-                    Labour
-                </button>
-            </h2>
-            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    <form method="POST" action="{% url 'invoice_summary' slug=item.slug %}">
+            <!-- LABOUR  -->
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                        Labour
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
                         <div>
                             {{ labour_formset.management_form }}
                             {% crispy labour_formset %}
-                            <div class="row">
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary float-end">Save</button>
-                                </div>
-                            </div> 
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- TOTALS  -->
     <div class="row">
@@ -169,4 +181,15 @@
 {% include 'includes/modals/delete_item.html' %}
 {% endwith %}
 
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<!-- submit all forms javascript  -->
+<script>
+    function submitForm() {
+      let form = document.getElementById('invoice-form');
+      form.submit();
+    }
+</script>
 {% endblock %}
