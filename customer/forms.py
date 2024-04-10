@@ -90,13 +90,13 @@ class CustomerForm(forms.ModelForm):
                 Row(
                     Column(
                         ButtonHolder(
-                            Reset(
-                                'reset-form',
-                                'Reset'
-                            ),
+                            # Reset(
+                            #     'reset-form',
+                            #     'Reset'
+                            # ),
                             Submit(
                                 'submit',
-                                add_or_edit_button(self.instance.slug),
+                                'Save',
                                 css_class='ms-2'
                             ),css_class='float-end',
                         )
@@ -147,7 +147,7 @@ class VehicleForm(forms.ModelForm):
                             add_or_edit_trash(self.instance.slug),
                             Submit(
                                 'submit',
-                                add_or_edit_button(self.instance.slug),
+                                'Save',
                                 css_class='ms-2'                         
                             ),
                             css_class='float-end'  

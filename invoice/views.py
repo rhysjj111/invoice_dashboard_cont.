@@ -222,45 +222,6 @@ def invoice_summary(request, slug):
         labour_formset = LabourFormSet(queryset=labour, instance=invoice, prefix='labour')
         labour_formset.helper = BaseLabourFormSetHelper()
 
-
-        
-        # if 'parts-TOTAL_FORMS' in request.POST:
-        #     # Handles part formset submission
-        #     part_formset = PartFormSet(request.POST, queryset=parts, instance=invoice, prefix='parts')
-        #     if part_formset.is_valid():
-                # instances = part_formset.save(commit=False)
-                # # loop over forms 
-                # for form in part_formset:
-                #     # delete any forms with delete checked 
-                #     if form.cleaned_data.get('DELETE'):
-                #         instance=form.instance
-                #         instance.delete()
-                #     else:
-                #         part_formset.save()
-        #         messages.success(request, 'Parts changes saved successfully.')
-        #         return redirect('invoice_summary', slug=slug)
-        #     else:
-        #         messages.error(request, 'Parts form validation failed. Please check your input.')
-        #         return redirect(reverse('invoice_summary', args=[invoice.slug]))
-
-        # elif 'labour-TOTAL_FORMS' in request.POST:
-        #     # Handles labour formset submission
-        #     labour_formset = LabourFormSet(request.POST, queryset=labour, instance=invoice, prefix='labour')
-        #     if labour_formset.is_valid():
-        #         instances = labour_formset.save(commit=False)
-        #         for form in labour_formset:
-        #             if form.cleaned_data.get('DELETE'):
-        #                 instance = form.instance
-        #                 instance.delete()
-        #             else:
-        #                 form.save()
-        #         messages.success(request, 'Labour changes saved successfully.')
-        #         return redirect('invoice_summary', slug=slug)
-        #     else:
-
-        #         messages.error(request, 'Labour form validation failed. Please check your input.')
-        #         return redirect(reverse('invoice_summary', args=[invoice.slug]))   
-
     # a map for invoice class depending on current status
     status_class_map = {
         1: 'light',

@@ -10,12 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // Display toasts
   toastList.forEach(toast => toast.show());
   
+  // triggers if user on invoice summary page 
   if (currentUrl.includes("invoice_select")){
-    hideLastDeleteInput('parts')
-    hideLastDeleteInput('labour')
+    hideLastDeleteInput('parts');
+    hideLastDeleteInput('labour');
+    formSaveReminder();    
   }
-  
-  if (currentUrl.includes('invoice')) {
+
+  // triggers if user on invoice list page 
+  if (currentUrl.includes('invoices')) {
     updateVehicles();
     document.getElementById('id_customer').addEventListener('change', function(){
       updateVehicles();
@@ -68,6 +71,20 @@ function updateVehicles() {
     } else {
       option.style.display = 'none';
     }
+  });
+}
+
+function formSaveReminder(){
+  let elements = document.querySelectorAll('input, select');
+  let invoiceForm = document.getElementById('invoice-form');
+  // loop over all input and select inputs  and add change event listener
+  elements.forEach(element => {
+    element.addEventListener("change", () => {
+      // Add warning border around invoice form if change detected 
+      setTimeout(() => {
+        invoiceForm.classList.add("highlight");
+      }, 8000);
+    });
   });
 }
 
