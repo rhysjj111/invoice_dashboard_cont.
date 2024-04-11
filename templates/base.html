@@ -30,7 +30,7 @@
   <div class="toast-container position-absolute top-0 start-0 p-3">
     {% for message in messages %}
     
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast toast-message" role="alert" aria-live="assertive" aria-atomic="true">
       {% if message.level == 25 %}
       <div class="toast-header text-success">
         <span><i class="bi bi-check-circle-fill me-3"></i></span>

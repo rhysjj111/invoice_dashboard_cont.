@@ -33,7 +33,7 @@
                         <tbody>
                             {% for part in parts_list %}
                             <tr>
-                                <td class="col-6">{{part.title}}</td>
+                                <td class="col-6 content-to-copy">{{part.title}}</td>
                                 <td class="col-3 text-end">QTY: {{part.quantity}}</td>
                                 <td class="col-3 text-end">{{part.total|format_currency}}</td>
                             </tr>
@@ -59,7 +59,7 @@
                         <tbody>
                             {% for labour in labour_list %}
                             <tr>
-                                <td class="col-6">{{labour.description}}</td>
+                                <td class="col-6 content-to-copy">{{labour.description}}</td>
                                 <td class="col-3 text-end">HRS: {{labour.hours}}</td>
                                 <td class="col-3 text-end">{{labour.total|format_currency}}</td>
                             </tr>
@@ -90,6 +90,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 
