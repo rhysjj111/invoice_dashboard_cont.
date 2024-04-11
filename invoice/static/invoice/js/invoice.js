@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show the toast
             let copiedToast = new bootstrap.Toast(document.getElementById('copied-toast'));
             copiedToast.show();
-            console.log('cunt')
           })
           .catch(function(err) {
             console.error('Failed to copy: ', err);
@@ -20,20 +19,22 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
-    // triggers if user on invoice summary page 
-    if (currentUrl.includes("invoice_select")){
+    // triggers if user on invoice summary page
+    let saveButton = document.getElementById('save-button')
+    if (saveButton){
         hideLastDeleteInput('parts');
         hideLastDeleteInput('labour');
         formSaveReminder();    
     }
 
     // triggers if user on invoice list page 
-    if (currentUrl.includes('invoices')) {
+    let vehicleSelect = document.getElementById('id_vehicle')
+    if(vehicleSelect){
         updateVehicles();
         document.getElementById('id_customer').addEventListener('change', function(){
         updateVehicles();
         resetVehicleSelect()
-        });
+    }); 
     }
   });
 

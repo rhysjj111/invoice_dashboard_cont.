@@ -96,7 +96,7 @@
                                 <a href="{% url 'invoice_summary' invoice.slug %}">{{invoice}}</a>
                             </td>
                             <!-- column on all devices -->
-                            {% if Foreman %}
+                            {% if Foreman or Accounts and filter_status == 'pending' %}
                             <td class="d-none d-md-table-cell">
                                 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status_{{invoice.pk}}">
                                     {% csrf_token %}
@@ -150,4 +150,5 @@
         selectElement.form.submit();
     }
 </script>
+<script src="{% static 'invoice/js/invoice.js' %}"></script>
 {% endblock %}

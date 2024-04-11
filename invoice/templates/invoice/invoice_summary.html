@@ -29,7 +29,9 @@
 <!-- action  -->
 {% block side_menu_action_items %}
 <!-- save all forms  -->
-<button class="btn btn-primary side-menu-link" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+{% if item.status < 5 %}
+    <button class="btn btn-primary side-menu-link" id="save-button" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+{% endif %}
 <!-- change invoice status  -->
 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status">
     {% csrf_token %}
@@ -65,7 +67,9 @@
 <!-- action  -->
 {% block mobile_menu_action_items %}
 <!-- save all forms  -->
-<button class="btn btn-primary side-menu-link" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+{% if item.status < 5 %}
+    <button class="btn btn-primary side-menu-link" id="save-button" onclick="submitForm()"><i class="bi bi-floppy2"></i>Save</button>
+{% endif %}
 <!-- change invoice status  -->
 <form action="{% url 'invoice_list' %}" method="POST" id="invoice_change_status">
     {% csrf_token %}
