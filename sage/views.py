@@ -10,7 +10,7 @@ TOKEN_URL = 'https://oauth.accounting.sage.com/token'
 # Your Sage Accounting app credentials
 CLIENT_ID = os.environ.get('CLIENT_ID', '')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET', '')
-REDIRECT_URI = 'https://8000-rhysjj111-invoicedashbo-tvj28sfd36r.ws-eu110.gitpod.io/sage/sage_callback'  # The URL Sage Accounting will redirect back to after authorization
+REDIRECT_URI = os.environ.get('REDIRECT_URI')  # The URL Sage Accounting will redirect back to after authorization
 
 def test(request):
     """A view to return the landing page for customer payment"""
@@ -26,6 +26,7 @@ def test(request):
 def sage_auth(request):
     sage = OAuth2Session(CLIENT_ID, redirect_uri=REDIRECT_URI)
     authorization_url, state = sage.authorization_url(AUTH_URL)
+    print(authorization_url)
 
     # Store the state in the session for later verification
     request.session['oauth_state'] = state
