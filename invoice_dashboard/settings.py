@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
+
 ALLOWED_HOSTS = [
     'invoice-app-cont-9926503f70bb.herokuapp.com', 
     '8000-rhysjj111-invoicedashbo-tvj28sfd36r.ws-eu110.gitpod.io'
@@ -54,10 +55,12 @@ INSTALLED_APPS = [
     'login',
     'customer',
     'checkout',
+    'sage',
 
     'crispy_forms',
     'crispy_bootstrap5',
     'storages',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
