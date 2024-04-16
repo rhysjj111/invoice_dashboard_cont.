@@ -8,9 +8,9 @@ AUTH_URL = 'https://www.sageone.com/oauth2/auth/central?filter=apiv3.1'
 TOKEN_URL = 'https://oauth.accounting.sage.com/token'
 
 # Your Sage Accounting app credentials
-CLIENT_ID = os.environ.get('CLIENT_ID', '')
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET', '')
-REDIRECT_URI = os.environ.get('REDIRECT_URI')  # The URL Sage Accounting will redirect back to after authorization
+SAGE_CLIENT_ID = os.environ.get('CLIENT_ID', '')
+SAGE_CLIENT_SECRET = os.environ.get('CLIENT_SECRET', '')
+SAGE_REDIRECT_URI = os.environ.get('REDIRECT_URI', '')
 
 def test(request):
     """A view to return the landing page for customer payment"""
