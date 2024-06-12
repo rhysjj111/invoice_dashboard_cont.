@@ -103,26 +103,12 @@ i{
 
 /* main content dashboard */
 
-/* .header-container{
-    background-color: #C17767;s
-} */
-
 .dropdown-toggle{
     color: white;
 }
 
-/* .heading-container h1{
-    color:white;
-} */
-
 .heading-row{
-    /* height: auto;
-    margin-bottom: 15px; */
     padding: 1.25rem 0;
-}
-
-.heading-container a{
-    color: white;
 }
 
 .dashboard-outer-container{

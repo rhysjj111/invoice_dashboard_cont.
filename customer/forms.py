@@ -16,7 +16,7 @@ def add_or_edit_button(slug):
 def add_or_edit_trash(slug):
     if slug:
         return HTML('<button type="button" data-bs-toggle="modal" data-bs-target='
-                    f'"#delete-{slug}-modal" class="btn btn-light p-2 rounded-4">'
+                    f'"#delete-{slug}-modal" class="ms-4 btn btn-light p-2 rounded-4">'
                     '<i class="bi-trash icon text-danger fs-3 align-middle"></i></button>')
 
 def add_or_edit_path(slug, type):
@@ -90,15 +90,11 @@ class CustomerForm(forms.ModelForm):
                 Row(
                     Column(
                         ButtonHolder(
-                            # Reset(
-                            #     'reset-form',
-                            #     'Reset'
-                            # ),
                             Submit(
                                 'submit',
                                 'Save',
                                 css_class='ms-2'
-                            ),css_class='float-end',
+                            )
                         )
                     )
                 )
@@ -143,14 +139,13 @@ class VehicleForm(forms.ModelForm):
                         )
                     ),
                     Column(
-                        ButtonHolder(
-                            add_or_edit_trash(self.instance.slug),
+                        ButtonHolder(                            
                             Submit(
                                 'submit',
                                 'Save',
                                 css_class='ms-2'                         
                             ),
-                            css_class='float-end'  
+                            add_or_edit_trash(self.instance.slug)
                         )
                     ), css_class='d-flex align-items-center'                  
                 )

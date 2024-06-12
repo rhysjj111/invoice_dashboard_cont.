@@ -57,7 +57,7 @@
           </div>
         </div> -->
         <div class="row heading-row">
-          <div class="col heading-container">
+          <div class="col heading-container d-flex align-items-center">
             
             <!-- back button  -->
             {% if item %}
@@ -65,15 +65,15 @@
             {% endif %}
             
             <!-- heading -->
-            <h1 class="d-inline text-center">{% block page_heading %}{% endblock %}</h1>
+            <h1 class="d-inline text-center m-0">{% block page_heading %}{% endblock %}</h1>
             
             <!-- trash button  -->
             {% if item %}
-            <button type="button" data-bs-toggle="modal" data-bs-target="#delete-{{item.slug}}-modal" class="btn btn-danger p-2 ms-3 ms-lg-4 rounded-4 d-flex 
+            <button type="button" data-bs-toggle="modal" data-bs-target="#delete-{{item.slug}}-modal" class="btn btn-danger p-2 ms-auto ms-lg-4 rounded-4 d-inline-flex 
             justify-content-center"><i class="bi-trash icon text-light fs-3 align-middle"></i>
-          </button>
-          {% endif %}
-        </div>
+            </button>
+            {% endif %}
+          </div>
         </div>
       </header>
 

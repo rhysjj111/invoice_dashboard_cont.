@@ -30,12 +30,12 @@ DEBUG = 'DEVELOPMENT' in os.environ
 
 ALLOWED_HOSTS = [
     'invoice-app-cont-9926503f70bb.herokuapp.com', 
-    '8000-rhysjj111-invoicedashbo-rnyww124xis.ws-eu111.gitpod.io'
+    '8000-rhysjj111-invoicedashbo-230cjzb44f5.ws-eu114.gitpod.io'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://invoice-app-cont-9926503f70bb.herokuapp.com',
-    'https://8000-rhysjj111-invoicedashbo-rnyww124xis.ws-eu111.gitpod.io'
+    'https://8000-rhysjj111-invoicedashbo-230cjzb44f5.ws-eu114.gitpod.io'
 ]
 
 
